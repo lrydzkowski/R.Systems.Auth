@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.Common.Models;
-using R.Systems.Auth.Common.Repositories;
 using R.Systems.Auth.Models;
 using R.Systems.Auth.Services;
 using System.Collections.Generic;
@@ -11,22 +10,21 @@ namespace R.Systems.Auth.Controllers
     [ApiController, Route("users")]
     public class UserController : ControllerBase
     {
-        public UserController(IRepository<User> repository, AuthenticationService authenticationService)
+        public UserController(UserService userService)
         {
-            Repository = repository;
-            AuthenticationService = authenticationService;
+            UserService = userService;
         }
 
-        public IRepository<User> Repository { get; }
-        public AuthenticationService AuthenticationService { get; }
+        public UserService UserService { get; }
 
         [HttpPost, Route("authenticate")]
         public async Task<IActionResult> Authenticate(AuthenticateRequest request)
         {
-            bool isLogged = await AuthenticationService.AuthenticateAsync(request.Email, request.Password);
-            if (!isLogged) return Unauthorized();
-            string? jwtToken = await AuthenticationService.GenerateJwtTokenAsync(request.Email);
-            if (jwtToken == null) return Unauthorized();
+            string? jwtToken = await UserService.AuthenticateAsync(request);
+            if (jwtToken == null)
+            {
+                return Unauthorized();
+            }
             return Ok(new
             {
                 Data = jwtToken
@@ -36,7 +34,7 @@ namespace R.Systems.Auth.Controllers
         [HttpGet, Route("{userId}")]
         public async Task<IActionResult> Get(long userId)
         {
-            User? user = await Repository.GetAsync(userId);
+            User? user = await UserService.GetUserAsync(userId);
             return Ok(new
             {
                 Data = user
@@ -46,7 +44,7 @@ namespace R.Systems.Auth.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            List<User> users = await Repository.GetAsync();
+            List<User> users = await UserService.GetUsersAsync();
             return Ok(new
             {
                 Data = users

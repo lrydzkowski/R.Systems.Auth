@@ -1,54 +1,51 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.Common.Models;
 using R.Systems.Auth.Common.Repositories;
-using R.Systems.Auth.Settings;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Services
+namespace R.Systems.Auth.Core.Services
 {
     public class AuthenticationService
     {
-        public AuthenticationService(
-            IRepository<User> repository,
-            IUserVerifier userVerifier,
-            IOptionsSnapshot<JwtSettings> optionsSnapshot)
+        public AuthenticationService(IRepository<User> repository, PasswordService passwordService)
         {
             Repository = repository;
-            UserVerifier = userVerifier;
-            JwtSettings = optionsSnapshot.Value;
+            PasswordService = passwordService;
         }
 
         public IRepository<User> Repository { get; }
-        public IUserVerifier UserVerifier { get; }
-        public JwtSettings JwtSettings { get; }
+        public PasswordService PasswordService { get; }
 
-        public async Task<bool> AuthenticateAsync(string email, string password)
-        {
-            bool isAuthenticated = await UserVerifier.AuthenticateUserAsync(email, password);
-            return isAuthenticated;
-        }
-
-        public async Task<string?> GenerateJwtTokenAsync(string email)
+        public async Task<User?> AuthenticateAsync(string email, string password)
         {
             User? user = await Repository.GetAsync(user => user.Email == email);
             if (user == null)
             {
                 return null;
             }
-            IDictionary<string, object> claims = GenerateUsersClaims(user);
-            DateTime? expires = DateTime.Now.AddMinutes(JwtSettings.AccessTokenLifeTimeInMinutes);
+            if (user.PasswordHash == null)
+            {
+                return user;
+            }
+            if (!PasswordService.VerifyPasswordHash(password, user.PasswordHash))
+            {
+                return null;
+            }
+            return user;
+        }
 
-            string privateKey = File.ReadAllText(JwtSettings.PrivateKeyPemFilePath);
+        public string GenerateJwtToken(User user, int lifetimeInMinutes, string privateKeyPem)
+        {
+            IDictionary<string, object> claims = GenerateUsersClaims(user);
+            DateTime? expires = DateTime.Now.AddMinutes(lifetimeInMinutes);
+
             using RSA rsa = RSA.Create();
-            rsa.ImportFromPem(privateKey.ToCharArray());
+            rsa.ImportFromPem(privateKeyPem.ToCharArray());
             SigningCredentials signingCredentials = new(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha384)
             {
                 CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }

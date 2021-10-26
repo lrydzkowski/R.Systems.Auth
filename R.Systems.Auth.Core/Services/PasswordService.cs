@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.Common.Services
+﻿namespace R.Systems.Auth.Core.Services
 {
     public class PasswordService
     {
