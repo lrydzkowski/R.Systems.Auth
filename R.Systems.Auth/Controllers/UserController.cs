@@ -25,9 +25,9 @@ namespace R.Systems.Auth.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(new
+            return Ok(new AuthenticateResponse
             {
-                Data = jwtToken
+                AccessToken = jwtToken
             });
         }
 

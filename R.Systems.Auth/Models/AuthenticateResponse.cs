@@ -2,6 +2,6 @@
 {
     public class AuthenticateResponse
     {
-        public string AccessToken { get; set; } = "";
+        public string AccessToken { get; init; } = "";
     }
 }
