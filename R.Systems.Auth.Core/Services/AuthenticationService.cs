@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.Common.Models;
-using R.Systems.Auth.Common.Repositories;
+using R.Systems.Auth.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,14 +12,14 @@ namespace R.Systems.Auth.Core.Services
 {
     public class AuthenticationService
     {
-        public AuthenticationService(IRepository<User> repository, PasswordService passwordService)
+        public AuthenticationService(IRepository<User> repository, IPasswordHasher passwordHasher)
         {
             Repository = repository;
-            PasswordService = passwordService;
+            PasswordHasher = passwordHasher;
         }
 
         public IRepository<User> Repository { get; }
-        public PasswordService PasswordService { get; }
+        public IPasswordHasher PasswordHasher { get; }
 
         public async Task<User?> AuthenticateAsync(string email, string password)
         {
@@ -32,7 +32,7 @@ namespace R.Systems.Auth.Core.Services
             {
                 return user;
             }
-            if (!PasswordService.VerifyPasswordHash(password, user.PasswordHash))
+            if (!PasswordHasher.VerifyPasswordHash(password, user.PasswordHash))
             {
                 return null;
             }

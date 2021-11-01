@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using R.Systems.Auth.Common.Models;
-using R.Systems.Auth.Common.Repositories;
+using R.Systems.Auth.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

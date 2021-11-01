@@ -2,8 +2,30 @@
 {
     public class AuthenticateRequest
     {
-        public string Email { get; init; } = "";
+        private string _email = "";
+        public string Email 
+        { 
+            get
+            {
+                return _email.Trim();
+            }
+            init
+            {
+                _email = value;
+            }
+        }
 
-        public string Password { get; init; } = "";
+        private string _password = "";
+        public string Password 
+        { 
+            get
+            {
+                return _password.Trim();
+            }
+            init
+            {
+                _password = value;
+            }
+        }
     }
 }

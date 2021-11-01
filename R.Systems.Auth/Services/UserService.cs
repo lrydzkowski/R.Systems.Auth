@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using R.Systems.Auth.Common.Models;
-using R.Systems.Auth.Common.Repositories;
+using R.Systems.Auth.Common.Interfaces;
 using R.Systems.Auth.Core.Services;
 using R.Systems.Auth.Models;
 using R.Systems.Auth.Settings;

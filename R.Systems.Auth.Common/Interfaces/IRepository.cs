@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Common.Repositories
+namespace R.Systems.Auth.Common.Interfaces
 {
     public interface IRepository<T> where T : class
     {

@@ -1,6 +1,8 @@
-﻿namespace R.Systems.Auth.Core.Services
+﻿using R.Systems.Auth.Common.Interfaces;
+
+namespace R.Systems.Auth.Core.Services
 {
-    public class PasswordService
+    public class PasswordHasher : IPasswordHasher
     {
         public string CreatePasswordHash(string password)
         {

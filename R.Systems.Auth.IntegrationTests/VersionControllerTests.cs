@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using R.Systems.Auth.IntegrationTests.Initializers;
 using R.Systems.Auth.Models;
 using System.Net.Http;
 using System.Text.Json;
@@ -7,33 +7,32 @@ using Xunit;
 
 namespace R.Systems.Auth.IntegrationTests
 {
-    public class VersionControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class VersionControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _webApplicationFactory;
+        private readonly HttpClient _httpClient;
 
-        public VersionControllerTests(WebApplicationFactory<Startup> webApplicationFactory)
+        public VersionControllerTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
         {
-            _webApplicationFactory = webApplicationFactory;
+            _httpClient = webApplicationFactory.CreateClient();
         }
 
         [Fact]
-        public async Task SendGetVersionRequest_EndpointReturnVersion()
+        public async Task SendGetVersionRequest_EndpointReturnsCorrectVersion()
         {
-            HttpClient client = _webApplicationFactory.CreateClient();
             VersionResponse expectedResponse = new()
             {
                 Version = "1.0.0"
             };
             JsonSerializerOptions jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
-            HttpResponseMessage httpResponse = await client.GetAsync("/version");
+            HttpResponseMessage httpResponse = await _httpClient.GetAsync("/version");
 
             httpResponse.EnsureSuccessStatusCode();
             string responseContent = await httpResponse.Content.ReadAsStringAsync();
-            VersionResponse parsedResponse = JsonSerializer.Deserialize<VersionResponse>(
+            VersionResponse? parsedResponse = JsonSerializer.Deserialize<VersionResponse>(
                 responseContent, jsonSerializerOptions
             );
-            Assert.Equal(expectedResponse.Version, parsedResponse.Version);
+            Assert.Equal(expectedResponse.Version, parsedResponse?.Version);
         }
     }
 }

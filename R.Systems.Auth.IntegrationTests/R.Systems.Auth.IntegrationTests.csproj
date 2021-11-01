@@ -4,11 +4,25 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="_Assets\Keys\private-key.pem" />
+    <None Remove="_Assets\Keys\public-key.pem" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="_Assets\Keys\private-key.pem" />
+    <EmbeddedResource Include="_Assets\Keys\public-key.pem" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.11" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="ResourceLoader" Version="3.2.4" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -6,6 +6,6 @@
 
         public int AccessTokenLifeTimeInMinutes { get; init; }
 
-        public string PrivateKeyPemFilePath { get; set; } = "";
+        public string PrivateKeyPemFilePath { get; init; } = "";
     }
 }
