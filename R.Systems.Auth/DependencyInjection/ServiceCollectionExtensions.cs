@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.Core.DependencyInjection;
+using R.Systems.Auth.Interfaces;
+using R.Systems.Auth.Jwt.DependencyInjection;
 using R.Systems.Auth.Services;
 using R.Systems.Auth.Settings;
+using System.IO;
 
 namespace R.Systems.Auth.DependencyInjection
 {
@@ -14,6 +17,7 @@ namespace R.Systems.Auth.DependencyInjection
             services.AddScoped<IPrivateKeyLoader, PrivateKeyFileLoader>();
             services.AddScoped<UserService>();
             services.AddCoreServices(configuration["DbConnectionString"]);
+            services.AddJwtServices(File.ReadAllText(configuration["Jwt:PublicKeyPemFilePath"]));
         }
 
         private static void AddSettingsServices(IServiceCollection services, IConfiguration configuration)

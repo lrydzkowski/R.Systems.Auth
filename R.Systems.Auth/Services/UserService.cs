@@ -6,6 +6,7 @@ using R.Systems.Auth.Models;
 using R.Systems.Auth.Settings;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using R.Systems.Auth.Interfaces;
 
 namespace R.Systems.Auth.Services
 {

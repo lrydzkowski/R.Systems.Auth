@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.Services;
+﻿using R.Systems.Auth.Interfaces;
 using System.Reflection;
 
 namespace R.Systems.Auth.IntegrationTests.Services

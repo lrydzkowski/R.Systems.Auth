@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.Common.Models;
 using R.Systems.Auth.Models;
 using R.Systems.Auth.Services;
@@ -31,7 +32,7 @@ namespace R.Systems.Auth.Controllers
             });
         }
 
-        [HttpGet, Route("{userId}")]
+        [HttpGet, Route("{userId}"), Authorize(Roles = "admin")]
         public async Task<IActionResult> Get(long userId)
         {
             User? user = await UserService.GetUserAsync(userId);
@@ -41,7 +42,7 @@ namespace R.Systems.Auth.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "admin")]
         public async Task<IActionResult> Get()
         {
             List<User> users = await UserService.GetUsersAsync();

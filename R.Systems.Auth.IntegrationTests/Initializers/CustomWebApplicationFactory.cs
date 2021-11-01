@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.Common.Interfaces;
 using R.Systems.Auth.Db;
 using R.Systems.Auth.IntegrationTests.Services;
-using R.Systems.Auth.Services;
+using R.Systems.Auth.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

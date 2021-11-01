@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using R.Systems.Auth.Interfaces;
+using System.IO;
 
 namespace R.Systems.Auth.Services
 {
