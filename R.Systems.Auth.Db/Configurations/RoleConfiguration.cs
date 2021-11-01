@@ -47,9 +47,17 @@ namespace R.Systems.Auth.Db.Configurations
                         RoleKey = "admin",
                         Name = "Administrator",
                         Description = "System administrator."
+                    },
+                    new Role()
+                    {
+                        RoleId = 2,
+                        RoleKey = "user",
+                        Name = "User",
+                        Description = "Standard user."
                     }
                 }
             );
+            builder.Property(role => role.RoleId).HasIdentityOptions(startValue: 3);
         }
     }
 }
