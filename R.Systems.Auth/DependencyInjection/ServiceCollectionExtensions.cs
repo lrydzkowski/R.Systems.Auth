@@ -16,6 +16,7 @@ namespace R.Systems.Auth.DependencyInjection
             AddSettingsServices(services, configuration);
             services.AddScoped<IPrivateKeyLoader, PrivateKeyFileLoader>();
             services.AddScoped<UserService>();
+            services.AddScoped<AuthenticationService>();
             services.AddCoreServices(configuration["DbConnectionString"]);
             services.AddJwtServices(File.ReadAllText(configuration["Jwt:PublicKeyPemFilePath"]));
         }

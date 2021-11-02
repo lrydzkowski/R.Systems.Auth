@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.Common.Models;
-using R.Systems.Auth.Models;
 using R.Systems.Auth.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,20 +16,6 @@ namespace R.Systems.Auth.Controllers
         }
 
         public UserService UserService { get; }
-
-        [HttpPost, Route("authenticate")]
-        public async Task<IActionResult> Authenticate(AuthenticateRequest request)
-        {
-            string? jwtToken = await UserService.AuthenticateAsync(request);
-            if (jwtToken == null)
-            {
-                return Unauthorized();
-            }
-            return Ok(new AuthenticateResponse
-            {
-                AccessToken = jwtToken
-            });
-        }
 
         [HttpGet, Route("{userId}"), Authorize(Roles = "admin")]
         public async Task<IActionResult> Get(long userId)
