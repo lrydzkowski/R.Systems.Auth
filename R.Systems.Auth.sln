@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.Core", "R.Sy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.IntegrationTests", "R.Systems.Auth.IntegrationTests\R.Systems.Auth.IntegrationTests.csproj", "{76AA5976-C494-44B9-AB36-1897B2EA62A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R.Systems.Auth.Jwt", "R.Systems.Auth.Jwt\R.Systems.Auth.Jwt.csproj", "{74139173-CD0D-4207-A7D5-F85095B6AA2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.Jwt", "R.Systems.Auth.Jwt\R.Systems.Auth.Jwt.csproj", "{74139173-CD0D-4207-A7D5-F85095B6AA2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A703D894-4303-4B38-B7A5-F3B98344F782}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3844A3EB-E794-4529-BAF8-D836E0E2B08E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FFABC020-1BFF-4C0C-8558-A1B8487FAB3E} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{626E8EB0-1301-4457-8CDA-8309B74516F0} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{2E5EC4CA-3125-4068-A7AB-CB234846C9C0} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{76AA5976-C494-44B9-AB36-1897B2EA62A4} = {3844A3EB-E794-4529-BAF8-D836E0E2B08E}
+		{74139173-CD0D-4207-A7D5-F85095B6AA2E} = {A703D894-4303-4B38-B7A5-F3B98344F782}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E73E1DCA-2CB7-4562-B914-2AD56809F4F1}
