@@ -1,7 +1,7 @@
-﻿using R.Systems.Auth.Interfaces;
+﻿using R.Systems.Auth.WebApi.Interfaces;
 using System.IO;
 
-namespace R.Systems.Auth.Services
+namespace R.Systems.Auth.WebApi.Services
 {
     public class PrivateKeyFileLoader : IPrivateKeyLoader
     {

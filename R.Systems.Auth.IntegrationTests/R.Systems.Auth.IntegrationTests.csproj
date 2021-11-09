@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\R.Systems.Auth\R.Systems.Auth.csproj" />
+    <ProjectReference Include="..\R.Systems.Auth.WebApi\R.Systems.Auth.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

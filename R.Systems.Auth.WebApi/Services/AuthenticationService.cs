@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using R.Systems.Auth.Common.Models;
-using R.Systems.Auth.Interfaces;
-using R.Systems.Auth.Models;
-using R.Systems.Auth.Settings;
+using R.Systems.Auth.WebApi.Interfaces;
+using R.Systems.Auth.WebApi.Models;
+using R.Systems.Auth.WebApi.Settings;
 using System.Threading.Tasks;
 using CoreAuthenticationService = R.Systems.Auth.Core.Services.AuthenticationService;
 
-namespace R.Systems.Auth.Services
+namespace R.Systems.Auth.WebApi.Services
 {
     public class AuthenticationService
     {

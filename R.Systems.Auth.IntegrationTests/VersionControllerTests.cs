@@ -1,5 +1,5 @@
 ﻿using R.Systems.Auth.IntegrationTests.Initializers;
-using R.Systems.Auth.Models;
+using R.Systems.Auth.WebApi.Models;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;

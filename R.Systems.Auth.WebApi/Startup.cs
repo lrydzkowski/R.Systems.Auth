@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using R.Systems.Auth.DependencyInjection;
+using R.Systems.Auth.WebApi.DependencyInjection;
 
 namespace R.Systems.Auth
 {

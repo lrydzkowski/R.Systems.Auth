@@ -1,6 +1,6 @@
 ﻿using R.Systems.Auth.IntegrationTests.Initializers;
 using R.Systems.Auth.IntegrationTests.Models;
-using R.Systems.Auth.Models;
+using R.Systems.Auth.WebApi.Models;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;

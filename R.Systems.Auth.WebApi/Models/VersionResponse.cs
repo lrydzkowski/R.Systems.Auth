@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.Models
+﻿namespace R.Systems.Auth.WebApi.Models
 {
     public class VersionResponse
     {

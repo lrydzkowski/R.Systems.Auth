@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.Settings
+﻿namespace R.Systems.Auth.WebApi.Settings
 {
     public class JwtSettings
     {

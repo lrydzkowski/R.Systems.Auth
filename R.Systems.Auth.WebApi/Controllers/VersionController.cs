@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using R.Systems.Auth.Models;
+using R.Systems.Auth.WebApi.Models;
 using System.Reflection;
 
-namespace R.Systems.Auth.Controllers
+namespace R.Systems.Auth.WebApi.Controllers
 {
     [ApiController]
     public class VersionController : ControllerBase

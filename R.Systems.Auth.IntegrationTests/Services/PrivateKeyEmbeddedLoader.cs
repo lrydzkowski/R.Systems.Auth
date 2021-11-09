@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.Interfaces;
+﻿using R.Systems.Auth.WebApi.Interfaces;
 using System.Reflection;
 
 namespace R.Systems.Auth.IntegrationTests.Services

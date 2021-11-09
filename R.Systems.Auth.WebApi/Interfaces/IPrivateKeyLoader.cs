@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.Interfaces
+﻿namespace R.Systems.Auth.WebApi.Interfaces
 {
     public interface IPrivateKeyLoader
     {

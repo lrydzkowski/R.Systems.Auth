@@ -3,7 +3,7 @@ using R.Systems.Auth.Common.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Services
+namespace R.Systems.Auth.WebApi.Services
 {
     public class UserService
     {
