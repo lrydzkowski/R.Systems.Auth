@@ -1,5 +1,5 @@
-﻿using R.Systems.Auth.IntegrationTests.Initializers;
-using R.Systems.Auth.IntegrationTests.Models;
+﻿using R.Systems.Auth.FunctionalTests.Initializers;
+using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.WebApi.Models;
 using System.Collections.Generic;
 using System.Net;
@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace R.Systems.Auth.IntegrationTests
+namespace R.Systems.Auth.FunctionalTests
 {
     public class UserControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {

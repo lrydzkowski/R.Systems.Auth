@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.Common.Interfaces;
 using R.Systems.Auth.Db;
-using R.Systems.Auth.IntegrationTests.Services;
+using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace R.Systems.Auth.IntegrationTests.Initializers
+namespace R.Systems.Auth.FunctionalTests.Initializers
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {

@@ -1,11 +1,11 @@
-﻿using R.Systems.Auth.IntegrationTests.Initializers;
+﻿using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.WebApi.Models;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace R.Systems.Auth.IntegrationTests
+namespace R.Systems.Auth.FunctionalTests
 {
     public class VersionControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {

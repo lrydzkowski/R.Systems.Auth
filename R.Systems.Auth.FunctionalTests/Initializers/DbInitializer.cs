@@ -1,8 +1,8 @@
 ﻿using R.Systems.Auth.Common.Interfaces;
 using R.Systems.Auth.Db;
-using R.Systems.Auth.IntegrationTests.Models;
+using R.Systems.Auth.FunctionalTests.Models;
 
-namespace R.Systems.Auth.IntegrationTests.Initializers
+namespace R.Systems.Auth.FunctionalTests.Initializers
 {
     internal static class DbInitializer
     {

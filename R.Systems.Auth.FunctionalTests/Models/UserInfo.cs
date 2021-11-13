@@ -1,6 +1,6 @@
 ﻿using R.Systems.Auth.Common.Models;
 
-namespace R.Systems.Auth.IntegrationTests.Models
+namespace R.Systems.Auth.FunctionalTests.Models
 {
     public class UserInfo : User
     {

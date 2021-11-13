@@ -1,7 +1,7 @@
 ﻿using R.Systems.Auth.WebApi.Interfaces;
 using System.Reflection;
 
-namespace R.Systems.Auth.IntegrationTests.Services
+namespace R.Systems.Auth.FunctionalTests.Services
 {
     internal class PrivateKeyEmbeddedLoader : IPrivateKeyLoader
     {
