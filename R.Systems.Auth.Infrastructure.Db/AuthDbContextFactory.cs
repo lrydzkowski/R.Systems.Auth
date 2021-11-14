@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 
-namespace R.Systems.Auth.Db
+namespace R.Systems.Auth.Infrastructure.Db
 {
     internal class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
     {

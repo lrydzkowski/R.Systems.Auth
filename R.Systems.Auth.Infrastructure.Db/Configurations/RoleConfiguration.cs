@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using R.Systems.Auth.Core.Models;
 
-namespace R.Systems.Auth.Db.Configurations
+namespace R.Systems.Auth.Infrastructure.Db.Configurations
 {
     internal class RoleConfiguration : IEntityTypeConfiguration<Role>
     {

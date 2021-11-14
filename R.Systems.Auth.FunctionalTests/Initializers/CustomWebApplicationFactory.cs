@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Db;
+using R.Systems.Auth.Infrastructure.Db;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi.Interfaces;
 using System;

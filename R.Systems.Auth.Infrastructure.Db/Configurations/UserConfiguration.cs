@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using R.Systems.Auth.Core.Models;
 using System.Collections.Generic;
 
-namespace R.Systems.Auth.Db.Configurations
+namespace R.Systems.Auth.Infrastructure.Db.Configurations
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Db.Repositories
+namespace R.Systems.Auth.Infrastructure.Db.Repositories
 {
     public class UserRepository : IRepository<User>
     {

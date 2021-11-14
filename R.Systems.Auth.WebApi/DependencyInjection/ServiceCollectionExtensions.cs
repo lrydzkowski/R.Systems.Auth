@@ -5,7 +5,7 @@ using R.Systems.Auth.WebApi.Interfaces;
 using R.Systems.Auth.WebApi.Services;
 using R.Systems.Auth.WebApi.Settings;
 using System.IO;
-using R.Systems.Auth.Db.DependencyInjection;
+using R.Systems.Auth.Infrastructure.Db.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;

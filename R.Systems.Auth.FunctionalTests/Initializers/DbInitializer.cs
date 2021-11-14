@@ -1,5 +1,5 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Db;
+using R.Systems.Auth.Infrastructure.Db;
 using R.Systems.Auth.FunctionalTests.Models;
 
 namespace R.Systems.Auth.FunctionalTests.Initializers

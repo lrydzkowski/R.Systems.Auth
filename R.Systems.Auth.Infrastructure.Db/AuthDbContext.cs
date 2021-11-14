@@ -2,7 +2,7 @@
 using R.Systems.Auth.Core.Models;
 using System.Reflection;
 
-namespace R.Systems.Auth.Db
+namespace R.Systems.Auth.Infrastructure.Db
 {
     public class AuthDbContext : DbContext
     {

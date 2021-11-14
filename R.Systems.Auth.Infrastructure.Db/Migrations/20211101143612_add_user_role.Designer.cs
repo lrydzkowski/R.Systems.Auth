@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using R.Systems.Auth.Db;
+using R.Systems.Auth.Infrastructure.Db;
 
-namespace R.Systems.Auth.Db.Migrations
+namespace R.Systems.Auth.Infrastructure.Db.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20211023100719_init_db")]
-    partial class init_db
+    [Migration("20211101143612_add_user_role")]
+    partial class add_user_role
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,7 @@ namespace R.Systems.Auth.Db.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("role_id")
+                        .HasIdentityOptions(3L, null, null, null, null, null)
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Description")
@@ -57,6 +58,13 @@ namespace R.Systems.Auth.Db.Migrations
                             Description = "System administrator.",
                             Name = "Administrator",
                             RoleKey = "admin"
+                        },
+                        new
+                        {
+                            RoleId = 2L,
+                            Description = "Standard user.",
+                            Name = "User",
+                            RoleKey = "user"
                         });
                 });
 

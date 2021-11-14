@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace R.Systems.Auth.Db.Migrations
+namespace R.Systems.Auth.Infrastructure.Db.Migrations
 {
     public partial class add_user_role : Migration
     {
