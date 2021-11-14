@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace R.Systems.Auth.Common.Models
+namespace R.Systems.Auth.SharedKernel.Models
 {
     public class User
     {

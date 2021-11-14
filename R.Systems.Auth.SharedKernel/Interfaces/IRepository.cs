@@ -1,10 +1,10 @@
-﻿using R.Systems.Auth.Common.Models;
+﻿using R.Systems.Auth.SharedKernel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Common.Interfaces
+namespace R.Systems.Auth.SharedKernel.Interfaces
 {
     public interface IRepository<T> where T : class
     {

@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\R.Systems.Auth.Common\R.Systems.Auth.Common.csproj" />
     <ProjectReference Include="..\R.Systems.Auth.Core\R.Systems.Auth.Core.csproj" />
     <ProjectReference Include="..\R.Systems.Auth.Jwt\R.Systems.Auth.Jwt.csproj" />
+    <ProjectReference Include="..\R.Systems.Auth.SharedKernel\R.Systems.Auth.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

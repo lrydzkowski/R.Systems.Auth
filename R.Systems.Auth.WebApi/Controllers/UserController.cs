@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using R.Systems.Auth.Common.Models;
+using R.Systems.Auth.SharedKernel.Models;
 using R.Systems.Auth.WebApi.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
