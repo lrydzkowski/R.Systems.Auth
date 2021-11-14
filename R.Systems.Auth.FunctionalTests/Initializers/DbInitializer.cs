@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.SharedKernel.Interfaces;
+﻿using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Db;
 using R.Systems.Auth.FunctionalTests.Models;
 

@@ -6,6 +6,7 @@ using R.Systems.Auth.Jwt.DependencyInjection;
 using R.Systems.Auth.WebApi.Services;
 using R.Systems.Auth.WebApi.Settings;
 using System.IO;
+using R.Systems.Auth.Db.DependencyInjection;
 
 namespace R.Systems.Auth.WebApi.DependencyInjection
 {
@@ -17,7 +18,8 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
             services.AddScoped<IPrivateKeyLoader, PrivateKeyFileLoader>();
             services.AddScoped<UserService>();
             services.AddScoped<AuthenticationService>();
-            services.AddCoreServices(configuration["DbConnectionString"]);
+            services.AddDbServices(configuration["DbConnectionString"]);
+            services.AddCoreServices();
             services.AddJwtServices(File.ReadAllText(configuration["Jwt:PublicKeyPemFilePath"]));
         }
 

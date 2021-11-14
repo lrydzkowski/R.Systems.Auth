@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\R.Systems.Auth.Core\R.Systems.Auth.Core.csproj" />
     <ProjectReference Include="..\R.Systems.Auth.SharedKernel\R.Systems.Auth.SharedKernel.csproj" />
   </ItemGroup>
 

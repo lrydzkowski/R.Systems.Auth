@@ -1,5 +1,4 @@
-﻿using R.Systems.Auth.SharedKernel.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ namespace R.Systems.Auth.SharedKernel.Interfaces
     {
         public Task<T?> GetAsync(long recId);
 
-        public Task<T?> GetAsync(Expression<Func<User, bool>> whereExpression);
+        public Task<T?> GetAsync(Expression<Func<T, bool>> whereExpression);
 
         public Task<List<T>> GetAsync();
 

@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.SharedKernel.Interfaces
+﻿namespace R.Systems.Auth.Core.Interfaces
 {
     public interface IPasswordHasher
     {

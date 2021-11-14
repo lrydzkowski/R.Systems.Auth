@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using R.Systems.Auth.SharedKernel.Models;
+using R.Systems.Auth.Core.Models;
 
 namespace R.Systems.Auth.Db.Configurations
 {

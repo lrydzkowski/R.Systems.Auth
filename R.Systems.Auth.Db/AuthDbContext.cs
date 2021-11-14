@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using R.Systems.Auth.SharedKernel.Models;
+using R.Systems.Auth.Core.Models;
 using System.Reflection;
 
 namespace R.Systems.Auth.Db

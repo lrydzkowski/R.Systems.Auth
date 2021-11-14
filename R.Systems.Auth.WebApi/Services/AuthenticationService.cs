@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using R.Systems.Auth.SharedKernel.Models;
+using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.WebApi.Interfaces;
 using R.Systems.Auth.WebApi.Models;
 using R.Systems.Auth.WebApi.Settings;

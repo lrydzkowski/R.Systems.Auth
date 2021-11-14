@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.SharedKernel.Interfaces;
+﻿using R.Systems.Auth.Core.Interfaces;
 
 namespace R.Systems.Auth.Core.Services
 {

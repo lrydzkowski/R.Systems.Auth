@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\R.Systems.Auth.Db\R.Systems.Auth.Db.csproj" />
     <ProjectReference Include="..\R.Systems.Auth.SharedKernel\R.Systems.Auth.SharedKernel.csproj" />
   </ItemGroup>
 
