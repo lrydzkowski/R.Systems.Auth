@@ -72,7 +72,7 @@ namespace R.Systems.Auth.FunctionalTests
             var requestContent = new StringContent(
                 JsonSerializer.Serialize(request), Encoding.UTF8, "application/json"
             );
-            
+
             HttpResponseMessage httpResponse = await _httpClient.PostAsync("/users/authenticate", requestContent);
             string responseContent = await httpResponse.Content.ReadAsStringAsync();
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using R.Systems.Auth.Core.Services;
 using R.Systems.Auth.Core.Interfaces;
+using R.Systems.Auth.Core.Services;
 
 namespace R.Systems.Auth.Core.DependencyInjection
 {

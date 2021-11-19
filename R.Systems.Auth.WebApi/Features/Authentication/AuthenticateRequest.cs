@@ -3,8 +3,8 @@
     public class AuthenticateRequest
     {
         private string _email = "";
-        public string Email 
-        { 
+        public string Email
+        {
             get
             {
                 return _email.Trim();
@@ -16,8 +16,8 @@
         }
 
         private string _password = "";
-        public string Password 
-        { 
+        public string Password
+        {
             get
             {
                 return _password.Trim();

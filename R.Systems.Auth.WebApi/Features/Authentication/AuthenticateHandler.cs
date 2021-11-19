@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.Core.Services;
 using R.Systems.Auth.SharedKernel.Interfaces;
@@ -36,7 +35,7 @@ namespace R.Systems.Auth.WebApi.Features.Authentication
             if (privateKeyPem == null)
             {
                 throw new FileNotFoundException("Private key doesn't exist.");
-            }    
+            }
             string? jwtToken = AuthenticationService.GenerateJwtToken(
                 user,
                 JwtSettings.AccessTokenLifeTimeInMinutes,

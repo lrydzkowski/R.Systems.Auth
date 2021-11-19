@@ -1,15 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using R.Systems.Auth.Core.DependencyInjection;
-using R.Systems.Auth.WebApi.Settings;
-using System.IO;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System;
-using System.Security.Cryptography;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using R.Systems.Auth.SharedKernel.DependencyInjection;
+using R.Systems.Auth.Core.DependencyInjection;
 using R.Systems.Auth.Infrastructure.Db.DependencyInjection;
+using R.Systems.Auth.SharedKernel.DependencyInjection;
+using R.Systems.Auth.WebApi.Settings;
+using System;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace R.Systems.Auth.WebApi.DependencyInjection
 {

@@ -15,7 +15,7 @@ namespace R.Systems.Auth.WebApi.Controllers
 
         [HttpGet, Route("version")]
         public IActionResult Get()
-        { 
+        {
             GetVersionResponse response = new()
             {
                 Version = GetVersionHandler.Handle()
