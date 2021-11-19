@@ -8,7 +8,7 @@ namespace R.Systems.Auth.Infrastructure.Db.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddDbServices(this IServiceCollection services, string dbConnectionString)
+        public static void AddInfrastructureDbServices(this IServiceCollection services, string dbConnectionString)
         {
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddDbContext<AuthDbContext>(

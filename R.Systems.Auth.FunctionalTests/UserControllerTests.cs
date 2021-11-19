@@ -1,6 +1,6 @@
 ﻿using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
-using R.Systems.Auth.WebApi.Models;
+using R.Systems.Auth.WebApi.Features.Authentication;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\R.Systems.Auth.Core\R.Systems.Auth.Core.csproj" />
     <ProjectReference Include="..\R.Systems.Auth.Infrastructure.Db\R.Systems.Auth.Infrastructure.Db.csproj" />
   </ItemGroup>
 

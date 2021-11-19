@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.Core.DependencyInjection;
-using R.Systems.Auth.WebApi.Interfaces;
-using R.Systems.Auth.WebApi.Services;
 using R.Systems.Auth.WebApi.Settings;
 using System.IO;
-using R.Systems.Auth.Infrastructure.Db.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
+using R.Systems.Auth.SharedKernel.DependencyInjection;
+using R.Systems.Auth.Infrastructure.Db.DependencyInjection;
 
 namespace R.Systems.Auth.WebApi.DependencyInjection
 {
@@ -18,20 +17,20 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
     {
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
-            AddSettingsServices(services, configuration);
-            services.AddScoped<IPrivateKeyLoader, PrivateKeyFileLoader>();
-            services.AddScoped<UserService>();
-            services.AddScoped<Services.AuthenticationService>();
-            services.AddDbServices(configuration["DbConnectionString"]);
+            services.AddAutomaticServices();
+            services.AddSharedKernelServices();
             services.AddCoreServices();
+            services.AddInfrastructureDbServices(configuration["DbConnectionString"]);
+            services.AddSettingsServices(configuration);
             services.AddJwtServices(File.ReadAllText(configuration["Jwt:PublicKeyPemFilePath"]));
         }
 
-        private static void AddSettingsServices(IServiceCollection services, IConfiguration configuration)
+        private static void AddSettingsServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.PropertyName));
         }
-        public static void AddJwtServices(this IServiceCollection services, string publicKeyPem)
+
+        private static void AddJwtServices(this IServiceCollection services, string publicKeyPem)
         {
             services.AddAuthentication(AddAuthenticationAction).AddJwtBearer(AddJwtBearerAction(publicKeyPem));
         }

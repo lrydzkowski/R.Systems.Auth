@@ -1,5 +1,5 @@
 ﻿using R.Systems.Auth.FunctionalTests.Initializers;
-using R.Systems.Auth.WebApi.Models;
+using R.Systems.Auth.WebApi.Features.Version;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace R.Systems.Auth.FunctionalTests
         [Fact]
         public async Task SendGetVersionRequest_EndpointReturnsCorrectVersion()
         {
-            VersionResponse expectedResponse = new()
+            GetVersionResponse expectedResponse = new()
             {
                 Version = "1.0.0"
             };
@@ -29,7 +29,7 @@ namespace R.Systems.Auth.FunctionalTests
 
             httpResponse.EnsureSuccessStatusCode();
             string responseContent = await httpResponse.Content.ReadAsStringAsync();
-            VersionResponse? parsedResponse = JsonSerializer.Deserialize<VersionResponse>(
+            GetVersionResponse? parsedResponse = JsonSerializer.Deserialize<GetVersionResponse>(
                 responseContent, jsonSerializerOptions
             );
             Assert.Equal(expectedResponse.Version, parsedResponse?.Version);

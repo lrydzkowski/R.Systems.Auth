@@ -1,32 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using R.Systems.Auth.WebApi.Models;
-using R.Systems.Auth.WebApi.Services;
+using R.Systems.Auth.WebApi.Features.Authentication;
 using System.Threading.Tasks;
 
 namespace R.Systems.Auth.WebApi.Controllers
 {
     [ApiController, Route("users")]
-    public class AuthenticateController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
-        public AuthenticateController(AuthenticationService authenticationService)
+        public AuthenticationController(AuthenticateHandler authenticateHandler)
         {
-            AuthenticationService = authenticationService;
+            AuthenticateHandler = authenticateHandler;
         }
 
-        public AuthenticationService AuthenticationService { get; }
+        public AuthenticateHandler AuthenticateHandler { get; }
 
         [HttpPost, Route("authenticate")]
         public async Task<IActionResult> Authenticate(AuthenticateRequest request)
         {
-            string? jwtToken = await AuthenticationService.AuthenticateAsync(request);
+            string? jwtToken = await AuthenticateHandler.HandleAsync(request);
             if (jwtToken == null)
             {
                 return Unauthorized();
             }
-            return Ok(new AuthenticateResponse
+            AuthenticateResponse response = new()
             {
                 AccessToken = jwtToken
-            });
+            };
+            return Ok(response);
         }
     }
 }

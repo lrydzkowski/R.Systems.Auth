@@ -3,24 +3,24 @@ using R.Systems.Auth.SharedKernel.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.WebApi.Services
+namespace R.Systems.Auth.WebApi.Features.Users
 {
-    public class UserService
+    public class GetUsersHandler : IDependencyInjectionScoped
     {
-        public UserService(IRepository<User> repository)
+        public GetUsersHandler(IRepository<User> repository)
         {
             Repository = repository;
         }
 
         public IRepository<User> Repository { get; }
 
-        public async Task<User?> GetUserAsync(long userId)
+        public async Task<User?> HandleAsync(long userId)
         {
             User? user = await Repository.GetAsync(userId);
             return user;
         }
 
-        public async Task<List<User>> GetUsersAsync()
+        public async Task<List<User>> HandleAsync()
         {
             List<User> users = await Repository.GetAsync();
             return users;

@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.WebApi.Models
+﻿namespace R.Systems.Auth.WebApi.Features.Authentication
 {
     public class AuthenticateRequest
     {

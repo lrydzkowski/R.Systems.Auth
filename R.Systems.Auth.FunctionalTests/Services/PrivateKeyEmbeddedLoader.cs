@@ -1,9 +1,9 @@
-﻿using R.Systems.Auth.WebApi.Interfaces;
+﻿using R.Systems.Auth.SharedKernel.Interfaces;
 using System.Reflection;
 
 namespace R.Systems.Auth.FunctionalTests.Services
 {
-    internal class PrivateKeyEmbeddedLoader : IPrivateKeyLoader
+    internal class PrivateKeyEmbeddedLoader : ITxtFileLoader
     {
         public string Load(string id)
         {

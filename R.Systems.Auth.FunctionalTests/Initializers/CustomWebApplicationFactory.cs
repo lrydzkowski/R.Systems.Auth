@@ -6,10 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Infrastructure.Db;
 using R.Systems.Auth.FunctionalTests.Services;
-using R.Systems.Auth.WebApi.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using R.Systems.Auth.SharedKernel.Interfaces;
 
 namespace R.Systems.Auth.FunctionalTests.Initializers
 {
@@ -40,8 +40,8 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
 
         private void ReplaceIPrivateKeyLoader(IServiceCollection services)
         {
-            RemoveService(services, typeof(IPrivateKeyLoader));
-            services.AddScoped<IPrivateKeyLoader, PrivateKeyEmbeddedLoader>();
+            RemoveService(services, typeof(ITxtFileLoader));
+            services.AddScoped<ITxtFileLoader, PrivateKeyEmbeddedLoader>();
         }
 
         private void ReplaceDbContext(IServiceCollection services)
