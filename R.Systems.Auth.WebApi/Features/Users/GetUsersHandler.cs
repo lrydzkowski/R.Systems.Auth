@@ -7,12 +7,12 @@ namespace R.Systems.Auth.WebApi.Features.Users
 {
     public class GetUsersHandler : IDependencyInjectionScoped
     {
-        public GetUsersHandler(IRepository<User> repository)
+        public GetUsersHandler(IGenericReadRepository<User> repository)
         {
             Repository = repository;
         }
 
-        public IRepository<User> Repository { get; }
+        public IGenericReadRepository<User> Repository { get; }
 
         public async Task<User?> HandleAsync(long userId)
         {

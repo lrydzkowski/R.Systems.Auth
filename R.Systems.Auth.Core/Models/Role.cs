@@ -1,10 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using R.Systems.Auth.SharedKernel.Interfaces;
+using System.Collections.Generic;
 
 namespace R.Systems.Auth.Core.Models
 {
-    public class Role
+    public class Role : IEntity
     {
-        public long RoleId { get; set; }
+        public long RecId { get; set; }
+
+        public long RoleId
+        {
+            get
+            {
+                return RecId;
+            }
+        }
 
         public string RoleKey { get; set; } = "";
 

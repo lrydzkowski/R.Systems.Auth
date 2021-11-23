@@ -1,0 +1,7 @@
+﻿namespace R.Systems.Auth.SharedKernel.Interfaces
+{
+    public interface IEntity
+    {
+        public long RecId { get; set; }
+    }
+}

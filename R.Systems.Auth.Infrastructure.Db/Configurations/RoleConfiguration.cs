@@ -9,14 +9,14 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
         public void Configure(EntityTypeBuilder<Role> builder)
         {
             builder.ToTable(name: "role", schema: "user");
-            builder.HasKey(role => role.RoleId);
+            builder.HasKey(role => role.RecId);
             ConfigureColumns(builder);
             InitializeData(builder);
         }
 
         private void ConfigureColumns(EntityTypeBuilder<Role> builder)
         {
-            builder.Property(role => role.RoleId)
+            builder.Property(role => role.RecId)
                 .HasColumnName("role_id")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
@@ -43,21 +43,21 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
                 {
                     new Role()
                     {
-                        RoleId = 1,
+                        RecId = 1,
                         RoleKey = "admin",
                         Name = "Administrator",
                         Description = "System administrator."
                     },
                     new Role()
                     {
-                        RoleId = 2,
+                        RecId = 2,
                         RoleKey = "user",
                         Name = "User",
                         Description = "Standard user."
                     }
                 }
             );
-            builder.Property(role => role.RoleId).HasIdentityOptions(startValue: 3);
+            builder.Property(role => role.RecId).HasIdentityOptions(startValue: 3);
         }
     }
 }
