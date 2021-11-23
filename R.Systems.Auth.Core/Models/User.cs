@@ -1,4 +1,5 @@
 ﻿using R.Systems.Auth.SharedKernel.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace R.Systems.Auth.Core.Models
@@ -22,6 +23,10 @@ namespace R.Systems.Auth.Core.Models
         public string LastName { get; set; } = "";
 
         public string? PasswordHash { get; set; } = null;
+
+        public string? RefreshToken { get; set; } = null;
+
+        public DateTime? RefreshTokenExpireDateTimeUtc { get; set; } = null;
 
         public ICollection<Role> Roles { get; set; } = new List<Role>();
     }

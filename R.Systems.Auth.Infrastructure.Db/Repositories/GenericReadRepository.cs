@@ -32,8 +32,8 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
 
         public async Task<List<T>> GetAsync()
         {
-            List<T> users = await GetQuery().ToListAsync();
-            return users;
+            List<T> entities = await GetQuery().ToListAsync();
+            return entities;
         }
 
         private IQueryable<T> GetQuery()

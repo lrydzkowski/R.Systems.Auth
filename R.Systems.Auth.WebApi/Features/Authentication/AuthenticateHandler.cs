@@ -24,7 +24,7 @@ namespace R.Systems.Auth.WebApi.Features.Authentication
         public ITxtFileLoader FileLoader { get; }
         public JwtSettings JwtSettings { get; }
 
-        public async Task<string?> HandleAsync(AuthenticateRequest request)
+        public async Task<AuthenticateResponse?> HandleAsync(AuthenticateRequest request)
         {
             User? user = await AuthenticationService.AuthenticateAsync(request.Email, request.Password);
             if (user == null)
@@ -36,12 +36,22 @@ namespace R.Systems.Auth.WebApi.Features.Authentication
             {
                 throw new FileNotFoundException("Private key doesn't exist.");
             }
-            string? jwtToken = AuthenticationService.GenerateJwtToken(
+            string accessToken = AuthenticationService.GenerateAccessToken(
                 user,
                 JwtSettings.AccessTokenLifeTimeInMinutes,
                 privateKeyPem
             );
-            return jwtToken;
+            string refreshToken = AuthenticationService.GenerateRefreshToken();
+            await AuthenticationService.SaveRefreshTokenAsync(
+                user.UserId,
+                refreshToken,
+                JwtSettings.RefreshTokenLifeTimeInMinutes
+            );
+            return new AuthenticateResponse
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
         }
     }
 }

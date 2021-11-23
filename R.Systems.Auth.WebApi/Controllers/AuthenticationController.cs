@@ -17,15 +17,11 @@ namespace R.Systems.Auth.WebApi.Controllers
         [HttpPost, Route("authenticate")]
         public async Task<IActionResult> Authenticate(AuthenticateRequest request)
         {
-            string? jwtToken = await AuthenticateHandler.HandleAsync(request);
-            if (jwtToken == null)
+            AuthenticateResponse? response = await AuthenticateHandler.HandleAsync(request);
+            if (response == null)
             {
                 return Unauthorized();
             }
-            AuthenticateResponse response = new()
-            {
-                AccessToken = jwtToken
-            };
             return Ok(response);
         }
     }

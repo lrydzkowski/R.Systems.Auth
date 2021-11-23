@@ -53,6 +53,13 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
             builder.Property(user => user.PasswordHash)
                 .HasColumnName("password_hash")
                 .HasMaxLength(200);
+
+            builder.Property(user => user.RefreshToken)
+                .HasColumnName("refresh_token")
+                .HasMaxLength(200);
+
+            builder.Property(user => user.RefreshTokenExpireDateTimeUtc)
+                .HasColumnName("refresh_token_expire_date_time_utc");
         }
 
         private void InitializeData(EntityTypeBuilder<User> builder)

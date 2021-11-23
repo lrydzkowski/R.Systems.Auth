@@ -22,7 +22,6 @@ namespace R.Systems.Auth.Infrastructure.Db.DependencyInjection
             services.AddScoped<IUserReadRepository, UserReadRepository>();
             services.AddScoped<IGenericReadRepository<User>, UserReadRepository>();
             services.AddScoped<IUserWriteRepository, UserWriteRepository>();
-            services.AddScoped<IGenericWriteRepository<User>, UserWriteRepository>();
         }
     }
 }

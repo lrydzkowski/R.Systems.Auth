@@ -3,5 +3,7 @@
     public class AuthenticateResponse
     {
         public string AccessToken { get; init; } = "";
+
+        public string RefreshToken { get; set; } = "";
     }
 }
