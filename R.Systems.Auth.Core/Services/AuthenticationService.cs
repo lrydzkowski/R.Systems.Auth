@@ -26,7 +26,32 @@ namespace R.Systems.Auth.Core.Services
         public IPasswordHasher PasswordHasher { get; }
         public IUserWriteRepository UserWriteRepository { get; }
 
-        public async Task<User?> AuthenticateAsync(string email, string password)
+        public async Task<Token?> AuthenticateAsync(string email, string password, TokenSettings tokenSettings)
+        {
+            User? user = await AuthenticateAsync(email, password);
+            if (user == null)
+            {
+                return null;
+            }
+            string accessToken = GenerateAccessToken(
+                user,
+                tokenSettings.AccessTokenLifeTimeInMinutes,
+                tokenSettings.PrivateKeyPem
+            );
+            string refreshToken = GenerateRefreshToken();
+            await SaveRefreshTokenAsync(
+                user.UserId,
+                refreshToken,
+                tokenSettings.RefreshTokenLifeTimeInMinutes
+            );
+            return new Token
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
+        }
+
+        private async Task<User?> AuthenticateAsync(string email, string password)
         {
             User? user = await UserReadRepository.GetUserForAuthenticationAsync(email);
             if (user == null)
@@ -44,7 +69,7 @@ namespace R.Systems.Auth.Core.Services
             return user;
         }
 
-        public string GenerateAccessToken(User user, int lifetimeInMinutes, string privateKeyPem)
+        private string GenerateAccessToken(User user, int lifetimeInMinutes, string privateKeyPem)
         {
             IDictionary<string, object> claims = GenerateUsersClaims(user);
             DateTime? expires = DateTime.Now.AddMinutes(lifetimeInMinutes);
@@ -67,7 +92,7 @@ namespace R.Systems.Auth.Core.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public string GenerateRefreshToken()
+        private string GenerateRefreshToken()
         {
             byte[] randomNumber = new byte[64];
             using var rng = RandomNumberGenerator.Create();
@@ -76,7 +101,7 @@ namespace R.Systems.Auth.Core.Services
             return refreshToken;
         }
 
-        public async Task SaveRefreshTokenAsync(long userId, string refreshToken, int lifetimeInMinutes)
+        private async Task SaveRefreshTokenAsync(long userId, string refreshToken, int lifetimeInMinutes)
         {
             await UserWriteRepository.SaveRefreshTokenAsync(userId, refreshToken, lifetimeInMinutes);
         }

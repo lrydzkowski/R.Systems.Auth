@@ -26,31 +26,28 @@ namespace R.Systems.Auth.WebApi.Features.Authentication
 
         public async Task<AuthenticateResponse?> HandleAsync(AuthenticateRequest request)
         {
-            User? user = await AuthenticationService.AuthenticateAsync(request.Email, request.Password);
-            if (user == null)
-            {
-                return null;
-            }
             string? privateKeyPem = FileLoader.Load(JwtSettings.PrivateKeyPemFilePath);
             if (privateKeyPem == null)
             {
                 throw new FileNotFoundException("Private key doesn't exist.");
             }
-            string accessToken = AuthenticationService.GenerateAccessToken(
-                user,
-                JwtSettings.AccessTokenLifeTimeInMinutes,
-                privateKeyPem
+            TokenSettings tokenSettings = new()
+            {
+                PrivateKeyPem = privateKeyPem,
+                AccessTokenLifeTimeInMinutes = JwtSettings.AccessTokenLifeTimeInMinutes,
+                RefreshTokenLifeTimeInMinutes = JwtSettings.RefreshTokenLifeTimeInMinutes
+            };
+            Token? token = await AuthenticationService.AuthenticateAsync(
+                request.Email, request.Password, tokenSettings
             );
-            string refreshToken = AuthenticationService.GenerateRefreshToken();
-            await AuthenticationService.SaveRefreshTokenAsync(
-                user.UserId,
-                refreshToken,
-                JwtSettings.RefreshTokenLifeTimeInMinutes
-            );
+            if (token == null)
+            {
+                return null;
+            }
             return new AuthenticateResponse
             {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
+                AccessToken = token.AccessToken,
+                RefreshToken = token.RefreshToken
             };
         }
     }
