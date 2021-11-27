@@ -33,6 +33,21 @@ namespace R.Systems.Auth.Core.Services
             {
                 return null;
             }
+            return await GenerateTokensAsync(user, tokenSettings);
+        }
+
+        public async Task<Token?> GenerateNewTokensAsync(string refreshToken, TokenSettings tokenSettings)
+        {
+            User? user = await UserReadRepository.GetUserWithRefreshTokenAsync(refreshToken);
+            if (user == null)
+            {
+                return null;
+            }
+            return await GenerateTokensAsync(user, tokenSettings);
+        }
+
+        private async Task<Token> GenerateTokensAsync(User user, TokenSettings tokenSettings)
+        {
             string accessToken = GenerateAccessToken(
                 user,
                 tokenSettings.AccessTokenLifeTimeInMinutes,

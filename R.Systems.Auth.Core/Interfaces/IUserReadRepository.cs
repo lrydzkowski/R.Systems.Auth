@@ -7,5 +7,7 @@ namespace R.Systems.Auth.Core.Interfaces
     public interface IUserReadRepository : IGenericReadRepository<User>
     {
         Task<User?> GetUserForAuthenticationAsync(string email);
+
+        Task<User?> GetUserWithRefreshTokenAsync(string refreshToken);
     }
 }

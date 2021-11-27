@@ -53,5 +53,27 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                 .FirstOrDefaultAsync();
             return user;
         }
+
+        public async Task<User?> GetUserWithRefreshTokenAsync(string refreshToken)
+        {
+            User? user = await DbContext.Users
+                .AsNoTracking()
+                .Where(user => user.RefreshToken == refreshToken)
+                .Select(user => new User()
+                {
+                    RecId = user.UserId,
+                    Email = user.Email,
+                    RefreshToken = refreshToken,
+                    Roles = user.Roles
+                        .Select(role => new Role()
+                        {
+                            RecId = role.RecId,
+                            RoleKey = role.RoleKey
+                        })
+                        .ToList()
+                })
+                .FirstOrDefaultAsync();
+            return user;
+        }
     }
 }

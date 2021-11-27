@@ -4,11 +4,11 @@ using R.Systems.Auth.SharedKernel.Interfaces;
 using R.Systems.Auth.WebApi.Services;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.WebApi.Features.Authentication
+namespace R.Systems.Auth.WebApi.Features.Tokens
 {
-    public class AuthenticateHandler : IDependencyInjectionScoped
+    public class GenerateNewTokensHandler : IDependencyInjectionScoped
     {
-        public AuthenticateHandler(
+        public GenerateNewTokensHandler(
             AuthenticationService authenticationService,
             TokenService tokenService)
         {
@@ -19,17 +19,15 @@ namespace R.Systems.Auth.WebApi.Features.Authentication
         public AuthenticationService AuthenticationService { get; }
         public TokenService TokenService { get; }
 
-        public async Task<AuthenticateResponse?> HandleAsync(AuthenticateRequest request)
+        public async Task<GenerateNewTokensResponse?> HandleAsync(GenerateNewTokensRequest request)
         {
             TokenSettings tokenSettings = TokenService.GetTokenSettings();
-            Token? token = await AuthenticationService.AuthenticateAsync(
-                request.Email, request.Password, tokenSettings
-            );
+            Token? token = await AuthenticationService.GenerateNewTokensAsync(request.RefreshToken, tokenSettings);
             if (token == null)
             {
                 return null;
             }
-            return new AuthenticateResponse
+            return new GenerateNewTokensResponse
             {
                 AccessToken = token.AccessToken,
                 RefreshToken = token.RefreshToken
