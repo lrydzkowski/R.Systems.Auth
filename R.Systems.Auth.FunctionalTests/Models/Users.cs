@@ -1,11 +1,12 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace R.Systems.Auth.FunctionalTests.Models
 {
-    public class Users
+    public class Users : IEnumerable<UserInfo>
     {
-        private readonly List<UserInfo> _data = new()
+        private readonly List<UserInfo> _users = new()
         {
             new UserInfo
             {
@@ -26,15 +27,23 @@ namespace R.Systems.Auth.FunctionalTests.Models
 
         public Users(IPasswordHasher passwordHasher)
         {
-            _data.ForEach(userInfo => userInfo.PasswordHash = passwordHasher.CreatePasswordHash(userInfo.Password));
+            _users.ForEach(userInfo => userInfo.PasswordHash = passwordHasher.CreatePasswordHash(userInfo.Password));
         }
 
-        public List<UserInfo> Data
+        public UserInfo this[int index]
         {
-            get
-            {
-                return _data;
-            }
+            get { return _users[index]; }
+            set { _users[index] = value; }
+        }
+
+        public IEnumerator<UserInfo> GetEnumerator()
+        {
+            return _users.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _users.GetEnumerator();
         }
     }
 }

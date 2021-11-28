@@ -1,11 +1,10 @@
 ﻿using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
+using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -13,12 +12,18 @@ namespace R.Systems.Auth.FunctionalTests
 {
     public class AuthenticationControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly HttpClient _httpClient;
-
-        public AuthenticationControllerTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public AuthenticationControllerTests(
+            CustomWebApplicationFactory<Startup> webApplicationFactory)
         {
-            _httpClient = webApplicationFactory.CreateClient();
+            HttpClient = webApplicationFactory.CreateClient();
+            RequestService = new RequestService();
         }
+
+        private string AuthenticateUrl { get; } = "/users/authenticate";
+
+        private HttpClient HttpClient { get; }
+
+        private RequestService RequestService { get; }
 
         [Theory]
         [InlineData("test32@lukaszrydzkowski.pl")]
@@ -28,15 +33,17 @@ namespace R.Systems.Auth.FunctionalTests
             AuthenticateRequest request = new()
             {
                 Email = email,
-                Password = new Users().Data[0].Password
+                Password = new Users()[0].Password
             };
-            var requestContent = new StringContent(
-                JsonSerializer.Serialize(request), Encoding.UTF8, "application/json"
-            );
 
-            HttpResponseMessage httpResponse = await _httpClient.PostAsync("/users/authenticate", requestContent);
+            (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync
+                <AuthenticateRequest, AuthenticateResponse>(
+                    AuthenticateUrl,
+                    request,
+                    HttpClient
+                );
 
-            Assert.Equal(expectedHttpStatusCode, httpResponse.StatusCode);
+            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
         }
 
         [Theory]
@@ -46,40 +53,39 @@ namespace R.Systems.Auth.FunctionalTests
             HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
             AuthenticateRequest request = new()
             {
-                Email = new Users().Data[1].Password,
+                Email = new Users()[1].Password,
                 Password = password
             };
-            var requestContent = new StringContent(
-                JsonSerializer.Serialize(request), Encoding.UTF8, "application/json"
-            );
 
-            HttpResponseMessage httpResponse = await _httpClient.PostAsync("/users/authenticate", requestContent);
+            (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync
+                <AuthenticateRequest, AuthenticateResponse>(
+                    AuthenticateUrl,
+                    request,
+                    HttpClient
+                );
 
-            Assert.Equal(expectedHttpStatusCode, httpResponse.StatusCode);
+            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
         }
 
         [Theory]
         [MemberData(nameof(GetLoginCorrectDataParameters))]
         public async Task Authenticate_CorrectData_GettingJwtTokens(string email, string password)
         {
-            JsonSerializerOptions jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
             HttpStatusCode expectedHttpStatusCode = HttpStatusCode.OK;
             AuthenticateRequest request = new()
             {
                 Email = email,
                 Password = password
             };
-            var requestContent = new StringContent(
-                JsonSerializer.Serialize(request), Encoding.UTF8, "application/json"
-            );
 
-            HttpResponseMessage httpResponse = await _httpClient.PostAsync("/users/authenticate", requestContent);
-            string responseContent = await httpResponse.Content.ReadAsStringAsync();
+            (HttpStatusCode httpStatusCode, AuthenticateResponse? response) = await RequestService.SendPostAsync
+                <AuthenticateRequest, AuthenticateResponse>(
+                    AuthenticateUrl,
+                    request,
+                    HttpClient
+                );
 
-            Assert.Equal(expectedHttpStatusCode, httpResponse.StatusCode);
-            AuthenticateResponse? response = JsonSerializer.Deserialize<AuthenticateResponse>(
-                responseContent, jsonSerializerOptions
-            );
+            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
             Assert.NotNull(response);
             Assert.False(string.IsNullOrEmpty(response?.AccessToken));
             Assert.False(string.IsNullOrEmpty(response?.RefreshToken));
@@ -90,9 +96,9 @@ namespace R.Systems.Auth.FunctionalTests
             Users users = new();
             return new List<object[]>
             {
-                new object[] { users.Data[0].Email, users.Data[0].Password },
-                new object[] { users.Data[1].Email, "" },
-                new object[] { $" {users.Data[1].Email} ", $" {users.Data[1].Password} " }
+                new object[] { users[0].Email, users[0].Password },
+                new object[] { users[1].Email, "" },
+                new object[] { $" {users[1].Email} ", $" {users[1].Password} " }
             };
         }
     }

@@ -15,7 +15,7 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
         private static void AddUsers(AuthDbContext dbContext, IPasswordHasher passwordHasher)
         {
             Users users = new(passwordHasher);
-            dbContext.Users.AddRange(users.Data);
+            dbContext.Users.AddRange(users);
         }
     }
 }
