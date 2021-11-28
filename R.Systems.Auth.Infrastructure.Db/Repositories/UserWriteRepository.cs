@@ -15,7 +15,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
 
         public AuthDbContext DbContext { get; }
 
-        public async Task SaveRefreshTokenAsync(long userId, string refreshToken, int lifetimeInMinutes)
+        public async Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes)
         {
             User? user = await DbContext.Users.FindAsync(userId);
             if (user == null)

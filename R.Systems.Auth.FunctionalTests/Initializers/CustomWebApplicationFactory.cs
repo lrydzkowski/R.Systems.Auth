@@ -32,7 +32,8 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
                 configBuilder.AddInMemoryCollection(
                     new Dictionary<string, string>
                     {
-                        ["Jwt:AccessTokenLifeTimeInMinutes"] = "1"
+                        ["Jwt:AccessTokenLifeTimeInMinutes"] = "0.1",
+                        ["Jwt:ClockSkewInSeconds"] = "6"
                     }
                 );
             });

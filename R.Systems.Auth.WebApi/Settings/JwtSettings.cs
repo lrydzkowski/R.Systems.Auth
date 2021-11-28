@@ -4,9 +4,11 @@
     {
         public const string PropertyName = "Jwt";
 
-        public int AccessTokenLifeTimeInMinutes { get; init; }
+        public double AccessTokenLifeTimeInMinutes { get; init; }
 
-        public int RefreshTokenLifeTimeInMinutes { get; set; }
+        public double RefreshTokenLifeTimeInMinutes { get; set; }
+
+        public int? ClockSkewInSeconds { get; set; }
 
         public string PrivateKeyPemFilePath { get; init; } = "";
 

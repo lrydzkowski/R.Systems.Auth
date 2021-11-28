@@ -24,7 +24,7 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
             services.AddCoreServices();
             services.AddInfrastructureDbServices(configuration["DbConnectionString"]);
             services.AddSettingsServices(configuration);
-            services.AddJwtServices(File.ReadAllText(configuration["Jwt:PublicKeyPemFilePath"]));
+            services.AddJwtServices(GetPublicKeyPemFile(configuration), GetJWTClockSkew(configuration));
             services.AddSwaggerServices();
         }
 
@@ -33,9 +33,25 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.PropertyName));
         }
 
-        private static void AddJwtServices(this IServiceCollection services, string publicKeyPem)
+        private static string GetPublicKeyPemFile(IConfiguration configuration)
         {
-            services.AddAuthentication(AddAuthenticationAction).AddJwtBearer(AddJwtBearerAction(publicKeyPem));
+            return File.ReadAllText(configuration["Jwt:PublicKeyPemFilePath"]);
+        }
+
+        private static double? GetJWTClockSkew(IConfiguration configuration)
+        {
+            bool clockSkewParsingResult = double.TryParse(configuration["Jwt:ClockSkewInSeconds"], out double clockSkew);
+            if (!clockSkewParsingResult)
+            {
+                return null;
+            }
+            return clockSkew;
+        }
+
+        private static void AddJwtServices(this IServiceCollection services, string publicKeyPem, double? jwtClockSkew)
+        {
+            services.AddAuthentication(AddAuthenticationAction)
+                .AddJwtBearer(AddJwtBearerAction(publicKeyPem, jwtClockSkew));
         }
 
         private static void AddAuthenticationAction(AuthenticationOptions options)
@@ -44,13 +60,13 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }
 
-        private static Action<JwtBearerOptions> AddJwtBearerAction(string publicKeyPem)
+        private static Action<JwtBearerOptions> AddJwtBearerAction(string publicKeyPem, double? jwtClockSkew)
         {
             return new Action<JwtBearerOptions>(options =>
             {
                 RSA rsa = RSA.Create();
                 rsa.ImportFromPem(publicKeyPem.ToCharArray());
-                options.TokenValidationParameters = new TokenValidationParameters
+                TokenValidationParameters tokenValidationParameters = new()
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
@@ -58,6 +74,11 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
                     ValidateIssuerSigningKey = false,
                     IssuerSigningKey = new RsaSecurityKey(rsa)
                 };
+                if (jwtClockSkew != null)
+                {
+                    tokenValidationParameters.ClockSkew = TimeSpan.FromSeconds((double)jwtClockSkew);
+                }
+                options.TokenValidationParameters = tokenValidationParameters;
             });
         }
 

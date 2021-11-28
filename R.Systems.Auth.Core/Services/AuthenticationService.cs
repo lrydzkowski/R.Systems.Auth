@@ -85,7 +85,7 @@ namespace R.Systems.Auth.Core.Services
             return user;
         }
 
-        private string GenerateAccessToken(User user, int lifetimeInMinutes, string privateKeyPem)
+        private string GenerateAccessToken(User user, double lifetimeInMinutes, string privateKeyPem)
         {
             IDictionary<string, object> claims = GenerateUsersClaims(user);
             DateTime? expires = DateTime.Now.AddMinutes(lifetimeInMinutes);
@@ -117,7 +117,7 @@ namespace R.Systems.Auth.Core.Services
             return refreshToken;
         }
 
-        private async Task SaveRefreshTokenAsync(long userId, string refreshToken, int lifetimeInMinutes)
+        private async Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes)
         {
             await UserWriteRepository.SaveRefreshTokenAsync(userId, refreshToken, lifetimeInMinutes);
         }

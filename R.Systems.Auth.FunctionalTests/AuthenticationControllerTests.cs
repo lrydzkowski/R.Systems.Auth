@@ -11,18 +11,18 @@ using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests
 {
-    public class UserControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class AuthenticationControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
 
-        public UserControllerTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public AuthenticationControllerTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
         {
             _httpClient = webApplicationFactory.CreateClient();
         }
 
         [Theory]
         [InlineData("test32@lukaszrydzkowski.pl")]
-        public async Task Login_WrongEmail_Unauthorized(string email)
+        public async Task Authenticate_WrongEmail_Unauthorized(string email)
         {
             HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
             AuthenticateRequest request = new()
@@ -41,7 +41,7 @@ namespace R.Systems.Auth.FunctionalTests
 
         [Theory]
         [InlineData("1231231")]
-        public async Task Login_WrongPassword_Unauthorized(string password)
+        public async Task Authenticate_WrongPassword_Unauthorized(string password)
         {
             HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
             AuthenticateRequest request = new()
@@ -60,7 +60,7 @@ namespace R.Systems.Auth.FunctionalTests
 
         [Theory]
         [MemberData(nameof(GetLoginCorrectDataParameters))]
-        public async Task Login_CorrectData_Authorized(string email, string password)
+        public async Task Authenticate_CorrectData_GettingJwtTokens(string email, string password)
         {
             JsonSerializerOptions jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
             HttpStatusCode expectedHttpStatusCode = HttpStatusCode.OK;
@@ -81,6 +81,8 @@ namespace R.Systems.Auth.FunctionalTests
                 responseContent, jsonSerializerOptions
             );
             Assert.NotNull(response);
+            Assert.False(string.IsNullOrEmpty(response?.AccessToken));
+            Assert.False(string.IsNullOrEmpty(response?.RefreshToken));
         }
 
         public static IEnumerable<object[]> GetLoginCorrectDataParameters()

@@ -4,8 +4,8 @@
     {
         public string PrivateKeyPem { get; init; } = "";
 
-        public int AccessTokenLifeTimeInMinutes { get; init; }
+        public double AccessTokenLifeTimeInMinutes { get; init; }
 
-        public int RefreshTokenLifeTimeInMinutes { get; set; }
+        public double RefreshTokenLifeTimeInMinutes { get; set; }
     }
 }
