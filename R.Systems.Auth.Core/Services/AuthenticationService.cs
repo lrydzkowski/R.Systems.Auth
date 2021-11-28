@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.SharedKernel.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Services
 {
-    public class AuthenticationService
+    public class AuthenticationService : IDependencyInjectionScoped
     {
         public AuthenticationService(
             IUserReadRepository userReadRepository,

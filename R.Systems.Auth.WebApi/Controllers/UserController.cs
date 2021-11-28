@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.Core.Models;
-using R.Systems.Auth.WebApi.Features.Users;
+using R.Systems.Auth.Core.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,17 +10,17 @@ namespace R.Systems.Auth.WebApi.Controllers
     [ApiController, Route("users")]
     public class UserController : ControllerBase
     {
-        public UserController(GetUsersHandler getUsersHandler)
+        public UserController(UserService userService)
         {
-            GetUsersHandler = getUsersHandler;
+            UserService = userService;
         }
 
-        public GetUsersHandler GetUsersHandler { get; }
+        public UserService UserService { get; }
 
         [HttpGet, Route("{userId}"), Authorize(Roles = "admin")]
         public async Task<IActionResult> Get(long userId)
         {
-            User? user = await GetUsersHandler.HandleAsync(userId);
+            UserDto? user = await UserService.GetAsync(userId);
             return Ok(new
             {
                 Data = user
@@ -30,7 +30,7 @@ namespace R.Systems.Auth.WebApi.Controllers
         [HttpGet, Authorize(Roles = "admin")]
         public async Task<IActionResult> Get()
         {
-            List<User> users = await GetUsersHandler.HandleAsync();
+            List<UserDto> users = await UserService.GetAsync();
             return Ok(new
             {
                 Data = users

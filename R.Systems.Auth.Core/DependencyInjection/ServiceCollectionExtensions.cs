@@ -8,7 +8,7 @@ namespace R.Systems.Auth.Core.DependencyInjection
     {
         public static void AddCoreServices(this IServiceCollection services)
         {
-            services.AddScoped<AuthenticationService>();
+            services.AddAutoMapper(typeof(ServiceCollectionExtensions));
             services.AddScoped<IPasswordHasher, PasswordHasher>();
         }
     }
