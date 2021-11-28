@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using R.Systems.Auth.WebApi.DependencyInjection;
+using System.Collections.Generic;
 
 namespace R.Systems.Auth
 {
@@ -22,10 +23,6 @@ namespace R.Systems.Auth
         {
             services.AddServices(Configuration);
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "R.Systems.Auth", Version = "v1" });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
