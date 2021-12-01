@@ -44,6 +44,10 @@ namespace R.Systems.Auth.Core.Services
             {
                 return null;
             }
+            if (user.RefreshTokenExpireDateTimeUtc < DateTime.UtcNow)
+            {
+                return null;
+            }
             return await GenerateTokensAsync(user, tokenSettings);
         }
 

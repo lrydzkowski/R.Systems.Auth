@@ -64,6 +64,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                     RecId = user.UserId,
                     Email = user.Email,
                     RefreshToken = refreshToken,
+                    RefreshTokenExpireDateTimeUtc = user.RefreshTokenExpireDateTimeUtc,
                     Roles = user.Roles
                         .Select(role => new Role()
                         {
