@@ -108,7 +108,7 @@ namespace R.Systems.Auth.FunctionalTests
         }
 
         [Fact]
-        public async Task GenerateNewTokens_PassCorrectData_GetNewTokens()
+        public async Task GenerateNewTokens_PassCorrectRefreshToken_GetNewTokens()
         {
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
             HttpStatusCode expectedHttpStatusCode = HttpStatusCode.OK;
@@ -123,11 +123,58 @@ namespace R.Systems.Auth.FunctionalTests
                     newTokensRequest,
                     HttpClient
                 );
+            (HttpStatusCode getHttpUserStatusCode, _) = await RequestService.SendGetAsync<UserDto>(
+                GetUserUrl,
+                HttpClient,
+                response?.AccessToken
+            );
 
             Assert.Equal(expectedHttpStatusCode, httpStatusCode);
             Assert.NotNull(response);
             Assert.False(string.IsNullOrEmpty(response?.AccessToken));
             Assert.False(string.IsNullOrEmpty(response?.RefreshToken));
+            Assert.Equal(HttpStatusCode.OK, getHttpUserStatusCode);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("13rfewghrgr")]
+        public async Task GenerateNewTokens_PassIncorrectRefreshToken_Unauthorized(string refreshToken)
+        {
+            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
+            GenerateNewTokensRequest newTokensRequest = new()
+            {
+                RefreshToken = refreshToken
+            };
+
+            (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync
+                <GenerateNewTokensRequest, GenerateNewTokensResponse>(
+                    GenerateNewTokensUrl,
+                    newTokensRequest,
+                    HttpClient
+                );
+
+            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+        }
+
+        [Fact]
+        public async Task GenerateNewTokens_PassExpiredRefreshToken_Unauthorized()
+        {
+            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
+            Users users = new();
+            GenerateNewTokensRequest newTokensRequest = new()
+            {
+                RefreshToken = users[2].RefreshToken ?? ""
+            };
+
+            (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync
+                <GenerateNewTokensRequest, GenerateNewTokensResponse>(
+                    GenerateNewTokensUrl,
+                    newTokensRequest,
+                    HttpClient
+                );
+
+            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
         }
 
         [Fact]

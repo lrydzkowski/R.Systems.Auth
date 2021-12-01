@@ -23,7 +23,10 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
         private static void AddUsers(AuthDbContext dbContext, IPasswordHasher passwordHasher, Roles roles)
         {
             Users users = new(passwordHasher);
-            users[0].Roles.Add(roles[0]);
+            foreach (UserInfo user in users)
+            {
+                user.Roles.Add(roles[0]);
+            }
             dbContext.Users.AddRange(users);
         }
     }

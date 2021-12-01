@@ -1,4 +1,5 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,6 +21,14 @@ namespace R.Systems.Auth.FunctionalTests.Models
                 Email = "test2@lukaszrydzkowski.pl",
                 FirstName = "Testowy 2",
                 LastName = "Tester 2"
+            },
+            new UserInfo
+            {
+                Email = "test3@lukaszrydzkowski.pl",
+                FirstName = "Testowy 3",
+                LastName = "Tester 3",
+                RefreshToken = "w2B/0+V2XNBB3V4yjKNNPU44fuGDtAg/foV37rtRjk/OhJYaPAodMc8saxVvCDbavo2yHKZWXpYSJ3XjCVo70A==",
+                RefreshTokenExpireDateTimeUtc = DateTime.UtcNow.AddMinutes(-10)
             }
         };
 
