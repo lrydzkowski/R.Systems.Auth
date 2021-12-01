@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="_Assets\Keys\private-key.pem" />
-    <None Remove="_Assets\Keys\public-key.pem" />
+    <None Remove="_Assets\Keys\private.pem" />
+    <None Remove="_Assets\Keys\public.pem" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="_Assets\Keys\private-key.pem" />
-    <EmbeddedResource Include="_Assets\Keys\public-key.pem" />
+    <EmbeddedResource Include="_Assets\Keys\private.pem" />
+    <EmbeddedResource Include="_Assets\Keys\public.pem" />
   </ItemGroup>
 
   <ItemGroup>

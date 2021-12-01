@@ -8,8 +8,6 @@
 
         public double RefreshTokenLifeTimeInMinutes { get; set; }
 
-        public int? ClockSkewInSeconds { get; set; }
-
         public string PrivateKeyPemFilePath { get; init; } = "";
 
         public string PublicKeyPemFilePath { get; init; } = "";

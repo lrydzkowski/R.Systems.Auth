@@ -88,7 +88,7 @@ namespace R.Systems.Auth.Core.Services
         private string GenerateAccessToken(User user, double lifetimeInMinutes, string privateKeyPem)
         {
             IDictionary<string, object> claims = GenerateUsersClaims(user);
-            DateTime? expires = DateTime.Now.AddMinutes(lifetimeInMinutes);
+            DateTime? expires = DateTime.UtcNow.AddMinutes(lifetimeInMinutes);
 
             using RSA rsa = RSA.Create();
             rsa.ImportFromPem(privateKeyPem.ToCharArray());

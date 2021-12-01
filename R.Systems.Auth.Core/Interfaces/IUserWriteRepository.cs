@@ -1,5 +1,4 @@
-﻿using R.Systems.Auth.Core.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Interfaces
 {

@@ -1,16 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.SharedKernel.Interfaces;
-using R.Systems.Auth.SharedKernel.Services;
 
 namespace R.Systems.Auth.SharedKernel.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddSharedKernelServices(this IServiceCollection services)
-        {
-            services.AddScoped<ITxtFileLoader, TxtFileLoader>();
-        }
-
         public static void AddAutomaticServices(this IServiceCollection services)
         {
             AddScopedServices(services);

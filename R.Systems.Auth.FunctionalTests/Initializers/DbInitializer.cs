@@ -8,13 +8,22 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
     {
         public static void InitData(AuthDbContext dbContext, IPasswordHasher passwordHasher)
         {
-            AddUsers(dbContext, passwordHasher);
+            Roles roles = AddRoles(dbContext);
+            AddUsers(dbContext, passwordHasher, roles);
             dbContext.SaveChanges();
         }
 
-        private static void AddUsers(AuthDbContext dbContext, IPasswordHasher passwordHasher)
+        private static Roles AddRoles(AuthDbContext dbContext)
+        {
+            Roles roles = new();
+            dbContext.Roles.AddRange(roles);
+            return roles;
+        }
+
+        private static void AddUsers(AuthDbContext dbContext, IPasswordHasher passwordHasher, Roles roles)
         {
             Users users = new(passwordHasher);
+            users[0].Roles.Add(roles[0]);
             dbContext.Users.AddRange(users);
         }
     }

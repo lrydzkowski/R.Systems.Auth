@@ -21,20 +21,14 @@ namespace R.Systems.Auth.WebApi.Controllers
         public async Task<IActionResult> Get(long userId)
         {
             UserDto? user = await UserService.GetAsync(userId);
-            return Ok(new
-            {
-                Data = user
-            });
+            return Ok(user);
         }
 
         [HttpGet, Authorize(Roles = "admin")]
         public async Task<IActionResult> Get()
         {
             List<UserDto> users = await UserService.GetAsync();
-            return Ok(new
-            {
-                Data = users
-            });
+            return Ok(users);
         }
     }
 }

@@ -32,8 +32,8 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
                 configBuilder.AddInMemoryCollection(
                     new Dictionary<string, string>
                     {
-                        ["Jwt:AccessTokenLifeTimeInMinutes"] = "0.1",
-                        ["Jwt:ClockSkewInSeconds"] = "6"
+                        ["Jwt:PrivateKeyPemFilePath"] = "private.pem",
+                        ["Jwt:PublicKeyPemFilePath"] = "public.pem"
                     }
                 );
             });
@@ -41,8 +41,8 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
 
         private void ReplaceIPrivateKeyLoader(IServiceCollection services)
         {
-            RemoveService(services, typeof(ITxtFileLoader));
-            services.AddScoped<ITxtFileLoader, PrivateKeyEmbeddedLoader>();
+            RemoveService(services, typeof(IRsaKeys));
+            services.AddSingleton<IRsaKeys, EmbeddedRsaKeys>();
         }
 
         private void ReplaceDbContext(IServiceCollection services)
