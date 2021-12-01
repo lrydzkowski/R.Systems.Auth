@@ -34,7 +34,6 @@ namespace R.Systems.Auth.FunctionalTests
         [InlineData("test32@lukaszrydzkowski.pl")]
         public async Task Authenticate_WrongEmail_Unauthorized(string email)
         {
-            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
             AuthenticateRequest request = new()
             {
                 Email = email,
@@ -48,14 +47,13 @@ namespace R.Systems.Auth.FunctionalTests
                     HttpClient
                 );
 
-            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
         }
 
         [Theory]
         [InlineData("1231231")]
         public async Task Authenticate_WrongPassword_Unauthorized(string password)
         {
-            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
             AuthenticateRequest request = new()
             {
                 Email = new Users()[1].Password,
@@ -69,14 +67,13 @@ namespace R.Systems.Auth.FunctionalTests
                     HttpClient
                 );
 
-            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
         }
 
         [Theory]
         [MemberData(nameof(GetLoginCorrectDataParameters))]
         public async Task Authenticate_PassCorrectData_GetTokens(string email, string password)
         {
-            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.OK;
             AuthenticateRequest request = new()
             {
                 Email = email,
@@ -90,7 +87,7 @@ namespace R.Systems.Auth.FunctionalTests
                     HttpClient
                 );
 
-            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+            Assert.Equal(HttpStatusCode.OK, httpStatusCode);
             Assert.NotNull(response);
             Assert.False(string.IsNullOrEmpty(response?.AccessToken));
             Assert.False(string.IsNullOrEmpty(response?.RefreshToken));
@@ -111,7 +108,6 @@ namespace R.Systems.Auth.FunctionalTests
         public async Task GenerateNewTokens_PassCorrectRefreshToken_GetNewTokens()
         {
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
-            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.OK;
             GenerateNewTokensRequest newTokensRequest = new()
             {
                 RefreshToken = authenticateResponse.RefreshToken
@@ -129,7 +125,7 @@ namespace R.Systems.Auth.FunctionalTests
                 response?.AccessToken
             );
 
-            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+            Assert.Equal(HttpStatusCode.OK, httpStatusCode);
             Assert.NotNull(response);
             Assert.False(string.IsNullOrEmpty(response?.AccessToken));
             Assert.False(string.IsNullOrEmpty(response?.RefreshToken));
@@ -141,7 +137,6 @@ namespace R.Systems.Auth.FunctionalTests
         [InlineData("13rfewghrgr")]
         public async Task GenerateNewTokens_PassIncorrectRefreshToken_Unauthorized(string refreshToken)
         {
-            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
             GenerateNewTokensRequest newTokensRequest = new()
             {
                 RefreshToken = refreshToken
@@ -154,13 +149,12 @@ namespace R.Systems.Auth.FunctionalTests
                     HttpClient
                 );
 
-            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
         }
 
         [Fact]
         public async Task GenerateNewTokens_PassExpiredRefreshToken_Unauthorized()
         {
-            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
             Users users = new();
             GenerateNewTokensRequest newTokensRequest = new()
             {
@@ -174,14 +168,13 @@ namespace R.Systems.Auth.FunctionalTests
                     HttpClient
                 );
 
-            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
         }
 
         [Fact]
         public async Task UseAccessToken_PassExpiredAccessToken_Unauthorized()
         {
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
-            HttpStatusCode expectedHttpStatusCode = HttpStatusCode.Unauthorized;
 
             (HttpStatusCode httpStatusCode, _) = await RequestService.SendGetAsync<UserDto>(
                 GetUserUrl,
@@ -189,7 +182,7 @@ namespace R.Systems.Auth.FunctionalTests
                 JwtTokenService.TamperAccessTokenExpireDate(authenticateResponse.AccessToken, -15)
             );
 
-            Assert.Equal(expectedHttpStatusCode, httpStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
         }
     }
 }
