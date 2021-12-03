@@ -37,7 +37,7 @@ namespace R.Systems.Auth.FunctionalTests
             AuthenticateRequest request = new()
             {
                 Email = email,
-                Password = new Users()[0].Password
+                Password = new Users().Data["test@lukaszrydzkowski.pl"].Password
             };
 
             (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync
@@ -56,7 +56,7 @@ namespace R.Systems.Auth.FunctionalTests
         {
             AuthenticateRequest request = new()
             {
-                Email = new Users()[1].Password,
+                Email = new Users().Data["test2@lukaszrydzkowski.pl"].Password,
                 Password = password
             };
 
@@ -98,9 +98,21 @@ namespace R.Systems.Auth.FunctionalTests
             Users users = new();
             return new List<object[]>
             {
-                new object[] { users[0].Email, users[0].Password },
-                new object[] { users[1].Email, "" },
-                new object[] { $" {users[1].Email} ", $" {users[1].Password} " }
+                new object[] 
+                { 
+                    users.Data["test@lukaszrydzkowski.pl"].Email,
+                    users.Data["test@lukaszrydzkowski.pl"].Password 
+                },
+                new object[] 
+                { 
+                    users.Data["test2@lukaszrydzkowski.pl"].Email,
+                    "" 
+                },
+                new object[] 
+                { 
+                    $" {users.Data["test2@lukaszrydzkowski.pl"].Email} ",
+                    $" {users.Data["test2@lukaszrydzkowski.pl"].Password} "
+                }
             };
         }
 
@@ -155,10 +167,9 @@ namespace R.Systems.Auth.FunctionalTests
         [Fact]
         public async Task GenerateNewTokens_PassExpiredRefreshToken_Unauthorized()
         {
-            Users users = new();
             GenerateNewTokensRequest newTokensRequest = new()
             {
-                RefreshToken = users[2].RefreshToken ?? ""
+                RefreshToken = new Users().Data["test3@lukaszrydzkowski.pl"].RefreshToken ?? ""
             };
 
             (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync

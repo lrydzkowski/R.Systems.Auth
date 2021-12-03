@@ -17,11 +17,11 @@ namespace R.Systems.Auth.FunctionalTests.Services
 
         public async Task<AuthenticateResponse> AuthenticateAsync(HttpClient httpClient)
         {
-            Users users = new();
+            UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
             AuthenticateRequest request = new()
             {
-                Email = users[0].Email,
-                Password = users[0].Password
+                Email = user.Email,
+                Password = user.Password
             };
             (_, AuthenticateResponse? response) = await RequestService.SendPostAsync
                 <AuthenticateRequest, AuthenticateResponse>(
