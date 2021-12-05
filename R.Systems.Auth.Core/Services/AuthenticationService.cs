@@ -60,7 +60,7 @@ namespace R.Systems.Auth.Core.Services
             );
             string refreshToken = GenerateRefreshToken();
             await SaveRefreshTokenAsync(
-                user.UserId,
+                user.Id,
                 refreshToken,
                 tokenSettings.RefreshTokenLifeTimeInMinutes
             );
@@ -135,7 +135,7 @@ namespace R.Systems.Auth.Core.Services
             }
             Dictionary<string, object> claims = new()
             {
-                { ClaimTypes.NameIdentifier, user.UserId },
+                { ClaimTypes.NameIdentifier, user.Id },
                 { ClaimTypes.Email, user.Email },
                 { ClaimTypes.Role, rolesKeys }
             };

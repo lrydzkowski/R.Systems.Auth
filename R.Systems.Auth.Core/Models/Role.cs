@@ -5,15 +5,7 @@ namespace R.Systems.Auth.Core.Models
 {
     public class Role : IEntity
     {
-        public long RecId { get; set; }
-
-        public long RoleId
-        {
-            get
-            {
-                return RecId;
-            }
-        }
+        public long Id { get; set; }
 
         public string RoleKey { get; set; } = "";
 

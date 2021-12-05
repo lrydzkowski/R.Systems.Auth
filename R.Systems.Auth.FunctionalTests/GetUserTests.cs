@@ -35,7 +35,7 @@ namespace R.Systems.Auth.FunctionalTests
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
 
             (HttpStatusCode httpStatusCode, UserDto? userDto) = await RequestService.SendGetAsync<UserDto>(
-                GetUserUrl + $"/{user.UserId}",
+                GetUserUrl + $"/{user.Id}",
                 HttpClient,
                 authenticateResponse.AccessToken
             );
@@ -45,7 +45,7 @@ namespace R.Systems.Auth.FunctionalTests
             userDto.Should()
                 .BeEquivalentTo(new UserDto
                 {
-                    UserId = user.UserId,
+                    UserId = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -53,7 +53,7 @@ namespace R.Systems.Auth.FunctionalTests
                     {
                         new RoleDto()
                         {
-                            RoleId = roles.Data[roleKey].RoleId,
+                            RoleId = roles.Data[roleKey].Id,
                             RoleKey = roles.Data[roleKey].RoleKey,
                             Name = roles.Data[roleKey].Name,
                             Description = roles.Data[roleKey].Description
@@ -83,7 +83,7 @@ namespace R.Systems.Auth.FunctionalTests
         {
             UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
             (HttpStatusCode httpStatusCode, UserDto? userDto) = await RequestService.SendGetAsync<UserDto>(
-                GetUserUrl + $"/{user.UserId}",
+                GetUserUrl + $"/{user.Id}",
                 HttpClient
             );
 

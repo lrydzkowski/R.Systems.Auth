@@ -7,7 +7,7 @@ namespace R.Systems.Auth.Core.AutoMapperProfiles
     {
         public RoleProfile()
         {
-            CreateMap<Role, RoleDto>();
+            CreateMap<Role, RoleDto>().ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

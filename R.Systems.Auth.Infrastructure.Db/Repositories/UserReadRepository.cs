@@ -16,7 +16,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
 
         protected override Expression<Func<User, User>> Entities { get; } = user => new User()
         {
-            RecId = user.RecId,
+            Id = user.Id,
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
@@ -24,7 +24,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             Roles = user.Roles
                 .Select(role => new Role()
                 {
-                    RecId = role.RecId,
+                    Id = role.Id,
                     RoleKey = role.RoleKey,
                     Name = role.Name,
                     Description = role.Description,
@@ -39,13 +39,13 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                 .Where(user => user.Email == email)
                 .Select(user => new User()
                 {
-                    RecId = user.UserId,
+                    Id = user.Id,
                     Email = email,
                     PasswordHash = user.PasswordHash,
                     Roles = user.Roles
                         .Select(role => new Role()
                         {
-                            RecId = role.RecId,
+                            Id = role.Id,
                             RoleKey = role.RoleKey
                         })
                         .ToList()
@@ -61,14 +61,14 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                 .Where(user => user.RefreshToken == refreshToken)
                 .Select(user => new User()
                 {
-                    RecId = user.UserId,
+                    Id = user.Id,
                     Email = user.Email,
                     RefreshToken = refreshToken,
                     RefreshTokenExpireDateTimeUtc = user.RefreshTokenExpireDateTimeUtc,
                     Roles = user.Roles
                         .Select(role => new Role()
                         {
-                            RecId = role.RecId,
+                            Id = role.Id,
                             RoleKey = role.RoleKey
                         })
                         .ToList()

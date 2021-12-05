@@ -13,7 +13,7 @@ namespace R.Systems.Auth.FunctionalTests.Models
                 "test@lukaszrydzkowski.pl",
                 new UserInfo
                 {
-                    RecId = 2,
+                    Id = 2,
                     Email = "test@lukaszrydzkowski.pl",
                     FirstName = "Testowy",
                     LastName = "Tester",
@@ -25,7 +25,7 @@ namespace R.Systems.Auth.FunctionalTests.Models
                 "test2@lukaszrydzkowski.pl",
                 new UserInfo
                 {
-                    RecId = 3,
+                    Id = 3,
                     Email = "test2@lukaszrydzkowski.pl",
                     FirstName = "Testowy 2",
                     LastName = "Tester 2",
@@ -36,7 +36,7 @@ namespace R.Systems.Auth.FunctionalTests.Models
                 "test3@lukaszrydzkowski.pl",
                 new UserInfo
                 {
-                    RecId = 4,
+                    Id = 4,
                     Email = "test3@lukaszrydzkowski.pl",
                     FirstName = "Testowy 3",
                     LastName = "Tester 3",
@@ -49,7 +49,7 @@ namespace R.Systems.Auth.FunctionalTests.Models
                 "test4@lukaszrydzkowski.pl",
                 new UserInfo
                 {
-                    RecId = 5,
+                    Id = 5,
                     Email = "test4@lukaszrydzkowski.pl",
                     FirstName = "Testowy 2",
                     LastName = "Tester 2",

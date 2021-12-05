@@ -10,7 +10,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable(name: "user", schema: "user");
-            builder.HasKey(user => user.RecId);
+            builder.HasKey(user => user.Id);
             builder.HasMany(user => user.Roles)
                 .WithMany(role => role.Users)
                 .UsingEntity<Dictionary<string, object>>(
@@ -30,8 +30,8 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
 
         private void ConfigureColumns(EntityTypeBuilder<User> builder)
         {
-            builder.Property(user => user.RecId)
-                .HasColumnName("user_id")
+            builder.Property(user => user.Id)
+                .HasColumnName("id")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
@@ -69,7 +69,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
                 {
                     new User()
                     {
-                        RecId = 1,
+                        Id = 1,
                         Email = "admin@lukaszrydzkowski.pl",
                         FirstName = "Lukasz",
                         LastName = "Rydzkowski",
@@ -77,6 +77,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
                     }
                 }
             );
+            builder.Property(user => user.Id).HasIdentityOptions(startValue: 2);
         }
     }
 }

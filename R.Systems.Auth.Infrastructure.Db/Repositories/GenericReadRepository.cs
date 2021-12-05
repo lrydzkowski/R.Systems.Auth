@@ -20,7 +20,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
 
         public async Task<T?> GetAsync(long recId)
         {
-            T? entity = await GetQuery().Where(entity => entity.RecId == recId).FirstOrDefaultAsync();
+            T? entity = await GetQuery().Where(entity => entity.Id == recId).FirstOrDefaultAsync();
             return entity;
         }
 
