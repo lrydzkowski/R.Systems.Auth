@@ -1,5 +1,4 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

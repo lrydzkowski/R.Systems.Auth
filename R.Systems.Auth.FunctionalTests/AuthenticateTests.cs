@@ -98,18 +98,18 @@ namespace R.Systems.Auth.FunctionalTests
             Users users = new();
             return new List<object[]>
             {
-                new object[] 
-                { 
+                new object[]
+                {
                     users.Data["test@lukaszrydzkowski.pl"].Email,
-                    users.Data["test@lukaszrydzkowski.pl"].Password 
+                    users.Data["test@lukaszrydzkowski.pl"].Password
                 },
-                new object[] 
-                { 
+                new object[]
+                {
                     users.Data["test2@lukaszrydzkowski.pl"].Email,
-                    "" 
+                    ""
                 },
-                new object[] 
-                { 
+                new object[]
+                {
                     $" {users.Data["test2@lukaszrydzkowski.pl"].Email} ",
                     $" {users.Data["test2@lukaszrydzkowski.pl"].Password} "
                 }
