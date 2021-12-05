@@ -12,9 +12,9 @@ using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests
 {
-    public class UserControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class GetUserTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public UserControllerTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public GetUserTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
         {
             HttpClient = webApplicationFactory.CreateClient();
             RequestService = new RequestService();
@@ -106,57 +106,6 @@ namespace R.Systems.Auth.FunctionalTests
 
             (HttpStatusCode httpStatusCode, UserDto? userDto) = await RequestService.SendGetAsync<UserDto>(
                 GetUserUrl + $"/1",
-                HttpClient,
-                authenticateResponse.AccessToken
-            );
-
-            Assert.Equal(HttpStatusCode.Forbidden, httpStatusCode);
-            Assert.Null(userDto);
-        }
-
-        [Fact]
-        public async Task GetUsers_CorrectData_ReturnsUsers()
-        {
-            Dictionary<string, UserInfo> users = new Users().Data;
-            AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
-
-            (HttpStatusCode httpStatusCode, List<UserDto>? userDto) = await RequestService.SendGetAsync<List<UserDto>>(
-                GetUserUrl,
-                HttpClient,
-                authenticateResponse.AccessToken
-            );
-
-            Assert.Equal(HttpStatusCode.OK, httpStatusCode);
-            Assert.Equal(users.Count + 1, userDto?.Count);
-        }
-
-        [Fact]
-        public async Task GetUsers_WithoutAuthenticationToken_Unauthorized()
-        {
-            (HttpStatusCode httpStatusCode, List<UserDto>? userDto) = await RequestService.SendGetAsync<List<UserDto>>(
-                GetUserUrl,
-                HttpClient
-            );
-
-            Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
-            Assert.Null(userDto);
-        }
-
-        [Fact]
-        public async Task GetUsers_UserWithoutRoleAdmin_Forbidden()
-        {
-            UserInfo user = new Users().Data["test4@lukaszrydzkowski.pl"];
-            AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(
-                HttpClient,
-                new AuthenticateRequest
-                {
-                    Email = user.Email,
-                    Password = user.Password
-                }
-            );
-
-            (HttpStatusCode httpStatusCode, List<UserDto>? userDto) = await RequestService.SendGetAsync<List<UserDto>>(
-                GetUserUrl,
                 HttpClient,
                 authenticateResponse.AccessToken
             );

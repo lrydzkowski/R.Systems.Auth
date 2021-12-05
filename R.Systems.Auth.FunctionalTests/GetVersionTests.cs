@@ -7,11 +7,11 @@ using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests
 {
-    public class VersionControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class GetVersionTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
 
-        public VersionControllerTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public GetVersionTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
         {
             _httpClient = webApplicationFactory.CreateClient();
         }

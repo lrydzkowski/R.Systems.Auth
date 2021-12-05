@@ -12,9 +12,9 @@ using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests
 {
-    public class AuthenticationControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class AuthenticateTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public AuthenticationControllerTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public AuthenticateTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
         {
             HttpClient = webApplicationFactory.CreateClient();
             RequestService = new RequestService();
