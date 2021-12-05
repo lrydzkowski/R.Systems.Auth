@@ -15,14 +15,18 @@ namespace R.Systems.Auth.FunctionalTests.Services
 
         public RequestService RequestService { get; }
 
-        public async Task<AuthenticateResponse> AuthenticateAsync(HttpClient httpClient)
+        public async Task<AuthenticateResponse> AuthenticateAsync(
+            HttpClient httpClient, AuthenticateRequest? request = null)
         {
-            UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
-            AuthenticateRequest request = new()
+            if (request == null)
             {
-                Email = user.Email,
-                Password = user.Password
-            };
+                UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
+                request = new()
+                {
+                    Email = user.Email,
+                    Password = user.Password
+                };
+            }
             (_, AuthenticateResponse? response) = await RequestService.SendPostAsync
                 <AuthenticateRequest, AuthenticateResponse>(
                     "/users/authenticate",

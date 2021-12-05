@@ -11,9 +11,20 @@ namespace R.Systems.Auth.FunctionalTests.Models
                 "admin",
                 new Role
                 {
+                    RecId = 1,
                     RoleKey = "admin",
                     Name = "Administrator",
-                    Description = "System administrator"
+                    Description = "System administrator."
+                }
+            },
+            {
+                "user",
+                new Role
+                {
+                    RecId = 2,
+                    RoleKey = "user",
+                    Name = "User",
+                    Description = "Standard user."
                 }
             }
         };

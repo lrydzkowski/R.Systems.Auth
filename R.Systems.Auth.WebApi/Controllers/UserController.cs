@@ -21,6 +21,10 @@ namespace R.Systems.Auth.WebApi.Controllers
         public async Task<IActionResult> Get(long userId)
         {
             UserDto? user = await UserService.GetAsync(userId);
+            if (user == null)
+            {
+                return NotFound(null);
+            }
             return Ok(user);
         }
 

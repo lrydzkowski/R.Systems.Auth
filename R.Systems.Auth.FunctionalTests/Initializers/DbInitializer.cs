@@ -2,7 +2,7 @@
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.Infrastructure.Db;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace R.Systems.Auth.FunctionalTests.Initializers
 {
@@ -10,27 +10,26 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
     {
         public static void InitData(AuthDbContext dbContext, IPasswordHasher passwordHasher)
         {
-            Roles roles = AddRoles(dbContext);
-            AddUsers(dbContext, passwordHasher, roles);
+            AddUsers(dbContext, passwordHasher);
             dbContext.SaveChanges();
         }
 
-        private static Roles AddRoles(AuthDbContext dbContext)
+        private static void AddUsers(AuthDbContext dbContext, IPasswordHasher passwordHasher)
         {
             Roles roles = new();
-            dbContext.Roles.AddRange(roles.Data.Select(x => x.Value));
-            return roles;
-        }
-
-        private static void AddUsers(AuthDbContext dbContext, IPasswordHasher passwordHasher, Roles roles)
-        {
-            Users users = new(passwordHasher);
-            Role adminRole = roles.Data["admin"];
-            users.Data["test@lukaszrydzkowski.pl"].Roles.Add(adminRole);
-            users.Data["test2@lukaszrydzkowski.pl"].Roles.Add(adminRole);
-            users.Data["test3@lukaszrydzkowski.pl"].Roles.Add(adminRole);
-            
-            dbContext.Users.AddRange(users.Data.Select(x => x.Value));
+            foreach (KeyValuePair<string, Role> role in roles.Data)
+            {
+                dbContext.Attach(role.Value);
+            }
+            List<UserInfo> users = new Users(passwordHasher).Get();
+            foreach (UserInfo user in users)
+            {
+                foreach (string roleKey in user.RoleKeys)
+                {
+                    user.Roles.Add(roles.Data[roleKey]);
+                }
+            }
+            dbContext.Users.AddRange(users);
         }
     }
 }

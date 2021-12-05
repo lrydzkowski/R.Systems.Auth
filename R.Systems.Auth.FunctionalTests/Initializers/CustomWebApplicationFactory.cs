@@ -48,9 +48,10 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
         private void ReplaceDbContext(IServiceCollection services)
         {
             RemoveService(services, typeof(DbContextOptions<AuthDbContext>));
+            string inMemoryDatabaseName = Guid.NewGuid().ToString();
             services.AddDbContext<AuthDbContext>(options =>
             {
-                options.UseInMemoryDatabase("users");
+                options.UseInMemoryDatabase(inMemoryDatabaseName);
             });
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             using IServiceScope scope = serviceProvider.CreateScope();
