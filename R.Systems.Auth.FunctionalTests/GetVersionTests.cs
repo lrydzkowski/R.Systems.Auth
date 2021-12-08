@@ -17,7 +17,7 @@ namespace R.Systems.Auth.FunctionalTests
         }
 
         [Fact]
-        public async Task SendGetVersionRequest_EndpointReturnsCorrectVersion()
+        public async Task GetVersion_CorrectData_ReturnsCorrectVersion()
         {
             GetVersionResponse expectedResponse = new()
             {

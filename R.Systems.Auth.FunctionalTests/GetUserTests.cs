@@ -27,7 +27,7 @@ namespace R.Systems.Auth.FunctionalTests
         private string GetUserUrl { get; } = "/users";
 
         [Fact]
-        public async Task GetUser_PassCorrectId_ReturnsUserData()
+        public async Task GetUser_CorrectId_ReturnsUserData()
         {
             Roles roles = new();
             UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
@@ -63,7 +63,7 @@ namespace R.Systems.Auth.FunctionalTests
         }
 
         [Fact]
-        public async Task GetUser_PassNotExistingId_NotExists()
+        public async Task GetUser_NotExistingId_NotExists()
         {
             long userId = 999;
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);

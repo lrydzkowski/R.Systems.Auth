@@ -72,7 +72,7 @@ namespace R.Systems.Auth.FunctionalTests
 
         [Theory]
         [MemberData(nameof(GetLoginCorrectDataParameters))]
-        public async Task Authenticate_PassCorrectData_GetTokens(string email, string password)
+        public async Task Authenticate_CorrectData_GetTokens(string email, string password)
         {
             AuthenticateRequest request = new()
             {
@@ -117,7 +117,7 @@ namespace R.Systems.Auth.FunctionalTests
         }
 
         [Fact]
-        public async Task GenerateNewTokens_PassCorrectRefreshToken_GetNewTokens()
+        public async Task GenerateNewTokens_CorrectRefreshToken_GetNewTokens()
         {
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
             GenerateNewTokensRequest newTokensRequest = new()
@@ -147,7 +147,7 @@ namespace R.Systems.Auth.FunctionalTests
         [Theory]
         [InlineData("")]
         [InlineData("13rfewghrgr")]
-        public async Task GenerateNewTokens_PassIncorrectRefreshToken_Unauthorized(string refreshToken)
+        public async Task GenerateNewTokens_IncorrectRefreshToken_Unauthorized(string refreshToken)
         {
             GenerateNewTokensRequest newTokensRequest = new()
             {
@@ -165,7 +165,7 @@ namespace R.Systems.Auth.FunctionalTests
         }
 
         [Fact]
-        public async Task GenerateNewTokens_PassExpiredRefreshToken_Unauthorized()
+        public async Task GenerateNewTokens_ExpiredRefreshToken_Unauthorized()
         {
             GenerateNewTokensRequest newTokensRequest = new()
             {
@@ -183,7 +183,7 @@ namespace R.Systems.Auth.FunctionalTests
         }
 
         [Fact]
-        public async Task UseAccessToken_PassExpiredAccessToken_Unauthorized()
+        public async Task UseAccessToken_ExpiredAccessToken_Unauthorized()
         {
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
 
