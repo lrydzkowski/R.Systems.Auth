@@ -76,5 +76,20 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                 .FirstOrDefaultAsync();
             return user;
         }
+
+        public async Task<bool> UserExistsAsync(string email, long? userId = null)
+        {
+            var query = DbContext.Users.AsNoTracking().Where(user => user.Email == email);
+            if (userId != null)
+            {
+                query = query.Where(user => user.Id != userId);
+            }
+            User? user = await query.Select(user => new User() { Id = user.Id }).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

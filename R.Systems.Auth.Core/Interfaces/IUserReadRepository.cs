@@ -9,5 +9,7 @@ namespace R.Systems.Auth.Core.Interfaces
         Task<User?> GetUserForAuthenticationAsync(string email);
 
         Task<User?> GetUserWithRefreshTokenAsync(string refreshToken);
+
+        Task<bool> UserExistsAsync(string email, long? userId = null);
     }
 }

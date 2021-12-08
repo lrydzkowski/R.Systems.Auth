@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Services
 {
-    public class UserService : IDependencyInjectionScoped
+    public class UserReadService : IDependencyInjectionScoped
     {
-        public UserService(IGenericReadRepository<User> repository, IMapper mapper)
+        public UserReadService(IGenericReadRepository<User> repository, IMapper mapper)
         {
             Repository = repository;
             Mapper = mapper;
