@@ -43,7 +43,7 @@ namespace R.Systems.Auth.WebApi.Controllers
             return Ok(users);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(EditUserDto editUserDto)
         {
             bool result = await UserWriteService.EditUserAsync(editUserDto);
@@ -54,7 +54,7 @@ namespace R.Systems.Auth.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost, Route("{userId}")]
+        [HttpPost, Route("{userId}"), Authorize(Roles = "admin")]
         public async Task<IActionResult> Update(EditUserDto editUserDto, long userId)
         {
             bool result = await UserWriteService.EditUserAsync(editUserDto, userId);
