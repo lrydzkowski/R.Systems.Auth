@@ -7,6 +7,6 @@ namespace R.Systems.Auth.Core.Interfaces
     {
         Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes);
 
-        Task EditUserAsync(EditUserDto editUserDto, long? userId = null);
+        Task<long> EditUserAsync(EditUserDto editUserDto, long? userId = null);
     }
 }

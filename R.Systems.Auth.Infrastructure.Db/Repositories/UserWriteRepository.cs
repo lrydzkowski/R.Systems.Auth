@@ -29,7 +29,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task EditUserAsync(EditUserDto editUserDto, long? userId = null)
+        public async Task<long> EditUserAsync(EditUserDto editUserDto, long? userId = null)
         {
             User user = new();
             bool isUpdate = userId != null;
@@ -66,6 +66,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                 DbContext.Users.Add(user);
             }
             await DbContext.SaveChangesAsync();
+            return user.Id;
         }
     }
 }

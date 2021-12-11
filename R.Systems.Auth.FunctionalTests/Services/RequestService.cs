@@ -10,7 +10,7 @@ namespace R.Systems.Auth.FunctionalTests.Services
     public class RequestService
     {
         public async Task<(HttpStatusCode, TResp?)> SendPostAsync<TReq, TResp>(
-            string url, TReq request, HttpClient httpClient, string? accessToken = null)
+            string url, TReq request, HttpClient httpClient, string? accessToken = null) where TResp : class
         {
             var requestContent = new StringContent(
                 JsonSerializer.Serialize(request), Encoding.UTF8, "application/json"
@@ -25,9 +25,17 @@ namespace R.Systems.Auth.FunctionalTests.Services
             }
             HttpResponseMessage httpResponse = await httpClient.SendAsync(requestMessage);
             string responseContent = await httpResponse.Content.ReadAsStringAsync();
-            TResp? response = JsonSerializer.Deserialize<TResp>(
-                responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
-            );
+            TResp? response = null;
+            if (responseContent.Length > 0)
+            {
+                try
+                {
+                    response = JsonSerializer.Deserialize<TResp>(
+                        responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
+                    );
+                }
+                catch { }
+            }
             return (httpResponse.StatusCode, response);
         }
 

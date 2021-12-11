@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.Core.Services;
 using R.Systems.Auth.SharedKernel.Validation;
+using R.Systems.Auth.WebApi.Features.User;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -46,19 +47,22 @@ namespace R.Systems.Auth.WebApi.Controllers
         [HttpPost, Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(EditUserDto editUserDto)
         {
-            bool result = await UserWriteService.EditUserAsync(editUserDto);
-            if (!result)
+            OperationResult<long> operationResult = await UserWriteService.EditUserAsync(editUserDto);
+            if (!operationResult.Result)
             {
                 return BadRequest(ValidationResult.Errors);
             }
-            return Ok();
+            return Ok(new CreateUserResponse()
+            {
+                UserId = operationResult.Data
+            });
         }
 
         [HttpPost, Route("{userId}"), Authorize(Roles = "admin")]
         public async Task<IActionResult> Update(EditUserDto editUserDto, long userId)
         {
-            bool result = await UserWriteService.EditUserAsync(editUserDto, userId);
-            if (!result)
+            OperationResult<long> operationResult = await UserWriteService.EditUserAsync(editUserDto, userId);
+            if (!operationResult.Result)
             {
                 return BadRequest(ValidationResult.Errors);
             }
