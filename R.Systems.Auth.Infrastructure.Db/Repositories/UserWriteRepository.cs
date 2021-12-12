@@ -1,7 +1,9 @@
-﻿using R.Systems.Auth.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Infrastructure.Db.Repositories
@@ -35,7 +37,15 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             bool isUpdate = userId != null;
             if (isUpdate)
             {
-                user = await DbContext.Users.FindAsync(userId);
+                user = await DbContext.Users
+                    .Where(user => user.Id == userId)
+                    .Select(user => new User
+                    {
+                        Id = user.Id,
+                        Roles = user.Roles.Select(role => new Role { Id = role.Id }).ToList()
+                    })
+                    .FirstOrDefaultAsync();
+                DbContext.Attach(user);
             }
             if (editUserDto.Email != null)
             {
@@ -55,10 +65,24 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             }
             if (editUserDto.RoleIds != null)
             {
+                List<Role> rolesToAdd = new();
                 foreach (long roleId in editUserDto.RoleIds)
                 {
-                    Role role = await DbContext.Roles.FindAsync(roleId);
-                    user.Roles.Add(role);
+                    Role? role = user.Roles.FirstOrDefault(role => role.Id == roleId);
+                    if (role == null)
+                    {
+                        role = new Role { Id = roleId };
+                        DbContext.Attach(role);
+                    }
+                    rolesToAdd.Add(role);
+                }
+                if (isUpdate)
+                {
+                    user.Roles.Clear();
+                }
+                foreach (Role roleToAdd in rolesToAdd)
+                {
+                    user.Roles.Add(roleToAdd);
                 }
             }
             if (!isUpdate)
