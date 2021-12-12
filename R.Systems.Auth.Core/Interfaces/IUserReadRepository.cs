@@ -11,5 +11,7 @@ namespace R.Systems.Auth.Core.Interfaces
         Task<User?> GetUserWithRefreshTokenAsync(string refreshToken);
 
         Task<bool> UserExistsAsync(string email, long? userId = null);
+
+        Task<bool> UserExistsAsync(long userId);
     }
 }

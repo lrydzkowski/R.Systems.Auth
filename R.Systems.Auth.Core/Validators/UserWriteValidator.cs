@@ -27,12 +27,26 @@ namespace R.Systems.Auth.Core.Validators
         {
             bool result = true;
             bool isUpdate = userId != null;
+            if (isUpdate)
+            {
+                result &= await ValidateUserIdAsync((long)userId!);
+            }
             result &= await ValidateEmailAsync(editUserDto.Email, userId, isUpdate);
             result &= ValidateFirstName(editUserDto.FirstName, isUpdate);
             result &= ValidateLastName(editUserDto.LastName, isUpdate);
             result &= ValidatePassword(editUserDto.Password, isUpdate);
             result &= await ValidateRolesAsync(editUserDto.RoleIds, isUpdate);
             return result;
+        }
+
+        private async Task<bool> ValidateUserIdAsync(long userId)
+        {
+            if (!(await UserReadRepository.UserExistsAsync(userId)))
+            {
+                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "NotExist", "UserId"));
+                return false;
+            }
+            return true;
         }
 
         private async Task<bool> ValidateEmailAsync(string? email, long? userId, bool isUpdate)

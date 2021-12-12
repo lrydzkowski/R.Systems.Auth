@@ -91,5 +91,15 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             }
             return true;
         }
+
+        public async Task<bool> UserExistsAsync(long userId)
+        {
+            User? user = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Id == userId);
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
