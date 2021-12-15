@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.SharedKernel.Interfaces;
+using R.Systems.Auth.WebApi.Services;
 using R.Systems.Auth.WebApi.Settings;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace R.Systems.Auth.WebApi.DependencyInjection
 {
@@ -36,6 +39,22 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
                 IssuerSigningKey = new RsaSecurityKey(rsa)
             };
             options.TokenValidationParameters = tokenValidationParameters;
+            options.Events = new JwtBearerEvents
+            {
+                OnTokenValidated = context =>
+                {
+                    var accessToken = context.SecurityToken as JwtSecurityToken;
+                    if (accessToken == null)
+                    {
+                        return Task.CompletedTask;
+                    }
+                    var userClaimsService = (UserClaimsService?)context.HttpContext.RequestServices.GetService(
+                        typeof(UserClaimsService)
+                    );
+                    userClaimsService?.SetClaims(accessToken.Claims);
+                    return Task.CompletedTask;
+                }
+            };
         }
 
         public void Configure(JwtBearerOptions options)

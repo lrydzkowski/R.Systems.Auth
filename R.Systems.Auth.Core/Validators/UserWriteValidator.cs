@@ -2,6 +2,7 @@
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.SharedKernel.Interfaces;
 using R.Systems.Auth.SharedKernel.Validation;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -39,11 +40,29 @@ namespace R.Systems.Auth.Core.Validators
             return result;
         }
 
+        public async Task<bool> ValidateDeleteAsync(long userId, long authorizedUserId)
+        {
+            bool result = true;
+            result &= await ValidateUserIdAsync(userId);
+            result &= ValidateAuthorizedUserId(userId, authorizedUserId);
+            return result;
+        }
+
         private async Task<bool> ValidateUserIdAsync(long userId)
         {
             if (!(await UserReadRepository.UserExistsAsync(userId)))
             {
-                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "NotExist", "UserId"));
+                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "NotExist", elementKey: "UserId"));
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateAuthorizedUserId(long userId, long authorizedUserId)
+        {
+            if (userId == authorizedUserId)
+            {
+                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "CannotDeleteYourself", elementKey: "UserId"));
                 return false;
             }
             return true;

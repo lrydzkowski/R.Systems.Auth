@@ -4,6 +4,7 @@ using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.Core.Services;
 using R.Systems.Auth.SharedKernel.Validation;
 using R.Systems.Auth.WebApi.Features.User;
+using R.Systems.Auth.WebApi.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,16 +16,19 @@ namespace R.Systems.Auth.WebApi.Controllers
         public UserController(
             UserReadService userReadService,
             UserWriteService userWriteService,
-            ValidationResult validationResult)
+            ValidationResult validationResult,
+            UserClaimsService userClaimsService)
         {
             UserReadService = userReadService;
             UserWriteService = userWriteService;
             ValidationResult = validationResult;
+            UserClaimsService = userClaimsService;
         }
 
         public UserReadService UserReadService { get; }
         public UserWriteService UserWriteService { get; }
         public ValidationResult ValidationResult { get; }
+        public UserClaimsService UserClaimsService { get; }
 
         [HttpGet, Route("{userId}"), Authorize(Roles = "admin")]
         public async Task<IActionResult> Get(long userId)
@@ -63,6 +67,18 @@ namespace R.Systems.Auth.WebApi.Controllers
         {
             OperationResult<long> operationResult = await UserWriteService.EditUserAsync(editUserDto, userId);
             if (!operationResult.Result)
+            {
+                return BadRequest(ValidationResult.Errors);
+            }
+            return Ok();
+        }
+
+        [HttpDelete, Route("{userId}"), Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(long userId)
+        {
+            long authorizedUserId = UserClaimsService.GetUserId();
+            bool result = await UserWriteService.DeleteUserAsync(userId, authorizedUserId);
+            if (!result)
             {
                 return BadRequest(ValidationResult.Errors);
             }

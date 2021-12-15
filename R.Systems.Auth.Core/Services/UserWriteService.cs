@@ -28,5 +28,16 @@ namespace R.Systems.Auth.Core.Services
             long editedUserId = await UserWriteRepository.EditUserAsync(editUserDto, userId);
             return new OperationResult<long>() { Result = true, Data = editedUserId };
         }
+
+        public async Task<bool> DeleteUserAsync(long userId, long authorizedUserId)
+        {
+            bool result = await UserWriteValidator.ValidateDeleteAsync(userId, authorizedUserId);
+            if (!result)
+            {
+                return false;
+            }
+            await UserWriteRepository.DeleteUserAsync(userId);
+            return true;
+        }
     }
 }
