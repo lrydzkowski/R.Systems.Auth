@@ -215,7 +215,6 @@ namespace R.Systems.Auth.FunctionalTests
         public static IEnumerable<object[]> CreateUserIncorrectDataParameters()
         {
             Role adminRole = new Roles().Data["admin"];
-            Role userRole = new Roles().Data["user"];
             return new List<object[]>
             {
                 new object[]

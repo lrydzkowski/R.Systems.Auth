@@ -21,7 +21,7 @@ namespace R.Systems.Auth.WebApi.Services
             {
                 type = JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap[type];
             }
-            List<string> values = new List<string>();
+            List<string> values = new();
             if (Claims != null)
             {
                 foreach (Claim claim in Claims)

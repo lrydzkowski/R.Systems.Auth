@@ -28,7 +28,6 @@ namespace R.Systems.Auth.FunctionalTests
         [Fact]
         public async Task GetRoles_CorrectData_ReturnsRoles()
         {
-            Dictionary<string, Role> roles = new Roles().Data;
             AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(HttpClient);
 
             (HttpStatusCode httpStatusCode, List<RoleDto>? roleDto) = await RequestService.SendGetAsync<List<RoleDto>>(

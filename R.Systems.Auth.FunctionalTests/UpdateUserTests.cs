@@ -115,7 +115,7 @@ namespace R.Systems.Auth.FunctionalTests
             UserInfo user = new Users().Data["test2@lukaszrydzkowski.pl"];
 
             Role adminRole = new Roles().Data["admin"];
-            RoleDto adminRoleDto = new RoleDto()
+            RoleDto adminRoleDto = new()
             {
                 RoleId = adminRole.Id,
                 RoleKey = adminRole.RoleKey,
@@ -123,7 +123,7 @@ namespace R.Systems.Auth.FunctionalTests
                 Description = adminRole.Description
             };
             Role userRole = new Roles().Data["user"];
-            RoleDto userRoleDto = new RoleDto()
+            RoleDto userRoleDto = new()
             {
                 RoleId = userRole.Id,
                 RoleKey = userRole.RoleKey,

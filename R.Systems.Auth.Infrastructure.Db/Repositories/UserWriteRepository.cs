@@ -95,7 +95,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
 
         public async Task DeleteUserAsync(long userId)
         {
-            User user = new User { Id = userId };
+            User user = new() { Id = userId };
             DbContext.Users.Remove(user);
             await DbContext.SaveChangesAsync();
         }
