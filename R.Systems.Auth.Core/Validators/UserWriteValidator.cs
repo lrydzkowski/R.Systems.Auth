@@ -2,7 +2,6 @@
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.SharedKernel.Interfaces;
 using R.Systems.Auth.SharedKernel.Validation;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

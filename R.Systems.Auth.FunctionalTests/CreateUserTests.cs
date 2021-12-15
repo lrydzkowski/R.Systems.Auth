@@ -125,8 +125,8 @@ namespace R.Systems.Auth.FunctionalTests
                     Email = editUserDto.Email ?? "",
                     FirstName = editUserDto.FirstName ?? "",
                     LastName = editUserDto.LastName ?? "",
-                    Roles = editUserDto.RoleIds == null 
-                        ? new List<RoleDto>() 
+                    Roles = editUserDto.RoleIds == null
+                        ? new List<RoleDto>()
                         : roles.Where(x => editUserDto.RoleIds.Contains(x.RoleId)).ToList()
                 });
         }
