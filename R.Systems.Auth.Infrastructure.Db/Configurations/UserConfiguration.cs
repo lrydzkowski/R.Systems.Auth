@@ -11,6 +11,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Configurations
         {
             builder.ToTable(name: "user", schema: "user");
             builder.HasKey(user => user.Id);
+            builder.HasIndex(user => user.Email).IsUnique();
             builder.HasMany(user => user.Roles)
                 .WithMany(role => role.Users)
                 .UsingEntity<Dictionary<string, object>>(
