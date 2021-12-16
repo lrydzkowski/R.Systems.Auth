@@ -55,6 +55,17 @@ namespace R.Systems.Auth.FunctionalTests.Models
                     LastName = "Tester 2",
                     Password = "e11e11"
                 }
+            },
+            {
+                "test5@lukaszrydzkowski.pl",
+                new UserInfo
+                {
+                    Id = 6,
+                    Email = "test5@lukaszrydzkowski.pl",
+                    FirstName = "Testowy 5",
+                    LastName = "Tester 5",
+                    Password = "d11d22d33"
+                }
             }
         };
 

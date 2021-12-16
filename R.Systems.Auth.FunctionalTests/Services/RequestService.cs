@@ -42,7 +42,19 @@ namespace R.Systems.Auth.FunctionalTests.Services
         public async Task<(HttpStatusCode, TResp?)> SendGetAsync<TResp>(
             string url, HttpClient httpClient, string? accessToken = null) where TResp : class
         {
-            HttpRequestMessage requestMessage = new(HttpMethod.Get, url);
+            return await SendRequestWithoutBodyAsync<TResp>(HttpMethod.Get, url, httpClient, accessToken);
+        }
+
+        public async Task<(HttpStatusCode, TResp?)> SendDeleteAsync<TResp>(
+            string url, HttpClient httpClient, string? accessToken = null) where TResp : class
+        {
+            return await SendRequestWithoutBodyAsync<TResp>(HttpMethod.Delete, url, httpClient, accessToken);
+        }
+
+        private async Task<(HttpStatusCode, TResp?)> SendRequestWithoutBodyAsync<TResp>(
+            HttpMethod httpMethod, string url, HttpClient httpClient, string? accessToken = null) where TResp : class
+        {
+            HttpRequestMessage requestMessage = new(httpMethod, url);
             if (accessToken != null)
             {
                 requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
