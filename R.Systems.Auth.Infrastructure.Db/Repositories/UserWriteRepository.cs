@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.SharedKernel.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +12,19 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
 {
     public class UserWriteRepository : IUserWriteRepository
     {
-        public UserWriteRepository(AuthDbContext dbContext, IPasswordHasher passwordHasher)
+        public UserWriteRepository(
+            AuthDbContext dbContext,
+            IPasswordHasher passwordHasher,
+            ValidationResult validationResult)
         {
             DbContext = dbContext;
             PasswordHasher = passwordHasher;
+            ValidationResult = validationResult;
         }
 
         public AuthDbContext DbContext { get; }
         public IPasswordHasher PasswordHasher { get; }
+        public ValidationResult ValidationResult { get; }
 
         public async Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes)
         {
@@ -31,7 +38,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task<long> EditUserAsync(EditUserDto editUserDto, long? userId = null)
+        public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
         {
             User user = new();
             bool isUpdate = userId != null;
@@ -89,8 +96,19 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             {
                 DbContext.Users.Add(user);
             }
-            await DbContext.SaveChangesAsync();
-            return user.Id;
+            try
+            {
+                await DbContext.SaveChangesAsync();
+            }
+            catch (Exception dbUpdateException)
+            {
+                if (!HandleDbUpdateException(dbUpdateException))
+                {
+                    throw;
+                }
+                return new OperationResult<long> { Result = false };
+            }
+            return new OperationResult<long> { Result = true, Data = user.Id };
         }
 
         public async Task DeleteUserAsync(long userId)
@@ -98,6 +116,24 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
             User user = new() { Id = userId };
             DbContext.Users.Remove(user);
             await DbContext.SaveChangesAsync();
+        }
+
+        private bool HandleDbUpdateException(Exception dbUpdateException)
+        {
+            if (dbUpdateException.InnerException == null)
+            {
+                return false;
+            }
+            if (dbUpdateException.InnerException is not PostgresException postgresException)
+            {
+                return false;
+            }
+            if (postgresException.SqlState == PostgresErrorCodes.UniqueViolation)
+            {
+                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "Exists", elementKey: "Email"));
+                return true;
+            }
+            return false;
         }
     }
 }

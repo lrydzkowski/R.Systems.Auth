@@ -1,4 +1,5 @@
 ﻿using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.SharedKernel.Validation;
 using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Interfaces
@@ -7,7 +8,7 @@ namespace R.Systems.Auth.Core.Interfaces
     {
         Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes);
 
-        Task<long> EditUserAsync(EditUserDto editUserDto, long? userId = null);
+        Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null);
 
         Task DeleteUserAsync(long userId);
     }
