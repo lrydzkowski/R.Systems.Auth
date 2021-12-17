@@ -43,8 +43,7 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
             {
                 OnTokenValidated = context =>
                 {
-                    var accessToken = context.SecurityToken as JwtSecurityToken;
-                    if (accessToken == null)
+                    if (context.SecurityToken is not JwtSecurityToken accessToken)
                     {
                         return Task.CompletedTask;
                     }
