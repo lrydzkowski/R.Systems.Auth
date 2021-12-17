@@ -40,7 +40,7 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
 
         public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
         {
-            User user = new();
+            User? user = new();
             bool isUpdate = userId != null;
             if (isUpdate)
             {
@@ -52,6 +52,10 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                         Roles = user.Roles.Select(role => new Role { Id = role.Id }).ToList()
                     })
                     .FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    throw new ArgumentException($"User with Userid = {userId} doesn't exist");
+                }
                 DbContext.Attach(user);
             }
             if (editUserDto.Email != null)
