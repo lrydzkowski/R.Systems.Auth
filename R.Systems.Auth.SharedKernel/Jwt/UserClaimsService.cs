@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 
-namespace R.Systems.Auth.WebApi.Services
+namespace R.Systems.Auth.SharedKernel.Jwt
 {
     public class UserClaimsService : IDependencyInjectionScoped
     {

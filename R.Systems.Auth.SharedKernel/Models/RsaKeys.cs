@@ -1,7 +1,7 @@
 ﻿using R.Systems.Auth.SharedKernel.Interfaces;
 using System.IO;
 
-namespace R.Systems.Auth.SharedKernel.Services
+namespace R.Systems.Auth.SharedKernel.Models
 {
     public class RsaKeys : IRsaKeys
     {
