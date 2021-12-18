@@ -1,7 +1,0 @@
-﻿POST http://localhost:26169/users/authenticate
-content-type: application/json
-
-{
-  "Email": "admin@lukaszrydzkowski.pl",
-  "Password": ""
-}
