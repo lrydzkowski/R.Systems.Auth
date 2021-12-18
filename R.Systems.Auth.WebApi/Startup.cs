@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using R.Systems.Auth.SharedKernel.Middlewares;
 using R.Systems.Auth.WebApi.DependencyInjection;
 
 namespace R.Systems.Auth
@@ -24,9 +25,10 @@ namespace R.Systems.Auth
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSharedKernelExceptionHandler();
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "R.Systems.Auth v1"));
             }
