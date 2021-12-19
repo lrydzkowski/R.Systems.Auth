@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using R.Systems.Auth.SharedKernel.Serilog;
+using Serilog;
+using System;
 
 namespace R.Systems.Auth
 {
@@ -7,11 +10,26 @@ namespace R.Systems.Auth
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            Log.Logger = SerilogConfiguration.CreateBootstrapLogger();
+            Log.Information("Starting up!");
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+                Log.Information("Stopped cleanly");
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "An unhandled exception occured during bootstrapping");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UserSerilogWithStandardConfiguration()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
