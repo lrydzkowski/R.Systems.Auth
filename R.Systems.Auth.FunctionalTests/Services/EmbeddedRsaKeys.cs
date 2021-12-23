@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.SharedKernel.Interfaces;
+﻿using R.Systems.Shared.Core.Interfaces;
 using System.IO;
 using System.Reflection;
 

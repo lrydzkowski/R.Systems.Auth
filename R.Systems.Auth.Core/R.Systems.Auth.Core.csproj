@@ -4,17 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>1.0.0</Version>
+    <Version>1.0.0-preview.1</Version>
+    <Authors>lrydzkowski</Authors>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\R.Systems.Auth.SharedKernel\R.Systems.Auth.SharedKernel.csproj" />
+    <PackageReference Include="R.Systems.Shared.Core" Version="1.0.0-preview.1" />
   </ItemGroup>
 
 </Project>

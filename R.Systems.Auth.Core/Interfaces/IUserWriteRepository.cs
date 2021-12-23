@@ -1,5 +1,5 @@
 ﻿using R.Systems.Auth.Core.Models;
-using R.Systems.Auth.SharedKernel.Validation;
+using R.Systems.Shared.Core.Validation;
 using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Interfaces

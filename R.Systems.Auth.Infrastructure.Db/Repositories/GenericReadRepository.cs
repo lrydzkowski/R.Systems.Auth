@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using R.Systems.Auth.SharedKernel.Interfaces;
+using R.Systems.Shared.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

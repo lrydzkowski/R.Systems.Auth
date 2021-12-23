@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.SharedKernel.Interfaces;
+﻿using R.Systems.Shared.Core.Interfaces;
 using System.Reflection;
 
 namespace R.Systems.Auth.WebApi.Features.Version

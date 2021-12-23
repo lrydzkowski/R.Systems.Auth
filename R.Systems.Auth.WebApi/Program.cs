@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using R.Systems.Auth.SharedKernel.Serilog;
+using R.Systems.Shared.WebApi.Serilog;
 using Serilog;
 using System;
 

@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.SharedKernel.Interfaces;
+﻿using R.Systems.Shared.Core.Interfaces;
 using System.Collections.Generic;
 
 namespace R.Systems.Auth.Core.Models

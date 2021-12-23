@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using R.Systems.Auth.SharedKernel.Middlewares;
 using R.Systems.Auth.WebApi.DependencyInjection;
+using R.Systems.Shared.WebApi.Middlewares;
 
 namespace R.Systems.Auth
 {

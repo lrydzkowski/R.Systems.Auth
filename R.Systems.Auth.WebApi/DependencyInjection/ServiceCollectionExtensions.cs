@@ -3,10 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using R.Systems.Auth.Core.DependencyInjection;
 using R.Systems.Auth.Infrastructure.Db.DependencyInjection;
-using R.Systems.Auth.SharedKernel.DependencyInjection;
-using R.Systems.Auth.SharedKernel.Interfaces;
-using R.Systems.Auth.SharedKernel.Models;
 using R.Systems.Auth.WebApi.Settings;
+using R.Systems.Shared.Core.DependencyInjection;
+using R.Systems.Shared.Core.Interfaces;
+using R.Systems.Shared.Core.Models;
+using R.Systems.Shared.WebApi.DependencyInjection;
 
 namespace R.Systems.Auth.WebApi.DependencyInjection
 {

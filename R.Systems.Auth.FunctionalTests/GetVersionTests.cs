@@ -32,7 +32,7 @@ namespace R.Systems.Auth.FunctionalTests
             GetVersionResponse? parsedResponse = JsonSerializer.Deserialize<GetVersionResponse>(
                 responseContent, jsonSerializerOptions
             );
-            Assert.Equal(expectedResponse.Version, parsedResponse?.Version);
+            Assert.StartsWith(expectedResponse.Version, parsedResponse?.Version);
         }
     }
 }

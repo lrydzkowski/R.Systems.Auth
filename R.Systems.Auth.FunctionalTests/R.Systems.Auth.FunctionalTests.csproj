@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>1.0.0-preview.1</Version>
+    <Authors>lrydzkowski</Authors>
   </PropertyGroup>
 
   <ItemGroup>

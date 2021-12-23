@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.Core.Services;
-using R.Systems.Auth.SharedKernel.Jwt;
-using R.Systems.Auth.SharedKernel.Validation;
 using R.Systems.Auth.WebApi.Features.User;
+using R.Systems.Shared.Core.Validation;
+using R.Systems.Shared.WebApi.Jwt;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

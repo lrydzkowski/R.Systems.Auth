@@ -1,5 +1,5 @@
 ﻿using R.Systems.Auth.Core.Models;
-using R.Systems.Auth.SharedKernel.Interfaces;
+using R.Systems.Shared.Core.Interfaces;
 using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Interfaces

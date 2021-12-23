@@ -1,7 +1,7 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
-using R.Systems.Auth.SharedKernel.Interfaces;
-using R.Systems.Auth.SharedKernel.Validation;
+using R.Systems.Shared.Core.Interfaces;
+using R.Systems.Shared.Core.Validation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

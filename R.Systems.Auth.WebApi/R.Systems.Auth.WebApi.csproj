@@ -4,13 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>1.0.0</Version>
+    <Version>1.0.0-preview.1</Version>
     <UserSecretsId>a041ab0e-3020-4c55-be05-ad5ac98097d8</UserSecretsId>
+    <Authors>lrydzkowski</Authors>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\R.Systems.Auth.Core\R.Systems.Auth.Core.csproj" />
@@ -20,6 +17,10 @@
   <ItemGroup>
     <Content Remove="logs\**" />
     <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="R.Systems.Shared.WebApi" Version="1.0.0-preview.1" />
   </ItemGroup>
 
 </Project>

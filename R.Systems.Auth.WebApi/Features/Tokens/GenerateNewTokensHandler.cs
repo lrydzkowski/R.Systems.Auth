@@ -1,7 +1,7 @@
 ﻿using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.Core.Services;
-using R.Systems.Auth.SharedKernel.Interfaces;
 using R.Systems.Auth.WebApi.Services;
+using R.Systems.Shared.Core.Interfaces;
 using System.Threading.Tasks;
 
 namespace R.Systems.Auth.WebApi.Features.Tokens

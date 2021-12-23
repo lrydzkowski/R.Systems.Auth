@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
-using R.Systems.Auth.SharedKernel.Interfaces;
+using R.Systems.Shared.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
