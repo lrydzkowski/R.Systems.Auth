@@ -20,7 +20,7 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
             OverrideConfiguration(builder);
             builder.ConfigureServices(services =>
             {
-                ReplaceIPrivateKeyLoader(services);
+                ReplaceIRsaKeysLoader(services);
                 ReplaceDbContext(services);
             });
         }
@@ -39,7 +39,7 @@ namespace R.Systems.Auth.FunctionalTests.Initializers
             });
         }
 
-        private void ReplaceIPrivateKeyLoader(IServiceCollection services)
+        private void ReplaceIRsaKeysLoader(IServiceCollection services)
         {
             RemoveService(services, typeof(IRsaKeys));
             services.AddSingleton<IRsaKeys, EmbeddedRsaKeys>();
