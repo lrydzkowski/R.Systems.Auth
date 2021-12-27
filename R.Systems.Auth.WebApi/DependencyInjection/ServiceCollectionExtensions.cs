@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using R.Systems.Auth.Core.DependencyInjection;
 using R.Systems.Auth.Infrastructure.Db.DependencyInjection;
 using R.Systems.Auth.WebApi.Settings;
@@ -20,7 +18,7 @@ namespace R.Systems.Auth.WebApi.DependencyInjection
             services.AddInfrastructureDbServices(configuration["DbConnectionString"]);
             services.AddSettingsServices(configuration);
             services.AddJwtServices();
-            services.AddSwaggerServices();
+            services.AddSwaggerServices(swaggerPageTitle: "R.Systems.Auth.WebApi");
         }
 
         private static void AddSettingsServices(this IServiceCollection services, IConfiguration configuration)

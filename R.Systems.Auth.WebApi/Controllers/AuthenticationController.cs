@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Auth.WebApi.Features.Tokens;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.WebApi.Controllers
 {

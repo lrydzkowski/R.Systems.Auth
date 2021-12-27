@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.Core.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.WebApi.Controllers
 {

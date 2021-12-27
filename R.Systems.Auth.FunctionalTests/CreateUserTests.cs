@@ -3,6 +3,7 @@ using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
+using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Auth.WebApi.Features.User;
 using R.Systems.Shared.Core.Validation;
@@ -15,9 +16,9 @@ using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests
 {
-    public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
-        public CreateUserTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public CreateUserTests(CustomWebApplicationFactory<Program> webApplicationFactory)
         {
             HttpClient = webApplicationFactory.CreateClient();
             RequestService = new RequestService();

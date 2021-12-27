@@ -3,6 +3,7 @@ using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
+using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Shared.Core.Validation;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests
 {
-    public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
-        public DeleteUserTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public DeleteUserTests(CustomWebApplicationFactory<Program> webApplicationFactory)
         {
             HttpClient = webApplicationFactory.CreateClient();
             RequestService = new RequestService();

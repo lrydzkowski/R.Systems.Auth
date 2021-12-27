@@ -1,4 +1,5 @@
 ﻿using R.Systems.Auth.FunctionalTests.Initializers;
+using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Version;
 using System.Net.Http;
 using System.Text.Json;
@@ -7,11 +8,11 @@ using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests
 {
-    public class GetVersionTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class GetVersionTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly HttpClient _httpClient;
 
-        public GetVersionTests(CustomWebApplicationFactory<Startup> webApplicationFactory)
+        public GetVersionTests(CustomWebApplicationFactory<Program> webApplicationFactory)
         {
             _httpClient = webApplicationFactory.CreateClient();
         }
