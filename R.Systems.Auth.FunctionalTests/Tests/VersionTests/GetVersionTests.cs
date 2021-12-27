@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace R.Systems.Auth.FunctionalTests
+namespace R.Systems.Auth.FunctionalTests.Tests.VersionTests
 {
     public class GetVersionTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {

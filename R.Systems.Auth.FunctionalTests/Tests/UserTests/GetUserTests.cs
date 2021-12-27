@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace R.Systems.Auth.FunctionalTests
+namespace R.Systems.Auth.FunctionalTests.Tests.UserTests
 {
     public class GetUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
