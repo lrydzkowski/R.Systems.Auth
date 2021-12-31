@@ -7,7 +7,7 @@
         {
             get
             {
-                return _email.Trim();
+                return _email?.Trim() ?? "";
             }
             init
             {
@@ -20,7 +20,7 @@
         {
             get
             {
-                return _password.Trim();
+                return _password?.Trim() ?? "";
             }
             init
             {
