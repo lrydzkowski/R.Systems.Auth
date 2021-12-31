@@ -32,24 +32,36 @@ namespace R.Systems.Auth.Infrastructure.Db.Repositories
                 .ToList()
         };
 
+        protected Expression<Func<User, User>> UserForAuthentication { get; } = user => new User()
+        {
+            Id = user.Id,
+            Email = user.Email,
+            PasswordHash = user.PasswordHash,
+            Roles = user.Roles
+                .Select(role => new Role()
+                {
+                    Id = role.Id,
+                    RoleKey = role.RoleKey
+                })
+                .ToList()
+        };
+
         public async Task<User?> GetUserForAuthenticationAsync(string email)
         {
             User? user = await DbContext.Users
                 .AsNoTracking()
                 .Where(user => user.Email == email)
-                .Select(user => new User()
-                {
-                    Id = user.Id,
-                    Email = email,
-                    PasswordHash = user.PasswordHash,
-                    Roles = user.Roles
-                        .Select(role => new Role()
-                        {
-                            Id = role.Id,
-                            RoleKey = role.RoleKey
-                        })
-                        .ToList()
-                })
+                .Select(UserForAuthentication)
+                .FirstOrDefaultAsync();
+            return user;
+        }
+
+        public async Task<User?> GetUserForAuthenticationAsync(long userId)
+        {
+            User? user = await DbContext.Users
+                .AsNoTracking()
+                .Where(user => user.Id == userId)
+                .Select(UserForAuthentication)
                 .FirstOrDefaultAsync();
             return user;
         }

@@ -12,16 +12,19 @@ namespace R.Systems.Auth.Core.Validators
         public UserWriteValidator(
             IUserReadRepository userReadRepository,
             IRoleReadRepository roleReadRepository,
-            ValidationResult validationResult)
+            ValidationResult validationResult,
+            IPasswordHasher passwordHasher)
         {
             UserReadRepository = userReadRepository;
             RoleReadRepository = roleReadRepository;
             ValidationResult = validationResult;
+            PasswordHasher = passwordHasher;
         }
 
         public IUserReadRepository UserReadRepository { get; }
         public IRoleReadRepository RoleReadRepository { get; }
         public ValidationResult ValidationResult { get; }
+        public IPasswordHasher PasswordHasher { get; }
 
         public async Task<bool> ValidateWriteAsync(EditUserDto editUserDto, long? userId = null)
         {
@@ -44,6 +47,17 @@ namespace R.Systems.Auth.Core.Validators
             bool result = true;
             result &= await ValidateUserIdAsync(userId);
             result &= ValidateAuthorizedUserId(userId, authorizedUserId);
+            return result;
+        }
+
+        public async Task<bool> ValidateChangePasswordAsync(
+            long userId, string oldPassword, string newPassword, string repeatedNewPassword)
+        {
+            bool result = true;
+            result &= await ValidateUserIdAsync(userId);
+            result &= await ValidateUserPasswordAsync(userId, oldPassword);
+            result &= ValidateNewPasswords(newPassword, repeatedNewPassword);
+            result &= ValidatePassword(newPassword, isUpdate: false);
             return result;
         }
 
@@ -195,6 +209,36 @@ namespace R.Systems.Auth.Core.Validators
                 result = false;
             }
             return result;
+        }
+
+        private async Task<bool> ValidateUserPasswordAsync(long userId, string password)
+        {
+            User? user = await UserReadRepository.GetUserForAuthenticationAsync(userId);
+            if (user == null)
+            {
+                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "NotExist", elementKey: "User"));
+                return false;
+            }
+            if (user.PasswordHash == null)
+            {
+                return true;
+            }
+            if (!PasswordHasher.VerifyPasswordHash(password, user.PasswordHash))
+            {
+                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "WrongPassword", elementKey: "User"));
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateNewPasswords(string newPassword, string repeatedNewPassword)
+        {
+            if (newPassword != repeatedNewPassword)
+            {
+                ValidationResult.Errors.Add(new ErrorInfo(errorKey: "DifferentValues", elementKey: "Passwords"));
+                return false;
+            }
+            return true;
         }
     }
 }

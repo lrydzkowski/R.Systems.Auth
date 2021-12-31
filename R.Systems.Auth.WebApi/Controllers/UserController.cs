@@ -82,5 +82,19 @@ namespace R.Systems.Auth.WebApi.Controllers
             }
             return Ok();
         }
+
+        [HttpPost, Route("change-password"), Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+        {
+            long userId = UserClaimsService.GetUserId();
+            bool result = await UserWriteService.ChangeUserPasswordAsync(
+                userId, request.OldPassword, request.NewPassword, request.RepeatedNewPassword
+            );
+            if (!result)
+            {
+                return BadRequest(ValidationResult.Errors);
+            }
+            return Ok();
+        }
     }
 }

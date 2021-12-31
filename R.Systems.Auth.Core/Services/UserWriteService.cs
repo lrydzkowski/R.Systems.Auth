@@ -18,6 +18,20 @@ namespace R.Systems.Auth.Core.Services
         public IUserWriteRepository UserWriteRepository { get; }
         public UserWriteValidator UserWriteValidator { get; }
 
+        public async Task<bool> ChangeUserPasswordAsync(
+            long userId, string oldPassword, string newPassword, string repeatedNewPassword)
+        {
+            bool validationResult = await UserWriteValidator.ValidateChangePasswordAsync(
+                userId, oldPassword, newPassword, repeatedNewPassword
+            );
+            if (!validationResult)
+            {
+                return false;
+            }
+            OperationResult<long> editResult = await EditUserAsync(new EditUserDto { Password = newPassword }, userId);
+            return editResult.Result;
+        }
+
         public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
         {
             bool validationResult = await UserWriteValidator.ValidateWriteAsync(editUserDto, userId);
