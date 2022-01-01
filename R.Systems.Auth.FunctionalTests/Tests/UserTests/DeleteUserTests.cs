@@ -100,7 +100,7 @@ public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program
     }
 
     [Theory]
-    [MemberData(nameof(DeleteUserIncorrectDataParameters))]
+    [MemberData(nameof(GetParametersFor_DeleteUser_IncorrectData))]
     public async Task DeleteUser_IncorrectData_ReturnsErrorsList(
         UserInfo userToLogin, long userIdToDelete, List<ErrorInfo> expectedErrors)
     {
@@ -124,29 +124,29 @@ public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program
         deleteUserErrorResponse.Should().BeEquivalentTo(expectedErrors);
     }
 
-    public static IEnumerable<object[]> DeleteUserIncorrectDataParameters()
+    public static IEnumerable<object[]> GetParametersFor_DeleteUser_IncorrectData()
     {
         UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
         return new List<object[]>
+        {
+            new object[]
             {
-                new object[]
+                user,
+                999,
+                new List<ErrorInfo>()
                 {
-                    user,
-                    999,
-                    new List<ErrorInfo>()
-                    {
-                        new ErrorInfo(errorKey: "NotExist", elementKey: "UserId")
-                    }
-                },
-                new object[]
-                {
-                    user,
-                    user.Id,
-                    new List<ErrorInfo>()
-                    {
-                        new ErrorInfo(errorKey: "CannotDeleteYourself", elementKey: "UserId")
-                    }
+                    new ErrorInfo(errorKey: "NotExist", elementKey: "UserId")
                 }
-            };
+            },
+            new object[]
+            {
+                user,
+                user.Id,
+                new List<ErrorInfo>()
+                {
+                    new ErrorInfo(errorKey: "CannotDeleteYourself", elementKey: "UserId")
+                }
+            }
+        };
     }
 }

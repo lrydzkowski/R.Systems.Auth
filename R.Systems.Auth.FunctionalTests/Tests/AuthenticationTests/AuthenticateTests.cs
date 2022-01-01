@@ -72,7 +72,7 @@ public class AuthenticateTests : IClassFixture<CustomWebApplicationFactory<Progr
     }
 
     [Theory]
-    [MemberData(nameof(GetLoginCorrectDataParameters))]
+    [MemberData(nameof(GetParametersFor_Authenticate_CorrectData))]
     public async Task Authenticate_CorrectData_GetTokens(string email, string password)
     {
         AuthenticateRequest request = new()
@@ -94,27 +94,27 @@ public class AuthenticateTests : IClassFixture<CustomWebApplicationFactory<Progr
         Assert.False(string.IsNullOrEmpty(response?.RefreshToken));
     }
 
-    public static IEnumerable<object[]> GetLoginCorrectDataParameters()
+    public static IEnumerable<object[]> GetParametersFor_Authenticate_CorrectData()
     {
         Users users = new();
         return new List<object[]>
+        {
+            new object[]
             {
-                new object[]
-                {
-                    users.Data["test@lukaszrydzkowski.pl"].Email,
-                    users.Data["test@lukaszrydzkowski.pl"].Password
-                },
-                new object[]
-                {
-                    users.Data["test2@lukaszrydzkowski.pl"].Email,
-                    ""
-                },
-                new object[]
-                {
-                    $" {users.Data["test2@lukaszrydzkowski.pl"].Email} ",
-                    $" {users.Data["test2@lukaszrydzkowski.pl"].Password} "
-                }
-            };
+                users.Data["test@lukaszrydzkowski.pl"].Email,
+                users.Data["test@lukaszrydzkowski.pl"].Password
+            },
+            new object[]
+            {
+                users.Data["test2@lukaszrydzkowski.pl"].Email,
+                ""
+            },
+            new object[]
+            {
+                $" {users.Data["test2@lukaszrydzkowski.pl"].Email} ",
+                $" {users.Data["test2@lukaszrydzkowski.pl"].Password} "
+            }
+        };
     }
 
     [Fact]
