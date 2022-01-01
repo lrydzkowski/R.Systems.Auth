@@ -19,10 +19,10 @@ public class UserWriteService : IDependencyInjectionScoped
     public UserWriteValidator UserWriteValidator { get; }
 
     public async Task<bool> ChangeUserPasswordAsync(
-        long userId, string oldPassword, string newPassword, string repeatedNewPassword)
+        long userId, string currentPassword, string newPassword, string repeatedNewPassword)
     {
         bool validationResult = await UserWriteValidator.ValidateChangePasswordAsync(
-            userId, oldPassword, newPassword, repeatedNewPassword
+            userId, currentPassword, newPassword, repeatedNewPassword
         );
         if (!validationResult)
         {

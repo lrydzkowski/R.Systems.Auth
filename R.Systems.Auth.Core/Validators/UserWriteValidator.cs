@@ -51,11 +51,11 @@ public class UserWriteValidator : IDependencyInjectionScoped
     }
 
     public async Task<bool> ValidateChangePasswordAsync(
-        long userId, string oldPassword, string newPassword, string repeatedNewPassword)
+        long userId, string currentPassword, string newPassword, string repeatedNewPassword)
     {
         bool result = true;
         result &= await ValidateUserIdAsync(userId);
-        result &= await ValidateUserPasswordAsync(userId, oldPassword);
+        result &= await ValidateUserPasswordAsync(userId, currentPassword);
         result &= ValidateNewPasswords(newPassword, repeatedNewPassword);
         result &= ValidatePassword(newPassword, isUpdate: false);
         return result;

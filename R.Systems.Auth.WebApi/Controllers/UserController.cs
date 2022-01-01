@@ -88,7 +88,7 @@ public class UserController : ControllerBase
     {
         long userId = UserClaimsService.GetUserId();
         bool result = await UserWriteService.ChangeUserPasswordAsync(
-            userId, request.OldPassword, request.NewPassword, request.RepeatedNewPassword
+            userId, request.CurrentPassword, request.NewPassword, request.RepeatedNewPassword
         );
         if (!result)
         {

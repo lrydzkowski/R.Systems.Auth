@@ -56,7 +56,7 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         );
         ChangePasswordRequest changePasswordRequest = new()
         {
-            OldPassword = user.Password,
+            CurrentPassword = user.Password,
             NewPassword = newPassword,
             RepeatedNewPassword = newPassword
         };
@@ -98,7 +98,7 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         );
         ChangePasswordRequest changePasswordRequest = new()
         {
-            OldPassword = oldPassword ?? user.Password,
+            CurrentPassword = oldPassword ?? user.Password,
             NewPassword = newPassword,
             RepeatedNewPassword = repeatedNewPassword
         };
