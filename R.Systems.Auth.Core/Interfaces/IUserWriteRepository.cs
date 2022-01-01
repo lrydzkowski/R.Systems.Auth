@@ -2,14 +2,13 @@
 using R.Systems.Shared.Core.Validation;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Core.Interfaces
+namespace R.Systems.Auth.Core.Interfaces;
+
+public interface IUserWriteRepository
 {
-    public interface IUserWriteRepository
-    {
-        Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes);
+    Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes);
 
-        Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null);
+    Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null);
 
-        Task DeleteUserAsync(long userId);
-    }
+    Task DeleteUserAsync(long userId);
 }

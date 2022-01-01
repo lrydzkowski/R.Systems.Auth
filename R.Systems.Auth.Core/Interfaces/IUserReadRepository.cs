@@ -2,18 +2,17 @@
 using R.Systems.Shared.Core.Interfaces;
 using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Core.Interfaces
+namespace R.Systems.Auth.Core.Interfaces;
+
+public interface IUserReadRepository : IGenericReadRepository<User>
 {
-    public interface IUserReadRepository : IGenericReadRepository<User>
-    {
-        Task<User?> GetUserForAuthenticationAsync(string email);
+    Task<User?> GetUserForAuthenticationAsync(string email);
 
-        Task<User?> GetUserForAuthenticationAsync(long userId);
+    Task<User?> GetUserForAuthenticationAsync(long userId);
 
-        Task<User?> GetUserWithRefreshTokenAsync(string refreshToken);
+    Task<User?> GetUserWithRefreshTokenAsync(string refreshToken);
 
-        Task<bool> UserExistsAsync(string email, long? userId = null);
+    Task<bool> UserExistsAsync(string email, long? userId = null);
 
-        Task<bool> UserExistsAsync(long userId);
-    }
+    Task<bool> UserExistsAsync(long userId);
 }

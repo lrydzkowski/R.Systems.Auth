@@ -14,129 +14,129 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace R.Systems.Auth.FunctionalTests.Tests.UserTests
+namespace R.Systems.Auth.FunctionalTests.Tests.UserTests;
+
+public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    public CreateUserTests(CustomWebApplicationFactory<Program> webApplicationFactory)
     {
-        public CreateUserTests(CustomWebApplicationFactory<Program> webApplicationFactory)
-        {
-            HttpClient = webApplicationFactory.CreateClient();
-            RequestService = new RequestService();
-            Authenticator = new Authenticator(RequestService);
-        }
+        HttpClient = webApplicationFactory.CreateClient();
+        RequestService = new RequestService();
+        Authenticator = new Authenticator(RequestService);
+    }
 
-        public HttpClient HttpClient { get; }
-        public RequestService RequestService { get; }
-        public Authenticator Authenticator { get; }
-        public string UsersUrl { get; } = "/users";
-        private string AuthenticateUrl { get; } = "/users/authenticate";
+    public HttpClient HttpClient { get; }
+    public RequestService RequestService { get; }
+    public Authenticator Authenticator { get; }
+    public string UsersUrl { get; } = "/users";
+    private string AuthenticateUrl { get; } = "/users/authenticate";
 
-        [Fact]
-        public async Task CreateUser_WithoutAuthenticationToken_Unauthorized()
-        {
-            EditUserDto editUserDto = new();
+    [Fact]
+    public async Task CreateUser_WithoutAuthenticationToken_Unauthorized()
+    {
+        EditUserDto editUserDto = new();
 
-            (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<EditUserDto, object>(
-                UsersUrl,
-                editUserDto,
-                HttpClient
-            );
+        (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<EditUserDto, object>(
+            UsersUrl,
+            editUserDto,
+            HttpClient
+        );
 
-            Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
-        }
+        Assert.Equal(HttpStatusCode.Unauthorized, httpStatusCode);
+    }
 
-        [Fact]
-        public async Task CreateUser_UserWithoutRoleAdmin_Forbidden()
-        {
-            UserInfo user = new Users().Data["test4@lukaszrydzkowski.pl"];
-            AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(
-                HttpClient,
-                new AuthenticateRequest
-                {
-                    Email = user.Email,
-                    Password = user.Password
-                }
-            );
-            EditUserDto editUserDto = new();
+    [Fact]
+    public async Task CreateUser_UserWithoutRoleAdmin_Forbidden()
+    {
+        UserInfo user = new Users().Data["test4@lukaszrydzkowski.pl"];
+        AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(
+            HttpClient,
+            new AuthenticateRequest
+            {
+                Email = user.Email,
+                Password = user.Password
+            }
+        );
+        EditUserDto editUserDto = new();
 
-            (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<EditUserDto, object>(
+        (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<EditUserDto, object>(
+            UsersUrl,
+            editUserDto,
+            HttpClient,
+            authenticateResponse.AccessToken
+        );
+
+        Assert.Equal(HttpStatusCode.Forbidden, httpStatusCode);
+    }
+
+    [Theory]
+    [MemberData(nameof(CreateUserCorrectDataParameters))]
+    public async Task CreateUser_CorrectData_ReturnsOk(EditUserDto editUserDto)
+    {
+        UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
+        AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(
+            HttpClient,
+            new AuthenticateRequest
+            {
+                Email = user.Email,
+                Password = user.Password
+            }
+        );
+        List<RoleDto> roles = new Roles().Data
+            .Select(x => new RoleDto()
+            {
+                RoleId = x.Value.Id,
+                RoleKey = x.Value.RoleKey,
+                Name = x.Value.Name,
+                Description = x.Value.Description
+            })
+            .ToList();
+
+        (HttpStatusCode createUserHttpStatusCode, CreateUserResponse? createUserResponse) =
+            await RequestService.SendPostAsync<EditUserDto, CreateUserResponse>(
                 UsersUrl,
                 editUserDto,
                 HttpClient,
                 authenticateResponse.AccessToken
             );
+        AuthenticateResponse newUserAuthenticateResponse = await Authenticator.AuthenticateAsync(
+            HttpClient,
+            new AuthenticateRequest
+            {
+                Email = editUserDto.Email ?? "",
+                Password = editUserDto.Password ?? ""
+            }
+        );
+        (HttpStatusCode getUserHttpStatusCode, UserDto? userDto) = await RequestService.SendGetAsync<UserDto>(
+            $"{UsersUrl}/{createUserResponse?.UserId}",
+            HttpClient,
+            authenticateResponse.AccessToken
+        );
 
-            Assert.Equal(HttpStatusCode.Forbidden, httpStatusCode);
-        }
+        Assert.Equal(HttpStatusCode.OK, createUserHttpStatusCode);
+        Assert.NotNull(createUserResponse);
+        Assert.False(string.IsNullOrEmpty(newUserAuthenticateResponse?.AccessToken));
+        Assert.False(string.IsNullOrEmpty(newUserAuthenticateResponse?.RefreshToken));
+        Assert.Equal(HttpStatusCode.OK, getUserHttpStatusCode);
+        Assert.NotNull(userDto);
+        userDto.Should()
+            .BeEquivalentTo(new UserDto
+            {
+                UserId = createUserResponse?.UserId ?? 0,
+                Email = editUserDto.Email ?? "",
+                FirstName = editUserDto.FirstName ?? "",
+                LastName = editUserDto.LastName ?? "",
+                Roles = editUserDto.RoleIds == null
+                    ? new List<RoleDto>()
+                    : roles.Where(x => editUserDto.RoleIds.Contains(x.RoleId)).ToList()
+            });
+    }
 
-        [Theory]
-        [MemberData(nameof(CreateUserCorrectDataParameters))]
-        public async Task CreateUser_CorrectData_ReturnsOk(EditUserDto editUserDto)
-        {
-            UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
-            AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(
-                HttpClient,
-                new AuthenticateRequest
-                {
-                    Email = user.Email,
-                    Password = user.Password
-                }
-            );
-            List<RoleDto> roles = new Roles().Data
-                .Select(x => new RoleDto()
-                {
-                    RoleId = x.Value.Id,
-                    RoleKey = x.Value.RoleKey,
-                    Name = x.Value.Name,
-                    Description = x.Value.Description
-                })
-                .ToList();
-
-            (HttpStatusCode createUserHttpStatusCode, CreateUserResponse? createUserResponse) =
-                await RequestService.SendPostAsync<EditUserDto, CreateUserResponse>(
-                    UsersUrl,
-                    editUserDto,
-                    HttpClient,
-                    authenticateResponse.AccessToken
-                );
-            AuthenticateResponse newUserAuthenticateResponse = await Authenticator.AuthenticateAsync(
-                HttpClient,
-                new AuthenticateRequest
-                {
-                    Email = editUserDto.Email ?? "",
-                    Password = editUserDto.Password ?? ""
-                }
-            );
-            (HttpStatusCode getUserHttpStatusCode, UserDto? userDto) = await RequestService.SendGetAsync<UserDto>(
-                $"{UsersUrl}/{createUserResponse?.UserId}",
-                HttpClient,
-                authenticateResponse.AccessToken
-            );
-
-            Assert.Equal(HttpStatusCode.OK, createUserHttpStatusCode);
-            Assert.NotNull(createUserResponse);
-            Assert.False(string.IsNullOrEmpty(newUserAuthenticateResponse?.AccessToken));
-            Assert.False(string.IsNullOrEmpty(newUserAuthenticateResponse?.RefreshToken));
-            Assert.Equal(HttpStatusCode.OK, getUserHttpStatusCode);
-            Assert.NotNull(userDto);
-            userDto.Should()
-                .BeEquivalentTo(new UserDto
-                {
-                    UserId = createUserResponse?.UserId ?? 0,
-                    Email = editUserDto.Email ?? "",
-                    FirstName = editUserDto.FirstName ?? "",
-                    LastName = editUserDto.LastName ?? "",
-                    Roles = editUserDto.RoleIds == null
-                        ? new List<RoleDto>()
-                        : roles.Where(x => editUserDto.RoleIds.Contains(x.RoleId)).ToList()
-                });
-        }
-
-        public static IEnumerable<object[]> CreateUserCorrectDataParameters()
-        {
-            Role adminRole = new Roles().Data["admin"];
-            Role userRole = new Roles().Data["user"];
-            return new List<object[]>
+    public static IEnumerable<object[]> CreateUserCorrectDataParameters()
+    {
+        Role adminRole = new Roles().Data["admin"];
+        Role userRole = new Roles().Data["user"];
+        return new List<object[]>
             {
                 new object[]
                 {
@@ -172,51 +172,51 @@ namespace R.Systems.Auth.FunctionalTests.Tests.UserTests
                     }
                 }
             };
-        }
+    }
 
-        [Theory]
-        [MemberData(nameof(CreateUserIncorrectDataParameters))]
-        public async Task CreateUser_IncorrectData_ReturnsErrorsList(
-            EditUserDto editUserDto,
-            List<ErrorInfo> expectedErrors)
-        {
-            UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
-            AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(
+    [Theory]
+    [MemberData(nameof(CreateUserIncorrectDataParameters))]
+    public async Task CreateUser_IncorrectData_ReturnsErrorsList(
+        EditUserDto editUserDto,
+        List<ErrorInfo> expectedErrors)
+    {
+        UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
+        AuthenticateResponse authenticateResponse = await Authenticator.AuthenticateAsync(
+            HttpClient,
+            new AuthenticateRequest
+            {
+                Email = user.Email,
+                Password = user.Password
+            }
+        );
+
+        (HttpStatusCode createUserHttpStatusCode, List<ErrorInfo>? createUserErrorResponse) =
+            await RequestService.SendPostAsync<EditUserDto, List<ErrorInfo>>(
+                UsersUrl,
+                editUserDto,
                 HttpClient,
+                authenticateResponse.AccessToken
+            );
+        (HttpStatusCode authenticateHttpStatusCode, _) = await RequestService.SendPostAsync
+            <AuthenticateRequest, AuthenticateResponse>(
+                AuthenticateUrl,
                 new AuthenticateRequest
                 {
-                    Email = user.Email,
-                    Password = user.Password
-                }
+                    Email = editUserDto.Email ?? "",
+                    Password = editUserDto.Password ?? ""
+                },
+                HttpClient
             );
 
-            (HttpStatusCode createUserHttpStatusCode, List<ErrorInfo>? createUserErrorResponse) =
-                await RequestService.SendPostAsync<EditUserDto, List<ErrorInfo>>(
-                    UsersUrl,
-                    editUserDto,
-                    HttpClient,
-                    authenticateResponse.AccessToken
-                );
-            (HttpStatusCode authenticateHttpStatusCode, _) = await RequestService.SendPostAsync
-                <AuthenticateRequest, AuthenticateResponse>(
-                    AuthenticateUrl,
-                    new AuthenticateRequest
-                    {
-                        Email = editUserDto.Email ?? "",
-                        Password = editUserDto.Password ?? ""
-                    },
-                    HttpClient
-                );
+        Assert.Equal(HttpStatusCode.BadRequest, createUserHttpStatusCode);
+        createUserErrorResponse.Should().BeEquivalentTo(expectedErrors);
+        Assert.Equal(HttpStatusCode.Unauthorized, authenticateHttpStatusCode);
+    }
 
-            Assert.Equal(HttpStatusCode.BadRequest, createUserHttpStatusCode);
-            createUserErrorResponse.Should().BeEquivalentTo(expectedErrors);
-            Assert.Equal(HttpStatusCode.Unauthorized, authenticateHttpStatusCode);
-        }
-
-        public static IEnumerable<object[]> CreateUserIncorrectDataParameters()
-        {
-            Role adminRole = new Roles().Data["admin"];
-            return new List<object[]>
+    public static IEnumerable<object[]> CreateUserIncorrectDataParameters()
+    {
+        Role adminRole = new Roles().Data["admin"];
+        return new List<object[]>
             {
                 new object[]
                 {
@@ -543,6 +543,5 @@ namespace R.Systems.Auth.FunctionalTests.Tests.UserTests
                     }
                 }
             };
-        }
     }
 }

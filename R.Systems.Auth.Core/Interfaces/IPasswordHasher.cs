@@ -1,9 +1,8 @@
-﻿namespace R.Systems.Auth.Core.Interfaces
-{
-    public interface IPasswordHasher
-    {
-        string CreatePasswordHash(string password);
+﻿namespace R.Systems.Auth.Core.Interfaces;
 
-        bool VerifyPasswordHash(string password, string passwordHash);
-    }
+public interface IPasswordHasher
+{
+    string CreatePasswordHash(string password);
+
+    bool VerifyPasswordHash(string password, string passwordHash);
 }

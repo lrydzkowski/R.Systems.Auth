@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace R.Systems.Auth.Core.Interfaces
+namespace R.Systems.Auth.Core.Interfaces;
+
+public interface IRoleReadRepository
 {
-    public interface IRoleReadRepository
-    {
-        Task<bool> RoleExistsAsync(long roleId);
-    }
+    Task<bool> RoleExistsAsync(long roleId);
 }

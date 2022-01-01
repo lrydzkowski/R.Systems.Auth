@@ -1,7 +1,6 @@
-﻿namespace R.Systems.Auth.WebApi.Features.Tokens
+﻿namespace R.Systems.Auth.WebApi.Features.Tokens;
+
+public class GenerateNewTokensRequest
 {
-    public class GenerateNewTokensRequest
-    {
-        public string RefreshToken { get; init; } = "";
-    }
+    public string RefreshToken { get; init; } = "";
 }

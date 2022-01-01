@@ -1,9 +1,8 @@
-﻿namespace R.Systems.Auth.WebApi.Features.Authentication
-{
-    public class AuthenticateResponse
-    {
-        public string AccessToken { get; init; } = "";
+﻿namespace R.Systems.Auth.WebApi.Features.Authentication;
 
-        public string RefreshToken { get; set; } = "";
-    }
+public class AuthenticateResponse
+{
+    public string AccessToken { get; init; } = "";
+
+    public string RefreshToken { get; set; } = "";
 }

@@ -1,17 +1,16 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
 
-namespace R.Systems.Auth.Core.Services
-{
-    public class PasswordHasher : IPasswordHasher
-    {
-        public string CreatePasswordHash(string password)
-        {
-            return BCrypt.Net.BCrypt.EnhancedHashPassword(password, hashType: BCrypt.Net.HashType.SHA384);
-        }
+namespace R.Systems.Auth.Core.Services;
 
-        public bool VerifyPasswordHash(string password, string passwordHash)
-        {
-            return BCrypt.Net.BCrypt.EnhancedVerify(password, passwordHash, hashType: BCrypt.Net.HashType.SHA384);
-        }
+public class PasswordHasher : IPasswordHasher
+{
+    public string CreatePasswordHash(string password)
+    {
+        return BCrypt.Net.BCrypt.EnhancedHashPassword(password, hashType: BCrypt.Net.HashType.SHA384);
+    }
+
+    public bool VerifyPasswordHash(string password, string passwordHash)
+    {
+        return BCrypt.Net.BCrypt.EnhancedVerify(password, passwordHash, hashType: BCrypt.Net.HashType.SHA384);
     }
 }

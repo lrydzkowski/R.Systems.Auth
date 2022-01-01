@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using R.Systems.Auth.Core.Models;
 
-namespace R.Systems.Auth.Core.AutoMapperProfiles
+namespace R.Systems.Auth.Core.AutoMapperProfiles;
+
+internal class RoleProfile : Profile
 {
-    internal class RoleProfile : Profile
+    public RoleProfile()
     {
-        public RoleProfile()
-        {
-            CreateMap<Role, RoleDto>().ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id));
-        }
+        CreateMap<Role, RoleDto>().ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id));
     }
 }

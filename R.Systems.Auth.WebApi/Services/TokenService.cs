@@ -3,30 +3,29 @@ using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.WebApi.Settings;
 using R.Systems.Shared.Core.Interfaces;
 
-namespace R.Systems.Auth.WebApi.Services
+namespace R.Systems.Auth.WebApi.Services;
+
+public class TokenService : IDependencyInjectionScoped
 {
-    public class TokenService : IDependencyInjectionScoped
+    public TokenService(
+        IRsaKeys rsaKeys,
+        IOptionsSnapshot<JwtSettings> optionsSnapshot)
     {
-        public TokenService(
-            IRsaKeys rsaKeys,
-            IOptionsSnapshot<JwtSettings> optionsSnapshot)
-        {
-            RsaKeys = rsaKeys;
-            JwtSettings = optionsSnapshot.Value;
-        }
+        RsaKeys = rsaKeys;
+        JwtSettings = optionsSnapshot.Value;
+    }
 
-        public IRsaKeys RsaKeys { get; }
-        public JwtSettings JwtSettings { get; }
+    public IRsaKeys RsaKeys { get; }
+    public JwtSettings JwtSettings { get; }
 
-        public TokenSettings GetTokenSettings()
+    public TokenSettings GetTokenSettings()
+    {
+        TokenSettings tokenSettings = new()
         {
-            TokenSettings tokenSettings = new()
-            {
-                PrivateKeyPem = RsaKeys.PrivateKey ?? "",
-                AccessTokenLifeTimeInMinutes = JwtSettings.AccessTokenLifeTimeInMinutes,
-                RefreshTokenLifeTimeInMinutes = JwtSettings.RefreshTokenLifeTimeInMinutes
-            };
-            return tokenSettings;
-        }
+            PrivateKeyPem = RsaKeys.PrivateKey ?? "",
+            AccessTokenLifeTimeInMinutes = JwtSettings.AccessTokenLifeTimeInMinutes,
+            RefreshTokenLifeTimeInMinutes = JwtSettings.RefreshTokenLifeTimeInMinutes
+        };
+        return tokenSettings;
     }
 }

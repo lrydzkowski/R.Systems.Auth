@@ -1,7 +1,6 @@
-﻿namespace R.Systems.Auth.WebApi.Features.User
+﻿namespace R.Systems.Auth.WebApi.Features.User;
+
+public class CreateUserResponse
 {
-    public class CreateUserResponse
-    {
-        public long UserId { get; init; }
-    }
+    public long UserId { get; init; }
 }

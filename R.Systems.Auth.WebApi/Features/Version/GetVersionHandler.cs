@@ -1,17 +1,16 @@
 ﻿using R.Systems.Shared.Core.Interfaces;
 using System.Reflection;
 
-namespace R.Systems.Auth.WebApi.Features.Version
+namespace R.Systems.Auth.WebApi.Features.Version;
+
+public class GetVersionHandler : IDependencyInjectionScoped
 {
-    public class GetVersionHandler : IDependencyInjectionScoped
+    public string Handle()
     {
-        public string Handle()
-        {
-            string version = Assembly.GetExecutingAssembly()?
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-                .InformationalVersion
-                .ToString() ?? "";
-            return version;
-        }
+        string version = Assembly.GetExecutingAssembly()?
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion
+            .ToString() ?? "";
+        return version;
     }
 }
