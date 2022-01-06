@@ -51,13 +51,16 @@ public class UserWriteValidator : IDependencyInjectionScoped
     }
 
     public async Task<bool> ValidateChangePasswordAsync(
-        long userId, string currentPassword, string newPassword, string repeatedNewPassword)
+        long userId, string? currentPassword, string newPassword, string repeatedNewPassword)
     {
+        if (!await ValidateUserIdAsync(userId))
+        {
+            return false;
+        }
         bool result = true;
-        result &= await ValidateUserIdAsync(userId);
         result &= await ValidateUserPasswordAsync(userId, currentPassword);
         result &= ValidateNewPasswords(newPassword, repeatedNewPassword);
-        result &= ValidatePassword(newPassword, isUpdate: false);
+        result &= ValidatePassword(newPassword, isUpdate: true);
         return result;
     }
 
@@ -211,7 +214,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
         return result;
     }
 
-    private async Task<bool> ValidateUserPasswordAsync(long userId, string password)
+    private async Task<bool> ValidateUserPasswordAsync(long userId, string? password)
     {
         User? user = await UserReadRepository.GetUserForAuthenticationAsync(userId);
         if (user == null)
@@ -223,7 +226,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
         {
             return true;
         }
-        if (!PasswordHasher.VerifyPasswordHash(password, user.PasswordHash))
+        if (!PasswordHasher.VerifyPasswordHash(password ?? "", user.PasswordHash))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "WrongPassword", elementKey: "User"));
             return false;
