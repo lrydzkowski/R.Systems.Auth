@@ -1,0 +1,6 @@
+FROM alpine:3.14
+ARG version
+WORKDIR /sql
+COPY ["./R.Systems.Auth.Infrastructure.Db/_Assets/SQL/*${version}_up.sql", "./migration-up.sql"]
+RUN apk --no-cache add postgresql-client
+ENTRYPOINT [ "psql", "--file=/sql/migration-up.sql" ]

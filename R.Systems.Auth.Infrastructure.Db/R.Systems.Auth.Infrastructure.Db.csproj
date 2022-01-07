@@ -23,4 +23,8 @@
     <ProjectReference Include="..\R.Systems.Auth.Core\R.Systems.Auth.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="_Assets\SQL\" />
+  </ItemGroup>
+
 </Project>
