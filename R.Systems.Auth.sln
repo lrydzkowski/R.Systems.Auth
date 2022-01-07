@@ -3,16 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31815.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R.Systems.Auth", "R.Systems.Auth\R.Systems.Auth.csproj", "{FFABC020-1BFF-4C0C-8558-A1B8487FAB3E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R.Systems.Auth.Db", "R.Systems.Auth.Db\R.Systems.Auth.Db.csproj", "{626E8EB0-1301-4457-8CDA-8309B74516F0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30B13D5D-EC9B-4E1A-8687-516AD577F588}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		Dockerfile = Dockerfile
+		DockerfileSQLMigrationDown = DockerfileSQLMigrationDown
+		DockerfileSQLMigrationUp = DockerfileSQLMigrationUp
+		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R.Systems.Auth.Common", "R.Systems.Auth.Common\R.Systems.Auth.Common.csproj", "{2E5EC4CA-3125-4068-A7AB-CB234846C9C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.Core", "R.Systems.Auth.Core\R.Systems.Auth.Core.csproj", "{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A703D894-4303-4B38-B7A5-F3B98344F782}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3844A3EB-E794-4529-BAF8-D836E0E2B08E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.WebApi", "R.Systems.Auth.WebApi\R.Systems.Auth.WebApi.csproj", "{55713BCC-7CAB-4055-AEB7-D1416CAE31D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.FunctionalTests", "R.Systems.Auth.FunctionalTests\R.Systems.Auth.FunctionalTests.csproj", "{37D548D8-7082-423D-9D03-05121879B0E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.Infrastructure.Db", "R.Systems.Auth.Infrastructure.Db\R.Systems.Auth.Infrastructure.Db.csproj", "{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{75EFEA27-613B-4719-A0AC-EEB96616D661}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{A007A62C-CFB0-41EF-B9C2-633B69A787C7}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\main.yml = .github\workflows\main.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,21 +39,33 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FFABC020-1BFF-4C0C-8558-A1B8487FAB3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFABC020-1BFF-4C0C-8558-A1B8487FAB3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFABC020-1BFF-4C0C-8558-A1B8487FAB3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFABC020-1BFF-4C0C-8558-A1B8487FAB3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{626E8EB0-1301-4457-8CDA-8309B74516F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{626E8EB0-1301-4457-8CDA-8309B74516F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{626E8EB0-1301-4457-8CDA-8309B74516F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{626E8EB0-1301-4457-8CDA-8309B74516F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E5EC4CA-3125-4068-A7AB-CB234846C9C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E5EC4CA-3125-4068-A7AB-CB234846C9C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E5EC4CA-3125-4068-A7AB-CB234846C9C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E5EC4CA-3125-4068-A7AB-CB234846C9C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55713BCC-7CAB-4055-AEB7-D1416CAE31D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55713BCC-7CAB-4055-AEB7-D1416CAE31D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55713BCC-7CAB-4055-AEB7-D1416CAE31D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55713BCC-7CAB-4055-AEB7-D1416CAE31D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D548D8-7082-423D-9D03-05121879B0E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D548D8-7082-423D-9D03-05121879B0E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D548D8-7082-423D-9D03-05121879B0E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D548D8-7082-423D-9D03-05121879B0E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{55713BCC-7CAB-4055-AEB7-D1416CAE31D4} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{37D548D8-7082-423D-9D03-05121879B0E5} = {3844A3EB-E794-4529-BAF8-D836E0E2B08E}
+		{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{75EFEA27-613B-4719-A0AC-EEB96616D661} = {30B13D5D-EC9B-4E1A-8687-516AD577F588}
+		{A007A62C-CFB0-41EF-B9C2-633B69A787C7} = {75EFEA27-613B-4719-A0AC-EEB96616D661}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E73E1DCA-2CB7-4562-B914-2AD56809F4F1}

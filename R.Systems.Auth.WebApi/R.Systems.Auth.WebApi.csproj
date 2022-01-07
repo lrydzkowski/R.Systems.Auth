@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>1.0.0-preview.1</Version>
+    <UserSecretsId>a041ab0e-3020-4c55-be05-ad5ac98097d8</UserSecretsId>
+    <Authors>lrydzkowski</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\R.Systems.Auth.Core\R.Systems.Auth.Core.csproj" />
+    <ProjectReference Include="..\R.Systems.Auth.Infrastructure.Db\R.Systems.Auth.Infrastructure.Db.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="logs\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="R.Systems.Shared.WebApi" Version="1.0.0-preview.2" />
+  </ItemGroup>
+
+</Project>
