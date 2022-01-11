@@ -28,13 +28,25 @@ public class UserWriteRepository : IUserWriteRepository
 
     public async Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes)
     {
-        User? user = await DbContext.Users.FindAsync(userId);
-        if (user == null)
-        {
-            throw new KeyNotFoundException($"User with userId = {userId} doesn't exist");
-        }
+        User user = await FindUserAsync(userId);
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpireDateTimeUtc = DateTime.UtcNow.AddMinutes(lifetimeInMinutes);
+        await DbContext.SaveChangesAsync();
+    }
+
+    public async Task SaveIncorrectSignInAsync(long userId)
+    {
+        User user = await FindUserAsync(userId);
+        user.NumOfIncorrectSignIn = user.NumOfIncorrectSignIn == null ? 1 : (user.NumOfIncorrectSignIn + 1);
+        user.LastIncorrectSignInDateTimeUtc = DateTime.UtcNow;
+        await DbContext.SaveChangesAsync();
+    }
+
+    public async Task ClearIncorrectSignInAsync(long userId)
+    {
+        User user = await FindUserAsync(userId);
+        user.NumOfIncorrectSignIn = 0;
+        user.LastIncorrectSignInDateTimeUtc = null;
         await DbContext.SaveChangesAsync();
     }
 
@@ -120,6 +132,16 @@ public class UserWriteRepository : IUserWriteRepository
         User user = new() { Id = userId };
         DbContext.Users.Remove(user);
         await DbContext.SaveChangesAsync();
+    }
+
+    private async Task<User> FindUserAsync(long userId)
+    {
+        User? user = await DbContext.Users.FindAsync(userId);
+        if (user == null)
+        {
+            throw new KeyNotFoundException($"User with userId = {userId} doesn't exist");
+        }
+        return user;
     }
 
     private bool HandleDbUpdateException(Exception dbUpdateException)
