@@ -1,10 +1,13 @@
-﻿using R.Systems.Auth.Core.Models;
+﻿using FluentAssertions;
+using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Auth.WebApi.Features.Tokens;
+using R.Systems.Shared.Core.Validation;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -115,6 +118,39 @@ public class AuthenticateTests : IClassFixture<CustomWebApplicationFactory<Progr
                 $" {users.Data["test2@lukaszrydzkowski.pl"].Password} "
             }
         };
+    }
+
+    [Fact]
+    public async Task Authenticate_IncorrectLoginsInARow_UserIsBlocked()
+    {
+        UserInfo user = new Users().Data["test8@lukaszrydzkowski.pl"];
+        AuthenticateRequest incorrectRequest = new()
+        {
+            Email = user.Email,
+            Password = user.Password + "1"
+        };
+        int numOfIncorrectLogins = Models.UserSettings.MaxNumOfIncorrectLoginsBeforeBlock + 1;
+
+        HttpStatusCode? httpStatusCodeAfterBlockade = null;
+        List<ErrorInfo>? blockadeErrors = null;
+        for (int i = 0; i < numOfIncorrectLogins; i++)
+        {
+            (httpStatusCodeAfterBlockade, blockadeErrors) = await RequestService.SendPostAsync
+                <AuthenticateRequest, List<ErrorInfo>>(
+                    AuthenticateUrl,
+                    incorrectRequest,
+                    HttpClient
+                );
+        }
+
+        Assert.Equal(HttpStatusCode.BadRequest, httpStatusCodeAfterBlockade);
+        Assert.NotNull(blockadeErrors);
+        blockadeErrors.Should().BeEquivalentTo(
+            new List<ErrorInfo>()
+            {
+                new ErrorInfo(errorKey: "Blocked", elementKey: "User")
+            }
+        );
     }
 
     [Fact]
