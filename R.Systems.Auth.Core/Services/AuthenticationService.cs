@@ -3,7 +3,6 @@ using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
 using R.Systems.Auth.Core.Validators;
 using R.Systems.Shared.Core.Interfaces;
-using R.Systems.Shared.Core.Validation;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
