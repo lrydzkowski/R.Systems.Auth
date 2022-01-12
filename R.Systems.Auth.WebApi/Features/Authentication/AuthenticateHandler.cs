@@ -31,8 +31,8 @@ public class AuthenticateHandler : IDependencyInjectionScoped
             tokenSettings,
             new UserSettings
             {
-                BlockDurationInMinutes = UserSettings.BlockDurationInMinutes,
-                MaxNumOfIncorrectSignInBeforeBlock = UserSettings.MaxNumOfIncorrectSignInBeforeBlock
+                MaxNumOfIncorrectLoginsBeforeBlock = UserSettings.MaxNumOfIncorrectLoginsBeforeBlock,
+                BlockDurationInMinutes = UserSettings.BlockDurationInMinutes
             }
         );
         if (token == null)

@@ -30,7 +30,7 @@ public class AuthenticationValidator : IDependencyInjectionScoped
 
     private bool ExceedMaxNumOfIncorrectSignIn(User user, UserSettings userSettings)
     {
-        return user.NumOfIncorrectSignIn >= userSettings.MaxNumOfIncorrectSignInBeforeBlock;
+        return user.NumOfIncorrectSignIn >= userSettings.MaxNumOfIncorrectLoginsBeforeBlock;
     }
 
     private bool BlockDurationTimePassed(User user, UserSettings userSettings)
@@ -40,7 +40,7 @@ public class AuthenticationValidator : IDependencyInjectionScoped
             return true;
         }
         TimeSpan timeFromLastIncorrectSignIn = DateTime.UtcNow.Subtract((DateTime)user.LastIncorrectSignInDateTimeUtc);
-        TimeSpan blockDurationTime = new TimeSpan(hours: 0, minutes: userSettings.BlockDurationInMinutes, seconds: 0);
+        TimeSpan blockDurationTime = TimeSpan.FromMinutes(userSettings.BlockDurationInMinutes);
         return timeFromLastIncorrectSignIn > blockDurationTime;
     }
 }

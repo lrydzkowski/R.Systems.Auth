@@ -2,7 +2,7 @@
 
 public class UserSettings
 {
-    public int MaxNumOfIncorrectSignInBeforeBlock { get; set; }
+    public int MaxNumOfIncorrectLoginsBeforeBlock { get; set; }
 
-    public int BlockDurationInMinutes { get; set; }
+    public double BlockDurationInMinutes { get; set; }
 }
