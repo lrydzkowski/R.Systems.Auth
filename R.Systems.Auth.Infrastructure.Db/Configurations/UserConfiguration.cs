@@ -61,6 +61,12 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(user => user.RefreshTokenExpireDateTimeUtc)
             .HasColumnName("refresh_token_expire_date_time_utc");
+
+        builder.Property(user => user.NumOfIncorrectSignIn)
+            .HasColumnName("num_of_incorrect_sign_in");
+
+        builder.Property(user => user.LastIncorrectSignInDateTimeUtc)
+            .HasColumnName("last_incorrect_sign_in_date_time_utc");
     }
 
     private void InitializeData(EntityTypeBuilder<User> builder)

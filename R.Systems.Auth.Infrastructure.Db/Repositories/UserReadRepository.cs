@@ -37,6 +37,8 @@ public class UserReadRepository : GenericReadRepository<User>, IUserReadReposito
         Id = user.Id,
         Email = user.Email,
         PasswordHash = user.PasswordHash,
+        NumOfIncorrectSignIn = user.NumOfIncorrectSignIn,
+        LastIncorrectSignInDateTimeUtc = user.LastIncorrectSignInDateTimeUtc,
         Roles = user.Roles
             .Select(role => new Role()
             {

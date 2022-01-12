@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using R.Systems.Auth.Core.Interfaces;
+using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.Infrastructure.Db;
 using R.Systems.Shared.Core.Interfaces;
@@ -33,7 +34,9 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
                 new Dictionary<string, string>
                 {
                     ["Jwt:PrivateKeyPemFilePath"] = "private.pem",
-                    ["Jwt:PublicKeyPemFilePath"] = "public.pem"
+                    ["Jwt:PublicKeyPemFilePath"] = "public.pem",
+                    ["User:MaxNumOfIncorrectLoginsBeforeBlock"] = UserSettings.MaxNumOfIncorrectLoginsBeforeBlock.ToString(),
+                    ["User:BlockDurationInMinutes"] = UserSettings.BlockDurationInMinutes.ToString()
                 }
             );
         });

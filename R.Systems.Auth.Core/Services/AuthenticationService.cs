@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Validators;
 using R.Systems.Shared.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,20 +17,27 @@ public class AuthenticationService : IDependencyInjectionScoped
     public AuthenticationService(
         IUserReadRepository userReadRepository,
         IPasswordHasher passwordHasher,
-        IUserWriteRepository userWriteRepository)
+        IUserWriteRepository userWriteRepository,
+        AuthenticationValidator authenticationValidator)
     {
         UserReadRepository = userReadRepository;
         PasswordHasher = passwordHasher;
         UserWriteRepository = userWriteRepository;
+        AuthenticationValidator = authenticationValidator;
     }
 
     public IUserReadRepository UserReadRepository { get; }
     public IPasswordHasher PasswordHasher { get; }
     public IUserWriteRepository UserWriteRepository { get; }
+    public AuthenticationValidator AuthenticationValidator { get; }
 
-    public async Task<Token?> AuthenticateAsync(string email, string password, TokenSettings tokenSettings)
+    public async Task<Token?> AuthenticateAsync(
+        string email,
+        string password,
+        TokenSettings tokenSettings,
+        UserSettings userSettings)
     {
-        User? user = await AuthenticateAsync(email, password);
+        User? user = await AuthenticateAsync(email, password, userSettings);
         if (user == null)
         {
             return null;
@@ -51,6 +59,32 @@ public class AuthenticationService : IDependencyInjectionScoped
         return await GenerateTokensAsync(user, tokenSettings);
     }
 
+    private async Task<User?> AuthenticateAsync(
+        string email, string password, UserSettings userSettings)
+    {
+        User? user = await UserReadRepository.GetUserForAuthenticationAsync(email);
+        if (user == null)
+        {
+            return null;
+        }
+        if (AuthenticationValidator.IsBlocked(user, userSettings))
+        {
+            return null;
+        }
+        if (!IsUserPasswordCorrect(password, user.PasswordHash))
+        {
+            await UserWriteRepository.SaveIncorrectSignInAsync(user.Id);
+            return null;
+        }
+        await UserWriteRepository.ClearIncorrectSignInAsync(user.Id);
+        return user;
+    }
+
+    private bool IsUserPasswordCorrect(string password, string? passwordHash)
+    {
+        return passwordHash == null || PasswordHasher.VerifyPasswordHash(password, passwordHash);
+    }
+
     private async Task<Token> GenerateTokensAsync(User user, TokenSettings tokenSettings)
     {
         string accessToken = GenerateAccessToken(
@@ -69,24 +103,6 @@ public class AuthenticationService : IDependencyInjectionScoped
             AccessToken = accessToken,
             RefreshToken = refreshToken
         };
-    }
-
-    private async Task<User?> AuthenticateAsync(string email, string password)
-    {
-        User? user = await UserReadRepository.GetUserForAuthenticationAsync(email);
-        if (user == null)
-        {
-            return null;
-        }
-        if (user.PasswordHash == null)
-        {
-            return user;
-        }
-        if (!PasswordHasher.VerifyPasswordHash(password, user.PasswordHash))
-        {
-            return null;
-        }
-        return user;
     }
 
     private string GenerateAccessToken(User user, double lifetimeInMinutes, string privateKeyPem)

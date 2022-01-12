@@ -20,5 +20,9 @@ public class User : IEntity
 
     public DateTime? RefreshTokenExpireDateTimeUtc { get; set; } = null;
 
+    public int? NumOfIncorrectSignIn { get; set; }
+
+    public DateTime? LastIncorrectSignInDateTimeUtc { get; set; }
+
     public ICollection<Role> Roles { get; set; } = new List<Role>();
 }

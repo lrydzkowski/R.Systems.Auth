@@ -24,6 +24,7 @@ public static class ServiceCollectionExtensions
     private static void AddSettingsServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.PropertyName));
+        services.Configure<UserSettings>(configuration.GetSection(UserSettings.PropertyName));
         services.AddSingleton<IRsaKeys, RsaKeys>(ctx =>
         {
             JwtSettings? jwtSettings = ctx.GetRequiredService<IOptions<JwtSettings>>()?.Value;

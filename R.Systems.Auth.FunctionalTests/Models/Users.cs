@@ -88,6 +88,17 @@ public class Users
                 LastName = "Testowy 7",
                 Password = "d22d22"
             }
+        },
+        {
+            "test8@lukaszrydzkowski.pl",
+            new UserInfo
+            {
+                Id = 9,
+                Email = "test8@lukaszrydzkowski.pl",
+                FirstName = "Testowy 8",
+                LastName = "Testowy 8",
+                Password = "d33d33"
+            }
         }
     };
 
