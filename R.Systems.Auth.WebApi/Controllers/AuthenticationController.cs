@@ -26,12 +26,12 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> Authenticate(AuthenticateRequest request)
     {
         AuthenticateResponse? response = await AuthenticateHandler.HandleAsync(request);
+        if (!ValidationResult.Result)
+        {
+            return BadRequest(ValidationResult.Errors);
+        }
         if (response == null)
         {
-            if (!ValidationResult.Result)
-            {
-                return BadRequest(ValidationResult.Errors);
-            }
             return Unauthorized();
         }
         return Ok(response);
