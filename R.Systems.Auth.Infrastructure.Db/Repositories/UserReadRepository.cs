@@ -98,21 +98,17 @@ public class UserReadRepository : GenericReadRepository<User>, IUserReadReposito
         {
             query = query.Where(user => user.Id != userId);
         }
-        User? user = await query.Select(user => new User() { Id = user.Id }).FirstOrDefaultAsync();
-        if (user == null)
-        {
-            return false;
-        }
-        return true;
+        bool exists = await query.Select(OnlyId).AnyAsync();
+        return exists;
     }
 
     public async Task<bool> UserExistsAsync(long userId)
     {
-        User? user = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Id == userId);
-        if (user == null)
-        {
-            return false;
-        }
-        return true;
+        bool exists = await DbContext.Users
+            .AsNoTracking()
+            .Where(user => user.Id == userId)
+            .Select(OnlyId)
+            .AnyAsync();
+        return exists;
     }
 }

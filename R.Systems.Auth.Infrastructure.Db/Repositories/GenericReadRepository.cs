@@ -16,6 +16,9 @@ public class GenericReadRepository<T> : IGenericReadRepository<T> where T : clas
     }
 
     public AuthDbContext DbContext { get; }
+
+    protected Expression<Func<T, long?>> OnlyId { get; } = entity => entity.Id;
+
     protected virtual Expression<Func<T, T>> Entities { get; } = entity => new T();
 
     public async Task<T?> GetAsync(long recId)
