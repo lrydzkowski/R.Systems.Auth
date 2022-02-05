@@ -6,7 +6,7 @@ namespace R.Systems.Auth.Core.Models;
 
 public class User : IEntity
 {
-    public long Id { get; set; }
+    public long Id { get; init; }
 
     public string Email { get; set; } = "";
 

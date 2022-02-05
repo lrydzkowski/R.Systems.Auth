@@ -5,7 +5,7 @@ namespace R.Systems.Auth.Core.Models;
 
 public class Role : IEntity
 {
-    public long Id { get; set; }
+    public long Id { get; init; }
 
     public string RoleKey { get; set; } = "";
 
