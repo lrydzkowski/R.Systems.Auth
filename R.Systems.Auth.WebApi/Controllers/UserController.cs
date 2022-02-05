@@ -29,7 +29,7 @@ public class UserController : ControllerBase
     public UserClaimsService UserClaimsService { get; }
 
     [HttpGet, Route("{userId}"), Authorize(Roles = "admin")]
-    public async Task<IActionResult> Get(long userId)
+    public async Task<IActionResult> GetUser(long userId)
     {
         UserDto? user = await UserReadService.GetAsync(userId);
         if (user == null)
@@ -40,14 +40,14 @@ public class UserController : ControllerBase
     }
 
     [HttpGet, Authorize(Roles = "admin")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetUsers()
     {
         List<UserDto> users = await UserReadService.GetAsync();
         return Ok(users);
     }
 
     [HttpPost, Authorize(Roles = "admin")]
-    public async Task<IActionResult> Create(EditUserDto editUserDto)
+    public async Task<IActionResult> CreateUser(EditUserDto editUserDto)
     {
         OperationResult<long> operationResult = await UserWriteService.EditUserAsync(editUserDto);
         if (!operationResult.Result)
@@ -61,7 +61,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost, Route("{userId}"), Authorize(Roles = "admin")]
-    public async Task<IActionResult> Update(EditUserDto editUserDto, long userId)
+    public async Task<IActionResult> UpdateUser(EditUserDto editUserDto, long userId)
     {
         OperationResult<long> operationResult = await UserWriteService.EditUserAsync(editUserDto, userId);
         if (!operationResult.Result)
@@ -72,7 +72,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete, Route("{userId}"), Authorize(Roles = "admin")]
-    public async Task<IActionResult> Delete(long userId)
+    public async Task<IActionResult> DeleteUser(long userId)
     {
         long authorizedUserId = UserClaimsService.GetUserId();
         bool result = await UserWriteService.DeleteUserAsync(userId, authorizedUserId);
@@ -84,7 +84,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost, Route("change-password"), Authorize]
-    public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+    public async Task<IActionResult> ChangeUsersPassword(ChangePasswordRequest request)
     {
         long userId = UserClaimsService.GetUserId();
         bool result = await UserWriteService.ChangeUserPasswordAsync(

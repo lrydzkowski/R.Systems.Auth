@@ -14,7 +14,7 @@ public class VersionController : ControllerBase
     public GetVersionHandler GetVersionHandler { get; }
 
     [HttpGet, Route("version")]
-    public IActionResult Get()
+    public IActionResult GetVersion()
     {
         GetVersionResponse response = new()
         {

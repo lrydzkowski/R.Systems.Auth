@@ -16,7 +16,7 @@ public class RoleController : ControllerBase
     public RoleService RoleService { get; }
 
     [HttpGet, Authorize(Roles = "admin")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetRoles()
     {
         List<RoleDto> roles = await RoleService.GetAsync();
         return Ok(roles);
