@@ -21,10 +21,10 @@ public class UserWriteService : IDependencyInjectionScoped
     public async Task<bool> ChangeUserPasswordAsync(
         long userId, string? currentPassword, string newPassword, string repeatedNewPassword)
     {
-        bool validationResult = await UserWriteValidator.ValidateChangePasswordAsync(
+        bool isDataCorrect = await UserWriteValidator.ValidateChangePasswordAsync(
             userId, currentPassword, newPassword, repeatedNewPassword
         );
-        if (!validationResult)
+        if (!isDataCorrect)
         {
             return false;
         }
@@ -34,8 +34,8 @@ public class UserWriteService : IDependencyInjectionScoped
 
     public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
     {
-        bool validationResult = await UserWriteValidator.ValidateWriteAsync(editUserDto, userId);
-        if (!validationResult)
+        bool isDataCorrect = await UserWriteValidator.ValidateWriteAsync(editUserDto, userId);
+        if (!isDataCorrect)
         {
             return new OperationResult<long>() { Result = false };
         }
@@ -45,8 +45,8 @@ public class UserWriteService : IDependencyInjectionScoped
 
     public async Task<bool> DeleteUserAsync(long userId, long authorizedUserId)
     {
-        bool result = await UserWriteValidator.ValidateDeleteAsync(userId, authorizedUserId);
-        if (!result)
+        bool isDataCorrect = await UserWriteValidator.ValidateDeleteAsync(userId, authorizedUserId);
+        if (!isDataCorrect)
         {
             return false;
         }
