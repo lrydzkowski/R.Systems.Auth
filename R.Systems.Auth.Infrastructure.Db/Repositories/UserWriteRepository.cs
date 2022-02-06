@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Validation;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ public class UserWriteRepository : IUserWriteRepository
 
     public async Task SaveRefreshTokenAsync(long userId, string refreshToken, double lifetimeInMinutes)
     {
-        User user = await FindUserAsync(userId);
+        UserEntity user = await FindUserAsync(userId);
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpireDateTimeUtc = DateTime.UtcNow.AddMinutes(lifetimeInMinutes);
         await DbContext.SaveChangesAsync();
@@ -36,7 +37,7 @@ public class UserWriteRepository : IUserWriteRepository
 
     public async Task SaveIncorrectSignInAsync(long userId)
     {
-        User user = await FindUserAsync(userId);
+        UserEntity user = await FindUserAsync(userId);
         user.NumOfIncorrectSignIn = user.NumOfIncorrectSignIn == null ? 1 : (user.NumOfIncorrectSignIn + 1);
         user.LastIncorrectSignInDateTimeUtc = DateTime.UtcNow;
         await DbContext.SaveChangesAsync();
@@ -44,7 +45,7 @@ public class UserWriteRepository : IUserWriteRepository
 
     public async Task ClearIncorrectSignInAsync(long userId)
     {
-        User user = await FindUserAsync(userId);
+        UserEntity user = await FindUserAsync(userId);
         user.NumOfIncorrectSignIn = 0;
         user.LastIncorrectSignInDateTimeUtc = null;
         await DbContext.SaveChangesAsync();
@@ -52,16 +53,16 @@ public class UserWriteRepository : IUserWriteRepository
 
     public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
     {
-        User? user = new();
+        UserEntity? user = new();
         bool isUpdate = userId != null;
         if (isUpdate)
         {
             user = await DbContext.Users
                 .Where(user => user.Id == userId)
-                .Select(user => new User
+                .Select(user => new UserEntity
                 {
                     Id = user.Id,
-                    Roles = user.Roles.Select(role => new Role { Id = role.Id }).ToList()
+                    Roles = user.Roles.Select(role => new RoleEntity { Id = role.Id }).ToList()
                 })
                 .FirstOrDefaultAsync();
             if (user == null)
@@ -88,13 +89,13 @@ public class UserWriteRepository : IUserWriteRepository
         }
         if (editUserDto.RoleIds != null)
         {
-            List<Role> rolesToAdd = new();
+            List<RoleEntity> rolesToAdd = new();
             foreach (long roleId in editUserDto.RoleIds)
             {
-                Role? role = user.Roles.FirstOrDefault(role => role.Id == roleId);
+                RoleEntity? role = user.Roles.FirstOrDefault(role => role.Id == roleId);
                 if (role == null)
                 {
-                    role = new Role { Id = roleId };
+                    role = new RoleEntity { Id = roleId };
                     DbContext.Attach(role);
                 }
                 rolesToAdd.Add(role);
@@ -103,7 +104,7 @@ public class UserWriteRepository : IUserWriteRepository
             {
                 user.Roles.Clear();
             }
-            foreach (Role roleToAdd in rolesToAdd)
+            foreach (RoleEntity roleToAdd in rolesToAdd)
             {
                 user.Roles.Add(roleToAdd);
             }
@@ -129,14 +130,14 @@ public class UserWriteRepository : IUserWriteRepository
 
     public async Task DeleteUserAsync(long userId)
     {
-        User user = new() { Id = userId };
+        UserEntity user = new() { Id = userId };
         DbContext.Users.Remove(user);
         await DbContext.SaveChangesAsync();
     }
 
-    private async Task<User> FindUserAsync(long userId)
+    private async Task<UserEntity> FindUserAsync(long userId)
     {
-        User? user = await DbContext.Users.FindAsync(userId);
+        UserEntity? user = await DbContext.Users.FindAsync(userId);
         if (user == null)
         {
             throw new KeyNotFoundException($"User with userId = {userId} doesn't exist");

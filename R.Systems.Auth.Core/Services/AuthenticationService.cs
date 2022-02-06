@@ -1,6 +1,8 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Tokens;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.Core.Validators;
 using R.Systems.Shared.Core.Interfaces;
 using System;
@@ -37,7 +39,7 @@ public class AuthenticationService : IDependencyInjectionScoped
         TokenSettings tokenSettings,
         UserSettings userSettings)
     {
-        User? user = await AuthenticateAsync(email, password, userSettings);
+        UserAuthentication? user = await AuthenticateAsync(email, password, userSettings);
         if (user == null)
         {
             return null;
@@ -47,7 +49,7 @@ public class AuthenticationService : IDependencyInjectionScoped
 
     public async Task<Token?> GenerateNewTokensAsync(string refreshToken, TokenSettings tokenSettings)
     {
-        User? user = await UserReadRepository.GetUserWithRefreshTokenAsync(refreshToken);
+        UserRefreshToken? user = await UserReadRepository.GetUserWithRefreshTokenAsync(refreshToken);
         if (user == null)
         {
             return null;
@@ -59,10 +61,10 @@ public class AuthenticationService : IDependencyInjectionScoped
         return await GenerateTokensAsync(user, tokenSettings);
     }
 
-    private async Task<User?> AuthenticateAsync(
+    private async Task<UserAuthentication?> AuthenticateAsync(
         string email, string password, UserSettings userSettings)
     {
-        User? user = await UserReadRepository.GetUserForAuthenticationAsync(email);
+        UserAuthentication? user = await UserReadRepository.GetUserForAuthenticationAsync(email);
         if (user == null)
         {
             return null;
@@ -145,9 +147,9 @@ public class AuthenticationService : IDependencyInjectionScoped
     private Dictionary<string, object> GenerateUsersClaims(User user)
     {
         List<string> rolesKeys = new();
-        foreach (Role role in user.Roles)
+        foreach (RoleKey roleKey in user.RoleKeys)
         {
-            rolesKeys.Add(role.RoleKey);
+            rolesKeys.Add(roleKey.Key);
         }
         Dictionary<string, object> claims = new()
         {

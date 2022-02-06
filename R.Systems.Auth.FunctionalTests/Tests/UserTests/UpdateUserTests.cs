@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
@@ -115,7 +116,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
     {
         UserInfo user = new Users().Data["test2@lukaszrydzkowski.pl"];
 
-        Role adminRole = new Roles().Data["admin"];
+        RoleEntity adminRole = new Roles().Data["admin"];
         RoleDto adminRoleDto = new()
         {
             RoleId = adminRole.Id,
@@ -123,7 +124,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
             Name = adminRole.Name,
             Description = adminRole.Description
         };
-        Role userRole = new Roles().Data["user"];
+        RoleEntity userRole = new Roles().Data["user"];
         RoleDto userRoleDto = new()
         {
             RoleId = userRole.Id,

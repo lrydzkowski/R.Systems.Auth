@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.Core.Services;
 using R.Systems.Auth.WebApi.Features.User;
 using R.Systems.Shared.Core.Validation;

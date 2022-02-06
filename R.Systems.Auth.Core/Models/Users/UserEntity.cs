@@ -1,10 +1,11 @@
-﻿using R.Systems.Shared.Core.Interfaces;
+﻿using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Shared.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace R.Systems.Auth.Core.Models;
+namespace R.Systems.Auth.Core.Models.Users;
 
-public class User : IEntity
+public class UserEntity : IEntity
 {
     public long Id { get; init; }
 
@@ -24,5 +25,5 @@ public class User : IEntity
 
     public DateTime? LastIncorrectSignInDateTimeUtc { get; set; }
 
-    public ICollection<Role> Roles { get; set; } = new List<Role>();
+    public ICollection<RoleEntity> Roles { get; set; } = new List<RoleEntity>();
 }

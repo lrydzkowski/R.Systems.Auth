@@ -1,5 +1,5 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.Core.Validators;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;

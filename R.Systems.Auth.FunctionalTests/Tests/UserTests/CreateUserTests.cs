@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
@@ -134,8 +135,8 @@ public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Program
 
     public static IEnumerable<object[]> GetParametersFor_CreateUser_CorrectData()
     {
-        Role adminRole = new Roles().Data["admin"];
-        Role userRole = new Roles().Data["user"];
+        RoleEntity adminRole = new Roles().Data["admin"];
+        RoleEntity userRole = new Roles().Data["user"];
         return new List<object[]>
         {
             new object[]
@@ -215,7 +216,7 @@ public class CreateUserTests : IClassFixture<CustomWebApplicationFactory<Program
 
     public static IEnumerable<object[]> GetParametersFor_CreateUser_IncorrectData()
     {
-        Role adminRole = new Roles().Data["admin"];
+        RoleEntity adminRole = new Roles().Data["admin"];
         return new List<object[]>
         {
             new object[]

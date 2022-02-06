@@ -1,4 +1,4 @@
-﻿using R.Systems.Auth.Core.Models;
+﻿using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Validation;
 using System.Threading.Tasks;
 

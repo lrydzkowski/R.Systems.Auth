@@ -1,5 +1,5 @@
 ﻿using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;
 using System.Collections.Generic;
@@ -216,7 +216,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
 
     private async Task<bool> ValidateUserPasswordAsync(long userId, string? password)
     {
-        User? user = await UserReadRepository.GetUserForAuthenticationAsync(userId);
+        UserAuthentication? user = await UserReadRepository.GetUserForAuthenticationAsync(userId);
         if (user == null)
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "NotExist", elementKey: "User"));

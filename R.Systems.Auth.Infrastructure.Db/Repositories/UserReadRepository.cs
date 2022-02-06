@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Users;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Infrastructure.Db.Repositories;
 
-public class UserReadRepository : GenericReadRepository<User>, IUserReadRepository
+public class UserReadRepository : GenericReadRepository<UserEntity>, IUserReadRepository
 {
     public UserReadRepository(AuthDbContext dbContext) : base(dbContext)
     {
     }
 
-    protected override Expression<Func<User, User>> Entities { get; } = user => new User()
+    protected override Expression<Func<UserEntity, UserEntity>> Entities { get; } = user => new UserEntity()
     {
         Id = user.Id,
         Email = user.Email,
@@ -22,7 +23,7 @@ public class UserReadRepository : GenericReadRepository<User>, IUserReadReposito
         LastName = user.LastName,
         PasswordHash = user.PasswordHash,
         Roles = user.Roles
-            .Select(role => new Role()
+            .Select(role => new RoleEntity()
             {
                 Id = role.Id,
                 RoleKey = role.RoleKey,
@@ -32,25 +33,42 @@ public class UserReadRepository : GenericReadRepository<User>, IUserReadReposito
             .ToList()
     };
 
-    protected Expression<Func<User, User>> UserForAuthentication { get; } = user => new User()
-    {
-        Id = user.Id,
-        Email = user.Email,
-        PasswordHash = user.PasswordHash,
-        NumOfIncorrectSignIn = user.NumOfIncorrectSignIn,
-        LastIncorrectSignInDateTimeUtc = user.LastIncorrectSignInDateTimeUtc,
-        Roles = user.Roles
-            .Select(role => new Role()
-            {
-                Id = role.Id,
-                RoleKey = role.RoleKey
-            })
-            .ToList()
-    };
+    protected Expression<Func<UserEntity, UserAuthentication>> UserForAuthentication { get; }
+        = user => new UserAuthentication()
+        {
+            Id = user.Id,
+            Email = user.Email,
+            PasswordHash = user.PasswordHash,
+            NumOfIncorrectSignIn = user.NumOfIncorrectSignIn,
+            LastIncorrectSignInDateTimeUtc = user.LastIncorrectSignInDateTimeUtc,
+            RoleKeys = user.Roles
+                .Select(role => new RoleKey()
+                {
+                    Id = role.Id,
+                    Key = role.RoleKey
+                })
+                .ToList()
+        };
 
-    public async Task<User?> GetUserForAuthenticationAsync(string email)
+    protected Expression<Func<UserEntity, UserRefreshToken>> UserForRefreshingToken { get; }
+        = user => new UserRefreshToken()
+        {
+            Id = user.Id,
+            Email = user.Email,
+            RefreshToken = user.RefreshToken,
+            RefreshTokenExpireDateTimeUtc = user.RefreshTokenExpireDateTimeUtc,
+            RoleKeys = user.Roles
+                .Select(role => new RoleKey()
+                {
+                    Id = role.Id,
+                    Key = role.RoleKey
+                })
+                .ToList()
+        };
+
+    public async Task<UserAuthentication?> GetUserForAuthenticationAsync(string email)
     {
-        User? user = await DbContext.Users
+        UserAuthentication? user = await DbContext.Users
             .AsNoTracking()
             .Where(user => user.Email == email)
             .Select(UserForAuthentication)
@@ -58,9 +76,9 @@ public class UserReadRepository : GenericReadRepository<User>, IUserReadReposito
         return user;
     }
 
-    public async Task<User?> GetUserForAuthenticationAsync(long userId)
+    public async Task<UserAuthentication?> GetUserForAuthenticationAsync(long userId)
     {
-        User? user = await DbContext.Users
+        UserAuthentication? user = await DbContext.Users
             .AsNoTracking()
             .Where(user => user.Id == userId)
             .Select(UserForAuthentication)
@@ -68,25 +86,12 @@ public class UserReadRepository : GenericReadRepository<User>, IUserReadReposito
         return user;
     }
 
-    public async Task<User?> GetUserWithRefreshTokenAsync(string refreshToken)
+    public async Task<UserRefreshToken?> GetUserWithRefreshTokenAsync(string refreshToken)
     {
-        User? user = await DbContext.Users
+        UserRefreshToken? user = await DbContext.Users
             .AsNoTracking()
             .Where(user => user.RefreshToken == refreshToken)
-            .Select(user => new User()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                RefreshToken = refreshToken,
-                RefreshTokenExpireDateTimeUtc = user.RefreshTokenExpireDateTimeUtc,
-                Roles = user.Roles
-                    .Select(role => new Role()
-                    {
-                        Id = role.Id,
-                        RoleKey = role.RoleKey
-                    })
-                    .ToList()
-            })
+            .Select(UserForRefreshingToken)
             .FirstOrDefaultAsync();
         return user;
     }

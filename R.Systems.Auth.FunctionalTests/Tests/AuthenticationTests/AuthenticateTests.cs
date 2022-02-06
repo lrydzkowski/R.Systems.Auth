@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;

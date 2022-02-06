@@ -1,15 +1,15 @@
-﻿using R.Systems.Auth.Core.Models;
+﻿using R.Systems.Auth.Core.Models.Roles;
 using System.Collections.Generic;
 
 namespace R.Systems.Auth.FunctionalTests.Models;
 
 public class Roles
 {
-    public Dictionary<string, Role> Data { get; } = new()
+    public Dictionary<string, RoleEntity> Data { get; } = new()
     {
         {
             "admin",
-            new Role
+            new RoleEntity
             {
                 Id = 1,
                 RoleKey = "admin",
@@ -19,7 +19,7 @@ public class Roles
         },
         {
             "user",
-            new Role
+            new RoleEntity
             {
                 Id = 2,
                 RoleKey = "user",

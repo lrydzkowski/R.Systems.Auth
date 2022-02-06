@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Users;
 using System.Collections.Generic;
 
 namespace R.Systems.Auth.Infrastructure.Db.Configurations;
 
-internal class UserConfiguration : IEntityTypeConfiguration<User>
+internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.ToTable(name: "user", schema: "user");
         builder.HasKey(user => user.Id);
@@ -16,8 +17,8 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany(role => role.Users)
             .UsingEntity<Dictionary<string, object>>(
                 "user_role",
-                x => x.HasOne<Role>().WithMany().HasForeignKey("role_id"),
-                x => x.HasOne<User>().WithMany().HasForeignKey("user_id"),
+                x => x.HasOne<RoleEntity>().WithMany().HasForeignKey("role_id"),
+                x => x.HasOne<UserEntity>().WithMany().HasForeignKey("user_id"),
                 x => x.ToTable(name: "user_role", schema: "user")
                     .HasData(new Dictionary<string, object>()
                     {
@@ -29,7 +30,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         InitializeData(builder);
     }
 
-    private void ConfigureColumns(EntityTypeBuilder<User> builder)
+    private void ConfigureColumns(EntityTypeBuilder<UserEntity> builder)
     {
         builder.Property(user => user.Id)
             .HasColumnName("id")
@@ -69,12 +70,12 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("last_incorrect_sign_in_date_time_utc");
     }
 
-    private void InitializeData(EntityTypeBuilder<User> builder)
+    private void InitializeData(EntityTypeBuilder<UserEntity> builder)
     {
         builder.HasData(
-            new User[]
+            new UserEntity[]
             {
-                    new User()
+                    new UserEntity()
                     {
                         Id = 1,
                         Email = "admin@lukaszrydzkowski.pl",

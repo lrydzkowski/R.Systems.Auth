@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Users;
 
 namespace R.Systems.Auth.Core.AutoMapperProfiles;
 
@@ -7,6 +7,6 @@ internal class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<User, UserDto>().ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+        CreateMap<UserEntity, UserDto>().ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
     }
 }
