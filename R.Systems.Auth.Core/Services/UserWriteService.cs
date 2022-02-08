@@ -9,27 +9,24 @@ namespace R.Systems.Auth.Core.Services;
 
 public class UserWriteService : IDependencyInjectionScoped
 {
-    public UserWriteService(IUserWriteRepository userWriteRepository, UserWriteValidator userWriteValidator)
+    public UserWriteService(UserWriteValidator userWriteValidator, IUserWriteRepository userWriteRepository)
     {
-        UserWriteRepository = userWriteRepository;
         UserWriteValidator = userWriteValidator;
+        UserWriteRepository = userWriteRepository;
     }
 
-    public IUserWriteRepository UserWriteRepository { get; }
     public UserWriteValidator UserWriteValidator { get; }
+    public IUserWriteRepository UserWriteRepository { get; }
 
-    public async Task<bool> ChangeUserPasswordAsync(
-        long userId, string? currentPassword, string newPassword, string repeatedNewPassword)
+    public async Task<bool> ChangeUserPasswordAsync(long userId, ChangeUserPasswordDto changeUserPasswordDto)
     {
-        bool isDataCorrect = await UserWriteValidator.ValidateChangePasswordAsync(
-            userId, currentPassword, newPassword, repeatedNewPassword
-        );
+        bool isDataCorrect = await UserWriteValidator.ValidateChangePasswordAsync(userId, changeUserPasswordDto);
         if (!isDataCorrect)
         {
             return false;
         }
-        OperationResult<long> editResult = await EditUserAsync(new EditUserDto { Password = newPassword }, userId);
-        return editResult.Result;
+        await UserWriteRepository.ChangeUserPasswordAsync(userId, changeUserPasswordDto.NewPassword);
+        return true;
     }
 
     public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)

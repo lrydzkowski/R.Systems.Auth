@@ -12,6 +12,8 @@ public interface IUserWriteRepository
 
     Task ClearIncorrectSignInAsync(long userId);
 
+    Task ChangeUserPasswordAsync(long userId, string newPassword);
+
     Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null);
 
     Task DeleteUserAsync(long userId);

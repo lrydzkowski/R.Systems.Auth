@@ -84,12 +84,10 @@ public class UserController : ControllerBase
     }
 
     [HttpPost, Route("change-password"), Authorize]
-    public async Task<IActionResult> ChangeUsersPassword(ChangePasswordRequest request)
+    public async Task<IActionResult> ChangeUsersPassword(ChangeUserPasswordDto changeUserPasswordDto)
     {
         long userId = UserClaimsService.GetUserId();
-        bool result = await UserWriteService.ChangeUserPasswordAsync(
-            userId, request.CurrentPassword, request.NewPassword, request.RepeatedNewPassword
-        );
+        bool result = await UserWriteService.ChangeUserPasswordAsync(userId, changeUserPasswordDto);
         if (!result)
         {
             return BadRequest(ValidationResult.Errors);

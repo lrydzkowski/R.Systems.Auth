@@ -51,6 +51,21 @@ public class UserWriteRepository : IUserWriteRepository
         await DbContext.SaveChangesAsync();
     }
 
+    public async Task ChangeUserPasswordAsync(long userId, string newPassword)
+    {
+        UserEntity? user = await DbContext.Users
+            .Where(user => user.Id == userId)
+            .Select(user => new UserEntity { Id = user.Id })
+            .FirstOrDefaultAsync();
+        if (user == null)
+        {
+            throw new ArgumentException($"User with Userid = {userId} doesn't exist");
+        }
+        DbContext.Attach(user);
+        user.PasswordHash = PasswordHasher.CreatePasswordHash(newPassword);
+        await DbContext.SaveChangesAsync();
+    }
+
     public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
     {
         UserEntity? user = new();

@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
-using R.Systems.Auth.WebApi.Features.User;
 using R.Systems.Shared.Core.Validation;
 using System.Collections.Generic;
 using System.Net;
@@ -31,10 +31,10 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
     [Fact]
     public async Task ChangeUserPassword_WithoutAuthenticationToken_Unauthorized()
     {
-        ChangePasswordRequest request = new();
-        (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<ChangePasswordRequest, object>(
+        ChangeUserPasswordDto changeUserPasswordDto = new();
+        (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<ChangeUserPasswordDto, object>(
             ChangePasswordUrl,
-            request,
+            changeUserPasswordDto,
             HttpClient
         );
 
@@ -54,7 +54,7 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         AuthenticateResponse authResponse = await Authenticator.AuthenticateAsync(
             HttpClient, authRequest
         );
-        ChangePasswordRequest changePasswordRequest = new()
+        ChangeUserPasswordDto changeUserPasswordDto = new()
         {
             CurrentPassword = user.Password,
             NewPassword = newPassword,
@@ -62,9 +62,9 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         };
 
         (HttpStatusCode changePasswordHttpStatusCode, _)
-            = await RequestService.SendPostAsync<ChangePasswordRequest, object>(
+            = await RequestService.SendPostAsync<ChangeUserPasswordDto, object>(
                 ChangePasswordUrl,
-                changePasswordRequest,
+                changeUserPasswordDto,
                 HttpClient,
                 authResponse.AccessToken
             );
@@ -96,7 +96,7 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         AuthenticateResponse authResponse = await Authenticator.AuthenticateAsync(
             HttpClient, authRequest
         );
-        ChangePasswordRequest changePasswordRequest = new()
+        ChangeUserPasswordDto changeUserPasswordDto = new()
         {
             CurrentPassword = oldPassword ?? user.Password,
             NewPassword = newPassword,
@@ -104,9 +104,9 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         };
 
         (HttpStatusCode changePasswordHttpStatusCode, List<ErrorInfo>? errors)
-            = await RequestService.SendPostAsync<ChangePasswordRequest, List<ErrorInfo>>(
+            = await RequestService.SendPostAsync<ChangeUserPasswordDto, List<ErrorInfo>>(
                 ChangePasswordUrl,
-                changePasswordRequest,
+                changeUserPasswordDto,
                 HttpClient,
                 authResponse.AccessToken
             );

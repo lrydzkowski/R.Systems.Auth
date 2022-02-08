@@ -1,6 +1,6 @@
-﻿namespace R.Systems.Auth.WebApi.Features.User;
+﻿namespace R.Systems.Auth.Core.Models.Users;
 
-public class ChangePasswordRequest
+public class ChangeUserPasswordDto
 {
     public string? CurrentPassword { get; set; }
 
