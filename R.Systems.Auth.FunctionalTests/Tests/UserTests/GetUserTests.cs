@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentAssertions;
 using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
@@ -6,10 +10,6 @@ using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.UserTests;
@@ -51,9 +51,9 @@ public class GetUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Roles = new List<RoleDto>()
+                Roles = new List<RoleDto>
                 {
-                        new RoleDto()
+                        new()
                         {
                             RoleId = roles.Data[roleKey].Id,
                             RoleKey = roles.Data[roleKey].RoleKey,
@@ -107,7 +107,7 @@ public class GetUserTests : IClassFixture<CustomWebApplicationFactory<Program>>
         );
 
         (HttpStatusCode httpStatusCode, UserDto? userDto) = await RequestService.SendGetAsync<UserDto>(
-            GetUserUrl + $"/1",
+            GetUserUrl + "/1",
             HttpClient,
             authenticateResponse.AccessToken
         );

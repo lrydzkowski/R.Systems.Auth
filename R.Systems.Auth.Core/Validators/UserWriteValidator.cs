@@ -1,9 +1,9 @@
-﻿using R.Systems.Auth.Core.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Validators;
 
@@ -205,7 +205,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
                 new ErrorInfo(
                     errorKey: "NotExist",
                     elementKey,
-                    data: new Dictionary<string, string>() { { elementKey, roleId.ToString() } }
+                    data: new Dictionary<string, string> { { elementKey, roleId.ToString() } }
                 )
             );
             result = false;

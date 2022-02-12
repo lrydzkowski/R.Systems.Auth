@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,9 +12,6 @@ using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.Infrastructure.Db;
 using R.Systems.Shared.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace R.Systems.Auth.FunctionalTests.Initializers;
 
@@ -28,7 +29,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
 
     private void OverrideConfiguration(IWebHostBuilder builder)
     {
-        builder.ConfigureAppConfiguration((context, configBuilder) =>
+        builder.ConfigureAppConfiguration((_, configBuilder) =>
         {
             configBuilder.AddInMemoryCollection(
                 new Dictionary<string, string>
@@ -36,7 +37,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
                     ["Jwt:PrivateKeyPemFilePath"] = "private.pem",
                     ["Jwt:PublicKeyPemFilePath"] = "public.pem",
                     ["User:MaxNumOfIncorrectLoginsBeforeBlock"] = UserSettings.MaxNumOfIncorrectLoginsBeforeBlock.ToString(),
-                    ["User:BlockDurationInMinutes"] = UserSettings.BlockDurationInMinutes.ToString()
+                    ["User:BlockDurationInMinutes"] = UserSettings.BlockDurationInMinutes.ToString(CultureInfo.InvariantCulture)
                 }
             );
         });
@@ -60,7 +61,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
         using IServiceScope scope = serviceProvider.CreateScope();
         IServiceProvider scopedServiceProvider = scope.ServiceProvider;
         AuthDbContext dbContext = GetService<AuthDbContext>(scopedServiceProvider);
-        IPasswordHasher? passwordHasher = GetService<IPasswordHasher>(scopedServiceProvider);
+        IPasswordHasher passwordHasher = GetService<IPasswordHasher>(scopedServiceProvider);
 
         dbContext.Database.EnsureCreated();
         DbInitializer.InitData(dbContext, passwordHasher);

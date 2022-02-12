@@ -2,12 +2,12 @@
 
 public class AuthenticateRequest
 {
-    private string _email = "";
+    private readonly string _email = "";
     public string Email
     {
         get
         {
-            return _email?.Trim() ?? "";
+            return _email.Trim();
         }
         init
         {
@@ -15,12 +15,12 @@ public class AuthenticateRequest
         }
     }
 
-    private string _password = "";
+    private readonly string _password = "";
     public string Password
     {
         get
         {
-            return _password?.Trim() ?? "";
+            return _password.Trim();
         }
         init
         {

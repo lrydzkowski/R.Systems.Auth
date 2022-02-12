@@ -1,7 +1,7 @@
-﻿using R.Systems.Auth.Core.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using R.Systems.Auth.Core.Interfaces;
 
 namespace R.Systems.Auth.FunctionalTests.Models;
 
@@ -18,7 +18,7 @@ public class Users
                 FirstName = "Testowy",
                 LastName = "Tester",
                 Password = "123123",
-                RoleKeys = new List<string>() { "admin" }
+                RoleKeys = new List<string> { "admin" }
             }
         },
         {
@@ -29,7 +29,7 @@ public class Users
                 Email = "test2@lukaszrydzkowski.pl",
                 FirstName = "Testowy 2",
                 LastName = "Tester 2",
-                RoleKeys = new List<string>() { "admin" }
+                RoleKeys = new List<string> { "admin" }
             }
         },
         {
@@ -42,7 +42,7 @@ public class Users
                 LastName = "Tester 3",
                 RefreshToken = "w2B/0+V2XNBB3V4yjKNNPU44fuGDtAg/foV37rtRjk/OhJYaPAodMc8saxVvCDbavo2yHKZWXpYSJ3XjCVo70A==",
                 RefreshTokenExpireDateTimeUtc = DateTime.UtcNow.AddMinutes(-10),
-                RoleKeys = new List<string>() { "admin" }
+                RoleKeys = new List<string> { "admin" }
             }
         },
         {

@@ -1,9 +1,9 @@
-﻿using R.Systems.Auth.Core.Interfaces;
+﻿using System.Threading.Tasks;
+using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.Core.Validators;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Services;
 
@@ -34,7 +34,7 @@ public class UserWriteService : IDependencyInjectionScoped
         bool isDataCorrect = await UserWriteValidator.ValidateWriteAsync(editUserDto, userId);
         if (!isDataCorrect)
         {
-            return new OperationResult<long>() { Result = false };
+            return new OperationResult<long> { Result = false };
         }
         OperationResult<long> operationResult = await UserWriteRepository.EditUserAsync(editUserDto, userId);
         return operationResult;

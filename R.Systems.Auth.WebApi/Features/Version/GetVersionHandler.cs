@@ -1,5 +1,5 @@
-﻿using R.Systems.Shared.Core.Interfaces;
-using System.Reflection;
+﻿using System.Reflection;
+using R.Systems.Shared.Core.Interfaces;
 
 namespace R.Systems.Auth.WebApi.Features.Version;
 
@@ -7,10 +7,9 @@ public class GetVersionHandler : IDependencyInjectionScoped
 {
     public string Handle()
     {
-        string version = Assembly.GetExecutingAssembly()?
+        string version = Assembly.GetExecutingAssembly()
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-            .InformationalVersion
-            .ToString() ?? "";
+            .InformationalVersion ?? "";
         return version;
     }
 }

@@ -1,8 +1,8 @@
-﻿using R.Systems.Auth.Core.Interfaces;
+﻿using System.Collections.Generic;
+using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.Infrastructure.Db;
-using System.Collections.Generic;
 
 namespace R.Systems.Auth.FunctionalTests.Initializers;
 

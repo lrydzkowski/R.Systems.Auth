@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Infrastructure.Db.Repositories;
 
@@ -68,11 +68,11 @@ public class UserWriteRepository : IUserWriteRepository
 
     public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
     {
-        UserEntity? user = new();
+        UserEntity? userEntity = new();
         bool isUpdate = userId != null;
         if (isUpdate)
         {
-            user = await DbContext.Users
+            userEntity = await DbContext.Users
                 .Where(user => user.Id == userId)
                 .Select(user => new UserEntity
                 {
@@ -80,34 +80,34 @@ public class UserWriteRepository : IUserWriteRepository
                     Roles = user.Roles.Select(role => new RoleEntity { Id = role.Id }).ToList()
                 })
                 .FirstOrDefaultAsync();
-            if (user == null)
+            if (userEntity == null)
             {
                 throw new ArgumentException($"User with Userid = {userId} doesn't exist");
             }
-            DbContext.Attach(user);
+            DbContext.Attach(userEntity);
         }
         if (editUserDto.Email != null)
         {
-            user.Email = editUserDto.Email;
+            userEntity.Email = editUserDto.Email;
         }
         if (editUserDto.FirstName != null)
         {
-            user.FirstName = editUserDto.FirstName;
+            userEntity.FirstName = editUserDto.FirstName;
         }
         if (editUserDto.LastName != null)
         {
-            user.LastName = editUserDto.LastName;
+            userEntity.LastName = editUserDto.LastName;
         }
         if (editUserDto.Password != null)
         {
-            user.PasswordHash = PasswordHasher.CreatePasswordHash(editUserDto.Password);
+            userEntity.PasswordHash = PasswordHasher.CreatePasswordHash(editUserDto.Password);
         }
         if (editUserDto.RoleIds != null)
         {
             List<RoleEntity> rolesToAdd = new();
             foreach (long roleId in editUserDto.RoleIds)
             {
-                RoleEntity? role = user.Roles.FirstOrDefault(role => role.Id == roleId);
+                RoleEntity? role = userEntity.Roles.FirstOrDefault(role => role.Id == roleId);
                 if (role == null)
                 {
                     role = new RoleEntity { Id = roleId };
@@ -117,16 +117,16 @@ public class UserWriteRepository : IUserWriteRepository
             }
             if (isUpdate)
             {
-                user.Roles.Clear();
+                userEntity.Roles.Clear();
             }
             foreach (RoleEntity roleToAdd in rolesToAdd)
             {
-                user.Roles.Add(roleToAdd);
+                userEntity.Roles.Add(roleToAdd);
             }
         }
         if (!isUpdate)
         {
-            DbContext.Users.Add(user);
+            DbContext.Users.Add(userEntity);
         }
         try
         {
@@ -140,7 +140,7 @@ public class UserWriteRepository : IUserWriteRepository
             }
             return new OperationResult<long> { Result = false };
         }
-        return new OperationResult<long> { Result = true, Data = user.Id };
+        return new OperationResult<long> { Result = true, Data = userEntity.Id };
     }
 
     public async Task DeleteUserAsync(long userId)

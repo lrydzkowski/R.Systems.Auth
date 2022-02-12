@@ -1,6 +1,6 @@
-﻿using R.Systems.Auth.Core.Models.Users;
+﻿using System.Threading.Tasks;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Interfaces;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Interfaces;
 

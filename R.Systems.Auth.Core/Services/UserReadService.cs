@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Services;
 

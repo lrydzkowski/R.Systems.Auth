@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.Core.Models.Users;
-using System.Reflection;
 
 namespace R.Systems.Auth.Infrastructure.Db;
 

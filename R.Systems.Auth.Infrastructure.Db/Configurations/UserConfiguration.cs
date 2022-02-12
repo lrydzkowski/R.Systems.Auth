@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.Core.Models.Users;
-using System.Collections.Generic;
 
 namespace R.Systems.Auth.Infrastructure.Db.Configurations;
 
@@ -20,7 +20,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
                 x => x.HasOne<RoleEntity>().WithMany().HasForeignKey("role_id"),
                 x => x.HasOne<UserEntity>().WithMany().HasForeignKey("user_id"),
                 x => x.ToTable(name: "user_role", schema: "user")
-                    .HasData(new Dictionary<string, object>()
+                    .HasData(new Dictionary<string, object>
                     {
                             { "user_id", 1L },
                             { "role_id", 1L }
@@ -75,7 +75,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
         builder.HasData(
             new UserEntity[]
             {
-                    new UserEntity()
+                    new()
                     {
                         Id = 1,
                         Email = "admin@lukaszrydzkowski.pl",

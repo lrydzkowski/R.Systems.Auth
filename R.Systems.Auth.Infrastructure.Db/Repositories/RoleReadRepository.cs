@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models.Roles;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using R.Systems.Auth.Core.Interfaces;
+using R.Systems.Auth.Core.Models.Roles;
 
 namespace R.Systems.Auth.Infrastructure.Db.Repositories;
 
@@ -14,7 +14,7 @@ public class RoleReadRepository : GenericReadRepository<RoleEntity>, IRoleReadRe
     {
     }
 
-    protected override Expression<Func<RoleEntity, RoleEntity>> Entities { get; } = role => new RoleEntity()
+    protected override Expression<Func<RoleEntity, RoleEntity>> Entities { get; } = role => new RoleEntity
     {
         Id = role.Id,
         RoleKey = role.RoleKey,

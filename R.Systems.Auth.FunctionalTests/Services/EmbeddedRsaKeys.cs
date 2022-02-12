@@ -1,6 +1,6 @@
-﻿using R.Systems.Shared.Core.Interfaces;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
+using R.Systems.Shared.Core.Interfaces;
 
 namespace R.Systems.Auth.FunctionalTests.Services;
 

@@ -1,16 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 using R.Systems.Auth.Core.Interfaces;
 using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.Core.Models.Tokens;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.Core.Validators;
 using R.Systems.Shared.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Services;
 

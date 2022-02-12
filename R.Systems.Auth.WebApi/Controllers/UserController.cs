@@ -54,7 +54,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(ValidationResult.Errors);
         }
-        return Ok(new CreateUserResponse()
+        return Ok(new CreateUserResponse
         {
             UserId = operationResult.Data
         });

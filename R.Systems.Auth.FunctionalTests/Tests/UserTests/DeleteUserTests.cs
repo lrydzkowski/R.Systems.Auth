@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentAssertions;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
@@ -6,10 +10,6 @@ using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Shared.Core.Validation;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.UserTests;
@@ -133,18 +133,18 @@ public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program
             {
                 user,
                 999,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "NotExist", elementKey: "UserId")
+                    new(errorKey: "NotExist", elementKey: "UserId")
                 }
             },
             new object[]
             {
                 user,
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "CannotDeleteYourself", elementKey: "UserId")
+                    new(errorKey: "CannotDeleteYourself", elementKey: "UserId")
                 }
             }
         };

@@ -1,7 +1,7 @@
-﻿using R.Systems.Auth.Core.Models.Users;
+﻿using System;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;
-using System;
 
 namespace R.Systems.Auth.Core.Validators;
 

@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models.Roles;
-using R.Systems.Auth.Core.Models.Users;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using R.Systems.Auth.Core.Interfaces;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Users;
 
 namespace R.Systems.Auth.Infrastructure.Db.Repositories;
 
@@ -15,7 +15,7 @@ public class UserReadRepository : GenericReadRepository<UserEntity>, IUserReadRe
     {
     }
 
-    protected override Expression<Func<UserEntity, UserEntity>> Entities { get; } = user => new UserEntity()
+    protected override Expression<Func<UserEntity, UserEntity>> Entities { get; } = user => new UserEntity
     {
         Id = user.Id,
         Email = user.Email,
@@ -23,7 +23,7 @@ public class UserReadRepository : GenericReadRepository<UserEntity>, IUserReadRe
         LastName = user.LastName,
         PasswordHash = user.PasswordHash,
         Roles = user.Roles
-            .Select(role => new RoleEntity()
+            .Select(role => new RoleEntity
             {
                 Id = role.Id,
                 RoleKey = role.RoleKey,
@@ -34,7 +34,7 @@ public class UserReadRepository : GenericReadRepository<UserEntity>, IUserReadRe
     };
 
     protected Expression<Func<UserEntity, UserAuthentication>> UserForAuthentication { get; }
-        = user => new UserAuthentication()
+        = user => new UserAuthentication
         {
             Id = user.Id,
             Email = user.Email,
@@ -42,7 +42,7 @@ public class UserReadRepository : GenericReadRepository<UserEntity>, IUserReadRe
             NumOfIncorrectSignIn = user.NumOfIncorrectSignIn,
             LastIncorrectSignInDateTimeUtc = user.LastIncorrectSignInDateTimeUtc,
             RoleKeys = user.Roles
-                .Select(role => new RoleKey()
+                .Select(role => new RoleKey
                 {
                     Id = role.Id,
                     Key = role.RoleKey
@@ -51,14 +51,14 @@ public class UserReadRepository : GenericReadRepository<UserEntity>, IUserReadRe
         };
 
     protected Expression<Func<UserEntity, UserRefreshToken>> UserForRefreshingToken { get; }
-        = user => new UserRefreshToken()
+        = user => new UserRefreshToken
         {
             Id = user.Id,
             Email = user.Email,
             RefreshToken = user.RefreshToken,
             RefreshTokenExpireDateTimeUtc = user.RefreshTokenExpireDateTimeUtc,
             RoleKeys = user.Roles
-                .Select(role => new RoleKey()
+                .Select(role => new RoleKey
                 {
                     Id = role.Id,
                     Key = role.RoleKey

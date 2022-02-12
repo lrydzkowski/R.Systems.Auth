@@ -1,8 +1,8 @@
-﻿using R.Systems.Auth.FunctionalTests.Models;
-using R.Systems.Auth.WebApi.Features.Authentication;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using R.Systems.Auth.FunctionalTests.Models;
+using R.Systems.Auth.WebApi.Features.Authentication;
 
 namespace R.Systems.Auth.FunctionalTests.Services;
 
@@ -21,7 +21,7 @@ public class Authenticator
         if (request == null)
         {
             UserInfo user = new Users().Data["test@lukaszrydzkowski.pl"];
-            request = new()
+            request = new AuthenticateRequest
             {
                 Email = user.Email,
                 Password = user.Password

@@ -1,5 +1,5 @@
-﻿using R.Systems.Auth.Core.Models.Roles;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using R.Systems.Auth.Core.Models.Roles;
 
 namespace R.Systems.Auth.FunctionalTests.Models;
 
@@ -28,6 +28,4 @@ public class Roles
             }
         }
     };
-
-    public Roles() { }
 }

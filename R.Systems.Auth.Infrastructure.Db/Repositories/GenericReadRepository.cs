@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using R.Systems.Shared.Core.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using R.Systems.Shared.Core.Interfaces;
 
 namespace R.Systems.Auth.Infrastructure.Db.Repositories;
 

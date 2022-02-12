@@ -1,7 +1,7 @@
-﻿using R.Systems.Auth.Core.Models.Roles;
-using R.Systems.Shared.Core.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Shared.Core.Interfaces;
 
 namespace R.Systems.Auth.Core.Models.Users;
 

@@ -1,5 +1,5 @@
-﻿using R.Systems.Auth.Core.Models.Users;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using R.Systems.Auth.Core.Models.Users;
 
 namespace R.Systems.Auth.FunctionalTests.Models;
 

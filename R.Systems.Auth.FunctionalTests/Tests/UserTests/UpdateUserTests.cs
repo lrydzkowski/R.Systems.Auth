@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentAssertions;
 using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
@@ -7,11 +11,6 @@ using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Shared.Core.Validation;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.UserTests;
@@ -28,8 +27,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
     public HttpClient HttpClient { get; }
     public RequestService RequestService { get; }
     public Authenticator Authenticator { get; }
-    public string UsersUrl { get; } = "/users";
-    private string AuthenticateUrl { get; } = "/users/authenticate";
+    public string UsersUrl => "/users";
 
     [Fact]
     public async Task UpdateUser_WithoutAuthenticationToken_Unauthorized()
@@ -83,15 +81,6 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                 Password = loggedUser.Password
             }
         );
-        List<RoleDto> roles = new Roles().Data
-            .Select(x => new RoleDto()
-            {
-                RoleId = x.Value.Id,
-                RoleKey = x.Value.RoleKey,
-                Name = x.Value.Name,
-                Description = x.Value.Description
-            })
-            .ToList();
         UserInfo userToEdit = new Users().Data["test2@lukaszrydzkowski.pl"];
 
         (HttpStatusCode updateUserHttpStatusCode, _) = await RequestService.SendPostAsync<EditUserDto, object>(
@@ -139,7 +128,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
             {
                 new EditUserDto
                 {
-                    RoleIds = new List<long>() { userRole.Id }
+                    RoleIds = new List<long> { userRole.Id }
                 },
                 new UserDto
                 {
@@ -147,7 +136,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Roles = new List<RoleDto>() { userRoleDto }
+                    Roles = new List<RoleDto> { userRoleDto }
                 }
             },
             new object[]
@@ -162,7 +151,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                     Email = "qwerty123@gmail.com",
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Roles = new List<RoleDto>() { userRoleDto }
+                    Roles = new List<RoleDto> { userRoleDto }
                 }
             },
             new object[]
@@ -177,7 +166,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                     Email = "qwerty123@gmail.com",
                     FirstName = "Kacper",
                     LastName = user.LastName,
-                    Roles = new List<RoleDto>() { userRoleDto }
+                    Roles = new List<RoleDto> { userRoleDto }
                 }
             },
             new object[]
@@ -192,14 +181,14 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                     Email = "qwerty123@gmail.com",
                     FirstName = "Kacper",
                     LastName = "Grudziński",
-                    Roles = new List<RoleDto>() { userRoleDto }
+                    Roles = new List<RoleDto> { userRoleDto }
                 }
             },
             new object[]
             {
                 new EditUserDto
                 {
-                    RoleIds = new List<long>() { adminRole.Id }
+                    RoleIds = new List<long> { adminRole.Id }
                 },
                 new UserDto
                 {
@@ -207,14 +196,14 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                     Email = "qwerty123@gmail.com",
                     FirstName = "Kacper",
                     LastName = "Grudziński",
-                    Roles = new List<RoleDto>() { adminRoleDto }
+                    Roles = new List<RoleDto> { adminRoleDto }
                 }
             },
             new object[]
             {
                 new EditUserDto
                 {
-                    RoleIds = new List<long>() { adminRole.Id, userRole.Id }
+                    RoleIds = new List<long> { adminRole.Id, userRole.Id }
                 },
                 new UserDto
                 {
@@ -222,14 +211,14 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                     Email = "qwerty123@gmail.com",
                     FirstName = "Kacper",
                     LastName = "Grudziński",
-                    Roles = new List<RoleDto>() { adminRoleDto, userRoleDto }
+                    Roles = new List<RoleDto> { adminRoleDto, userRoleDto }
                 }
             },
             new object[]
             {
                 new EditUserDto
                 {
-                    RoleIds = new List<long>() { userRole.Id }
+                    RoleIds = new List<long> { userRole.Id }
                 },
                 new UserDto
                 {
@@ -237,7 +226,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
                     Email = "qwerty123@gmail.com",
                     FirstName = "Kacper",
                     LastName = "Grudziński",
-                    Roles = new List<RoleDto>() { userRoleDto }
+                    Roles = new List<RoleDto> { userRoleDto }
                 }
             }
         };
@@ -280,173 +269,173 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
         {
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Email = "123@gmail.com"
                 },
                 999,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "NotExist", elementKey: "UserId")
+                    new(errorKey: "NotExist", elementKey: "UserId")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Email = " "
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "IsRequired", elementKey: "Email")
+                    new(errorKey: "IsRequired", elementKey: "Email")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Email = "test"
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "WrongStructure", elementKey: "Email")
+                    new(errorKey: "WrongStructure", elementKey: "Email")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Email = "200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200@gmail.com"
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "TooLong", elementKey: "Email")
+                    new(errorKey: "TooLong", elementKey: "Email")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Email = user2.Email
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "Exists", elementKey: "Email")
+                    new(errorKey: "Exists", elementKey: "Email")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     FirstName = ""
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "IsRequired", elementKey: "FirstName")
+                    new(errorKey: "IsRequired", elementKey: "FirstName")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     FirstName = "200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200"
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "TooLong", elementKey: "FirstName")
+                    new(errorKey: "TooLong", elementKey: "FirstName")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     LastName = ""
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "IsRequired", elementKey: "LastName")
+                    new(errorKey: "IsRequired", elementKey: "LastName")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     LastName = "200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200200"
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "TooLong", elementKey: "LastName")
+                    new(errorKey: "TooLong", elementKey: "LastName")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Password = ""
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "IsRequired", elementKey: "Password")
+                    new(errorKey: "IsRequired", elementKey: "Password")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Password = "1234"
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "TooShort", elementKey: "Password")
+                    new(errorKey: "TooShort", elementKey: "Password")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Password = "1234567890123456789012345678901"
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "TooLong", elementKey: "Password")
+                    new(errorKey: "TooLong", elementKey: "Password")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     RoleIds = new List<long>()
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "IsRequired", elementKey: "RoleId")
+                    new(errorKey: "IsRequired", elementKey: "RoleId")
                 }
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
-                    RoleIds = new List<long>() { 50 }
+                    RoleIds = new List<long> { 50 }
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(
+                    new(
                         errorKey: "NotExist",
                         elementKey: "RoleId",
-                        data: new Dictionary<string, string>()
+                        data: new Dictionary<string, string>
                         {
                             { "RoleId", "50" }
                         }
@@ -455,24 +444,24 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory<Program
             },
             new object[]
             {
-                new EditUserDto()
+                new EditUserDto
                 {
                     Email = "",
                     FirstName = "Lucas",
                     LastName = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
                     Password = "12345678901234567890123456789012",
-                    RoleIds = new List<long>() { 120 }
+                    RoleIds = new List<long> { 120 }
                 },
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "IsRequired", elementKey: "Email"),
-                    new ErrorInfo(errorKey: "TooLong", elementKey: "LastName"),
-                    new ErrorInfo(errorKey: "TooLong", elementKey: "Password"),
-                    new ErrorInfo(
+                    new(errorKey: "IsRequired", elementKey: "Email"),
+                    new(errorKey: "TooLong", elementKey: "LastName"),
+                    new(errorKey: "TooLong", elementKey: "Password"),
+                    new(
                         errorKey: "NotExist",
                         elementKey: "RoleId",
-                        data: new Dictionary<string, string>()
+                        data: new Dictionary<string, string>
                         {
                             { "RoleId", "120" }
                         }

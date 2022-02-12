@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentAssertions;
 using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
@@ -7,12 +11,8 @@ using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Auth.WebApi.Features.Tokens;
 using R.Systems.Shared.Core.Validation;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
+using UserSettings = R.Systems.Auth.FunctionalTests.Models.UserSettings;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.AuthenticationTests;
 
@@ -129,7 +129,7 @@ public class AuthenticateTests : IClassFixture<CustomWebApplicationFactory<Progr
             Email = user.Email,
             Password = user.Password + "1"
         };
-        int numOfIncorrectLogins = Models.UserSettings.MaxNumOfIncorrectLoginsBeforeBlock + 1;
+        int numOfIncorrectLogins = UserSettings.MaxNumOfIncorrectLoginsBeforeBlock + 1;
 
         HttpStatusCode? httpStatusCodeAfterBlockade = null;
         List<ErrorInfo>? blockadeErrors = null;
@@ -146,9 +146,9 @@ public class AuthenticateTests : IClassFixture<CustomWebApplicationFactory<Progr
         Assert.Equal(HttpStatusCode.BadRequest, httpStatusCodeAfterBlockade);
         Assert.NotNull(blockadeErrors);
         blockadeErrors.Should().BeEquivalentTo(
-            new List<ErrorInfo>()
+            new List<ErrorInfo>
             {
-                new ErrorInfo(errorKey: "Blocked", elementKey: "User")
+                new(errorKey: "Blocked", elementKey: "User")
             }
         );
     }

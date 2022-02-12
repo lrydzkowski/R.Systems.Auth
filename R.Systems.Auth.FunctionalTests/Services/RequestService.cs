@@ -31,7 +31,7 @@ public class RequestService
             try
             {
                 response = JsonSerializer.Deserialize<TResp>(
-                    responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
+                    responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 );
             }
             catch { }
@@ -65,7 +65,7 @@ public class RequestService
         try
         {
             response = JsonSerializer.Deserialize<TResp>(
-                responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
+                responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             );
         }
         catch { }
