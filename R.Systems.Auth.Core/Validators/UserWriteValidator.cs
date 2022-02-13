@@ -91,7 +91,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         email = email?.Trim();
-        if (email == null || email.Length == 0)
+        if (string.IsNullOrEmpty(email))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;
@@ -122,7 +122,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         firstName = firstName?.Trim();
-        if (firstName == null || firstName.Length == 0)
+        if (string.IsNullOrEmpty(firstName))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;
@@ -143,7 +143,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         lastName = lastName?.Trim();
-        if (lastName == null || lastName.Length == 0)
+        if (string.IsNullOrEmpty(lastName))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;
@@ -164,7 +164,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         password = password?.Trim();
-        if (password == null || password.Length == 0)
+        if (string.IsNullOrEmpty(password))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;

@@ -132,12 +132,8 @@ public class UserWriteRepository : IUserWriteRepository
         {
             await DbContext.SaveChangesAsync();
         }
-        catch (Exception dbUpdateException)
+        catch (Exception dbUpdateException) when (HandleDbUpdateException(dbUpdateException))
         {
-            if (!HandleDbUpdateException(dbUpdateException))
-            {
-                throw;
-            }
             return new OperationResult<long> { Result = false };
         }
         return new OperationResult<long> { Result = true, Data = userEntity.Id };

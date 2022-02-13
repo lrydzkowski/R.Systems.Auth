@@ -25,10 +25,6 @@ public class RoleReadRepository : GenericReadRepository<RoleEntity>, IRoleReadRe
     public async Task<bool> RoleExistsAsync(long roleId)
     {
         RoleEntity? role = await DbContext.Roles.AsNoTracking().Where(role => role.Id == roleId).FirstOrDefaultAsync();
-        if (role == null)
-        {
-            return false;
-        }
-        return true;
+        return role != null;
     }
 }

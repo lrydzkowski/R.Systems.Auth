@@ -53,10 +53,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
     {
         RemoveService(services, typeof(DbContextOptions<AuthDbContext>));
         string inMemoryDatabaseName = Guid.NewGuid().ToString();
-        services.AddDbContext<AuthDbContext>(options =>
-        {
-            options.UseInMemoryDatabase(inMemoryDatabaseName);
-        });
+        services.AddDbContext<AuthDbContext>(options => options.UseInMemoryDatabase(inMemoryDatabaseName));
         IServiceProvider serviceProvider = services.BuildServiceProvider();
         using IServiceScope scope = serviceProvider.CreateScope();
         IServiceProvider scopedServiceProvider = scope.ServiceProvider;

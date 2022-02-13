@@ -19,7 +19,7 @@ public class GenericReadRepository<T> : IGenericReadRepository<T> where T : clas
 
     protected Expression<Func<T, long?>> OnlyId { get; } = entity => entity.Id;
 
-    protected virtual Expression<Func<T, T>> Entities { get; } = entity => new T();
+    protected virtual Expression<Func<T, T>> Entities { get; } = _ => new T();
 
     public async Task<T?> GetAsync(long recId)
     {
