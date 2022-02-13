@@ -35,7 +35,7 @@ public class Authenticator
             );
         if (response == null)
         {
-            throw new Exception("Unexpected error in authentication has occured.");
+            throw new Exception("Unexpected error in authentication has occurred.");
         }
         return response;
     }
