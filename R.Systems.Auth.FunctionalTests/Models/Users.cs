@@ -102,7 +102,8 @@ public class Users
         }
     };
 
-    public Users() { }
+    public Users()
+    { }
 
     public Users(IPasswordHasher passwordHasher)
     {

@@ -38,19 +38,22 @@ internal class RoleConfiguration : IEntityTypeConfiguration<RoleEntity>
 
     private void InitializeData(EntityTypeBuilder<RoleEntity> builder)
     {
-        builder.HasData(new()
+        builder.HasData(
+            new RoleEntity()
             {
                 Id = 1,
                 RoleKey = "admin",
                 Name = "Administrator",
                 Description = "System administrator."
-            }, new()
+            },
+            new RoleEntity()
             {
                 Id = 2,
                 RoleKey = "user",
                 Name = "User",
                 Description = "Standard user."
-            });
+            }
+        );
         builder.Property(role => role.Id).HasIdentityOptions(startValue: 3);
     }
 }

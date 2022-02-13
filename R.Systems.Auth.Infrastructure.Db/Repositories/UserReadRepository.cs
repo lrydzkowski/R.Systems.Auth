@@ -15,23 +15,24 @@ public class UserReadRepository : GenericReadRepository<UserEntity>, IUserReadRe
     {
     }
 
-    protected override Expression<Func<UserEntity, UserEntity>> Entities { get; } = user => new UserEntity
-    {
-        Id = user.Id,
-        Email = user.Email,
-        FirstName = user.FirstName,
-        LastName = user.LastName,
-        PasswordHash = user.PasswordHash,
-        Roles = user.Roles
-            .Select(role => new RoleEntity
-            {
-                Id = role.Id,
-                RoleKey = role.RoleKey,
-                Name = role.Name,
-                Description = role.Description,
-            })
-            .ToList()
-    };
+    protected override Expression<Func<UserEntity, UserEntity>> Entities { get; }
+        = user => new UserEntity
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PasswordHash = user.PasswordHash,
+            Roles = user.Roles
+                .Select(role => new RoleEntity
+                {
+                    Id = role.Id,
+                    RoleKey = role.RoleKey,
+                    Name = role.Name,
+                    Description = role.Description,
+                })
+                .ToList()
+        };
 
     protected Expression<Func<UserEntity, UserAuthentication>> UserForAuthentication { get; }
         = user => new UserAuthentication

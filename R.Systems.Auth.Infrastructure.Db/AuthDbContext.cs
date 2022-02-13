@@ -7,7 +7,9 @@ namespace R.Systems.Auth.Infrastructure.Db;
 
 public class AuthDbContext : DbContext
 {
-    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options) { }
+    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+    {
+    }
 
     public DbSet<UserEntity> Users => Set<UserEntity>();
 

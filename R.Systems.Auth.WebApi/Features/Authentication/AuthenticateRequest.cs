@@ -3,6 +3,7 @@
 public class AuthenticateRequest
 {
     private readonly string _email = "";
+
     public string Email
     {
         get
@@ -16,6 +17,7 @@ public class AuthenticateRequest
     }
 
     private readonly string _password = "";
+
     public string Password
     {
         get
