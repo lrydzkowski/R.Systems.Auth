@@ -1,15 +1,15 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentAssertions;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
-using R.Systems.Auth.WebApi.Features.User;
 using R.Systems.Shared.Core.Validation;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.UserTests;
@@ -31,10 +31,10 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
     [Fact]
     public async Task ChangeUserPassword_WithoutAuthenticationToken_Unauthorized()
     {
-        ChangePasswordRequest request = new();
-        (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<ChangePasswordRequest, object>(
+        ChangeUserPasswordDto changeUserPasswordDto = new();
+        (HttpStatusCode httpStatusCode, _) = await RequestService.SendPostAsync<ChangeUserPasswordDto, object>(
             ChangePasswordUrl,
-            request,
+            changeUserPasswordDto,
             HttpClient
         );
 
@@ -54,7 +54,7 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         AuthenticateResponse authResponse = await Authenticator.AuthenticateAsync(
             HttpClient, authRequest
         );
-        ChangePasswordRequest changePasswordRequest = new()
+        ChangeUserPasswordDto changeUserPasswordDto = new()
         {
             CurrentPassword = user.Password,
             NewPassword = newPassword,
@@ -62,9 +62,9 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         };
 
         (HttpStatusCode changePasswordHttpStatusCode, _)
-            = await RequestService.SendPostAsync<ChangePasswordRequest, object>(
+            = await RequestService.SendPostAsync<ChangeUserPasswordDto, object>(
                 ChangePasswordUrl,
-                changePasswordRequest,
+                changeUserPasswordDto,
                 HttpClient,
                 authResponse.AccessToken
             );
@@ -96,7 +96,7 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         AuthenticateResponse authResponse = await Authenticator.AuthenticateAsync(
             HttpClient, authRequest
         );
-        ChangePasswordRequest changePasswordRequest = new()
+        ChangeUserPasswordDto changeUserPasswordDto = new()
         {
             CurrentPassword = oldPassword ?? user.Password,
             NewPassword = newPassword,
@@ -104,9 +104,9 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
         };
 
         (HttpStatusCode changePasswordHttpStatusCode, List<ErrorInfo>? errors)
-            = await RequestService.SendPostAsync<ChangePasswordRequest, List<ErrorInfo>>(
+            = await RequestService.SendPostAsync<ChangeUserPasswordDto, List<ErrorInfo>>(
                 ChangePasswordUrl,
-                changePasswordRequest,
+                changeUserPasswordDto,
                 HttpClient,
                 authResponse.AccessToken
             );
@@ -123,32 +123,32 @@ public class ChangeUserPasswordTests : IClassFixture<CustomWebApplicationFactory
             {
                 "d11d11",
                 "d11d11",
-                new List<ErrorInfo>() { new ErrorInfo(errorKey: "WrongPassword", elementKey: "User") },
+                new List<ErrorInfo> { new(errorKey: "WrongPassword", elementKey: "User") },
                 "ddd"
             },
             new object?[]
             {
                 "d11d11",
                 "d11d112",
-                new List<ErrorInfo>() { new ErrorInfo(errorKey: "DifferentValues", elementKey: "Passwords") }
+                new List<ErrorInfo> { new(errorKey: "DifferentValues", elementKey: "Passwords") }
             },
             new object?[]
             {
                 "",
                 "",
-                new List<ErrorInfo>() { new ErrorInfo(errorKey: "IsRequired", elementKey: "Password") }
+                new List<ErrorInfo> { new(errorKey: "IsRequired", elementKey: "Password") }
             },
             new object?[]
             {
                 "d11",
                 "d11",
-                new List<ErrorInfo>() { new ErrorInfo(errorKey: "TooShort", elementKey: "Password") }
+                new List<ErrorInfo> { new(errorKey: "TooShort", elementKey: "Password") }
             },
             new object?[]
             {
                 "3030303030303030303030303030303",
                 "3030303030303030303030303030303",
-                new List<ErrorInfo>() { new ErrorInfo(errorKey: "TooLong", elementKey: "Password") }
+                new List<ErrorInfo> { new(errorKey: "TooLong", elementKey: "Password") }
             }
         };
     }

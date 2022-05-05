@@ -1,8 +1,8 @@
-﻿using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+﻿using System.Collections.Generic;
+using R.Systems.Auth.Core.Interfaces;
+using R.Systems.Auth.Core.Models.Roles;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.Infrastructure.Db;
-using System.Collections.Generic;
 
 namespace R.Systems.Auth.FunctionalTests.Initializers;
 
@@ -17,7 +17,7 @@ internal static class DbInitializer
     private static void AddUsers(AuthDbContext dbContext, IPasswordHasher passwordHasher)
     {
         Roles roles = new();
-        foreach (KeyValuePair<string, Role> role in roles.Data)
+        foreach (KeyValuePair<string, RoleEntity> role in roles.Data)
         {
             dbContext.Attach(role.Value);
         }

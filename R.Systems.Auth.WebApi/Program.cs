@@ -1,4 +1,4 @@
-using NLog;
+﻿using NLog;
 using NLog.Web;
 using R.Systems.Auth.WebApi.DependencyInjection;
 using R.Systems.Shared.WebApi.Middlewares;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using R.Systems.Auth.Core.Models.Roles;
 
-namespace R.Systems.Auth.Core.Models;
+namespace R.Systems.Auth.Core.Models.Users;
 
 public class UserDto
 {

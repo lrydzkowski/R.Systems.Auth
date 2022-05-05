@@ -1,9 +1,9 @@
-﻿using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using R.Systems.Auth.Core.Interfaces;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Validators;
 
@@ -50,17 +50,16 @@ public class UserWriteValidator : IDependencyInjectionScoped
         return result;
     }
 
-    public async Task<bool> ValidateChangePasswordAsync(
-        long userId, string? currentPassword, string newPassword, string repeatedNewPassword)
+    public async Task<bool> ValidateChangePasswordAsync(long userId, ChangeUserPasswordDto changeUserPasswordDto)
     {
         if (!await ValidateUserIdAsync(userId))
         {
             return false;
         }
         bool result = true;
-        result &= await ValidateUserPasswordAsync(userId, currentPassword);
-        result &= ValidateNewPasswords(newPassword, repeatedNewPassword);
-        result &= ValidatePassword(newPassword, isUpdate: true);
+        result &= await ValidateUserPasswordAsync(userId, changeUserPasswordDto.CurrentPassword);
+        result &= ValidateNewPasswords(changeUserPasswordDto.NewPassword, changeUserPasswordDto.RepeatedNewPassword);
+        result &= ValidatePassword(changeUserPasswordDto.NewPassword, isUpdate: true);
         return result;
     }
 
@@ -92,7 +91,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         email = email?.Trim();
-        if (email == null || email.Length == 0)
+        if (string.IsNullOrEmpty(email))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;
@@ -123,7 +122,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         firstName = firstName?.Trim();
-        if (firstName == null || firstName.Length == 0)
+        if (string.IsNullOrEmpty(firstName))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;
@@ -144,7 +143,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         lastName = lastName?.Trim();
-        if (lastName == null || lastName.Length == 0)
+        if (string.IsNullOrEmpty(lastName))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;
@@ -165,7 +164,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
             return true;
         }
         password = password?.Trim();
-        if (password == null || password.Length == 0)
+        if (string.IsNullOrEmpty(password))
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "IsRequired", elementKey));
             return false;
@@ -206,7 +205,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
                 new ErrorInfo(
                     errorKey: "NotExist",
                     elementKey,
-                    data: new Dictionary<string, string>() { { elementKey, roleId.ToString() } }
+                    data: new Dictionary<string, string> { { elementKey, roleId.ToString() } }
                 )
             );
             result = false;
@@ -216,7 +215,7 @@ public class UserWriteValidator : IDependencyInjectionScoped
 
     private async Task<bool> ValidateUserPasswordAsync(long userId, string? password)
     {
-        User? user = await UserReadRepository.GetUserForAuthenticationAsync(userId);
+        UserAuthentication? user = await UserReadRepository.GetUserForAuthenticationAsync(userId);
         if (user == null)
         {
             ValidationResult.Errors.Add(new ErrorInfo(errorKey: "NotExist", elementKey: "User"));

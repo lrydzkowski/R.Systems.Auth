@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30B13D5D-EC9B-4E1A-8687-516AD577F588}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Dockerfile = Dockerfile
 		DockerfileSQLMigrationDown = DockerfileSQLMigrationDown
@@ -16,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.Core", "R.Systems.Auth.Core\R.Systems.Auth.Core.csproj", "{1AF1F2AA-3B88-4C1B-95C3-12DB3FBF8334}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A703D894-4303-4B38-B7A5-F3B98344F782}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{A703D894-4303-4B38-B7A5-F3B98344F782}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3844A3EB-E794-4529-BAF8-D836E0E2B08E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3844A3EB-E794-4529-BAF8-D836E0E2B08E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.WebApi", "R.Systems.Auth.WebApi\R.Systems.Auth.WebApi.csproj", "{55713BCC-7CAB-4055-AEB7-D1416CAE31D4}"
 EndProject

@@ -1,6 +1,6 @@
-﻿using R.Systems.Auth.Core.Models;
+﻿using System.Threading.Tasks;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Validation;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Interfaces;
 
@@ -11,6 +11,8 @@ public interface IUserWriteRepository
     Task SaveIncorrectSignInAsync(long userId);
 
     Task ClearIncorrectSignInAsync(long userId);
+
+    Task ChangeUserPasswordAsync(long userId, string newPassword);
 
     Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null);
 

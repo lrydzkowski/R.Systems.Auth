@@ -1,9 +1,9 @@
-﻿using R.Systems.Auth.FunctionalTests.Initializers;
-using R.Systems.Auth.WebApi;
-using R.Systems.Auth.WebApi.Features.Version;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using R.Systems.Auth.FunctionalTests.Initializers;
+using R.Systems.Auth.WebApi;
+using R.Systems.Auth.WebApi.Features.Version;
 using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.VersionTests;
@@ -33,6 +33,6 @@ public class GetVersionTests : IClassFixture<CustomWebApplicationFactory<Program
         GetVersionResponse? parsedResponse = JsonSerializer.Deserialize<GetVersionResponse>(
             responseContent, jsonSerializerOptions
         );
-        Assert.StartsWith(expectedResponse.Version, parsedResponse?.Version);
+        Assert.StartsWith(expectedResponse.Version, parsedResponse?.Version ?? "");
     }
 }

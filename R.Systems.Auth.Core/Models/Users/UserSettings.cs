@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.Core.Models;
+﻿namespace R.Systems.Auth.Core.Models.Users;
 
 public class UserSettings
 {

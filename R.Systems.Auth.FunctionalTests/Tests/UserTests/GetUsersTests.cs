@@ -1,13 +1,13 @@
-﻿using R.Systems.Auth.Core.Models;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.UserTests;

@@ -1,4 +1,4 @@
-﻿namespace R.Systems.Auth.Core.Models;
+﻿namespace R.Systems.Auth.Core.Models.Tokens;
 
 public class TokenSettings
 {
@@ -6,5 +6,5 @@ public class TokenSettings
 
     public double AccessTokenLifeTimeInMinutes { get; init; }
 
-    public double RefreshTokenLifeTimeInMinutes { get; set; }
+    public double RefreshTokenLifeTimeInMinutes { get; init; }
 }

@@ -1,16 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using R.Systems.Auth.Core.Models;
-using System.Reflection;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using R.Systems.Auth.Core.Models.Roles;
+using R.Systems.Auth.Core.Models.Users;
 
 namespace R.Systems.Auth.Infrastructure.Db;
 
 public class AuthDbContext : DbContext
 {
-    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options) { }
+    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+    {
+    }
 
-    public DbSet<User> Users => Set<User>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
 
-    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<RoleEntity> Roles => Set<RoleEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

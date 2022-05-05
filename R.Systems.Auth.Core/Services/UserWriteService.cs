@@ -1,43 +1,40 @@
-﻿using R.Systems.Auth.Core.Interfaces;
-using R.Systems.Auth.Core.Models;
+﻿using System.Threading.Tasks;
+using R.Systems.Auth.Core.Interfaces;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.Core.Validators;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;
-using System.Threading.Tasks;
 
 namespace R.Systems.Auth.Core.Services;
 
 public class UserWriteService : IDependencyInjectionScoped
 {
-    public UserWriteService(IUserWriteRepository userWriteRepository, UserWriteValidator userWriteValidator)
+    public UserWriteService(UserWriteValidator userWriteValidator, IUserWriteRepository userWriteRepository)
     {
-        UserWriteRepository = userWriteRepository;
         UserWriteValidator = userWriteValidator;
+        UserWriteRepository = userWriteRepository;
     }
 
-    public IUserWriteRepository UserWriteRepository { get; }
     public UserWriteValidator UserWriteValidator { get; }
+    public IUserWriteRepository UserWriteRepository { get; }
 
-    public async Task<bool> ChangeUserPasswordAsync(
-        long userId, string? currentPassword, string newPassword, string repeatedNewPassword)
+    public async Task<bool> ChangeUserPasswordAsync(long userId, ChangeUserPasswordDto changeUserPasswordDto)
     {
-        bool validationResult = await UserWriteValidator.ValidateChangePasswordAsync(
-            userId, currentPassword, newPassword, repeatedNewPassword
-        );
-        if (!validationResult)
+        bool isDataCorrect = await UserWriteValidator.ValidateChangePasswordAsync(userId, changeUserPasswordDto);
+        if (!isDataCorrect)
         {
             return false;
         }
-        OperationResult<long> editResult = await EditUserAsync(new EditUserDto { Password = newPassword }, userId);
-        return editResult.Result;
+        await UserWriteRepository.ChangeUserPasswordAsync(userId, changeUserPasswordDto.NewPassword);
+        return true;
     }
 
     public async Task<OperationResult<long>> EditUserAsync(EditUserDto editUserDto, long? userId = null)
     {
-        bool validationResult = await UserWriteValidator.ValidateWriteAsync(editUserDto, userId);
-        if (!validationResult)
+        bool isDataCorrect = await UserWriteValidator.ValidateWriteAsync(editUserDto, userId);
+        if (!isDataCorrect)
         {
-            return new OperationResult<long>() { Result = false };
+            return new OperationResult<long> { Result = false };
         }
         OperationResult<long> operationResult = await UserWriteRepository.EditUserAsync(editUserDto, userId);
         return operationResult;
@@ -45,8 +42,8 @@ public class UserWriteService : IDependencyInjectionScoped
 
     public async Task<bool> DeleteUserAsync(long userId, long authorizedUserId)
     {
-        bool result = await UserWriteValidator.ValidateDeleteAsync(userId, authorizedUserId);
-        if (!result)
+        bool isDataCorrect = await UserWriteValidator.ValidateDeleteAsync(userId, authorizedUserId);
+        if (!isDataCorrect)
         {
             return false;
         }

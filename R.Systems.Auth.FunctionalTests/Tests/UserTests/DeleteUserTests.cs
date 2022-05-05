@@ -1,15 +1,15 @@
-﻿using FluentAssertions;
-using R.Systems.Auth.Core.Models;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentAssertions;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Auth.FunctionalTests.Initializers;
 using R.Systems.Auth.FunctionalTests.Models;
 using R.Systems.Auth.FunctionalTests.Services;
 using R.Systems.Auth.WebApi;
 using R.Systems.Auth.WebApi.Features.Authentication;
 using R.Systems.Shared.Core.Validation;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace R.Systems.Auth.FunctionalTests.Tests.UserTests;
@@ -31,7 +31,7 @@ public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program
     [Fact]
     public async Task DeleteUser_WithoutAuthenticationToken_Unauthorized()
     {
-        User userToDelete = new Users().Data["test5@lukaszrydzkowski.pl"];
+        UserEntity userToDelete = new Users().Data["test5@lukaszrydzkowski.pl"];
 
         (HttpStatusCode httpStatusCode, _) = await RequestService.SendDeleteAsync<object>(
             $"{UsersUrl}/{userToDelete.Id}",
@@ -53,7 +53,7 @@ public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program
                 Password = user.Password
             }
         );
-        User userToDelete = new Users().Data["test@lukaszrydzkowski.pl"];
+        UserEntity userToDelete = new Users().Data["test@lukaszrydzkowski.pl"];
 
         (HttpStatusCode httpStatusCode, _) = await RequestService.SendDeleteAsync<object>(
             $"{UsersUrl}/{userToDelete.Id}",
@@ -133,18 +133,18 @@ public class DeleteUserTests : IClassFixture<CustomWebApplicationFactory<Program
             {
                 user,
                 999,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "NotExist", elementKey: "UserId")
+                    new(errorKey: "NotExist", elementKey: "UserId")
                 }
             },
             new object[]
             {
                 user,
                 user.Id,
-                new List<ErrorInfo>()
+                new List<ErrorInfo>
                 {
-                    new ErrorInfo(errorKey: "CannotDeleteYourself", elementKey: "UserId")
+                    new(errorKey: "CannotDeleteYourself", elementKey: "UserId")
                 }
             }
         };

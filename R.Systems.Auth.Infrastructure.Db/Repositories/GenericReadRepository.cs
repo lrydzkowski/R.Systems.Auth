@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using R.Systems.Shared.Core.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using R.Systems.Shared.Core.Interfaces;
 
 namespace R.Systems.Auth.Infrastructure.Db.Repositories;
 
@@ -16,7 +16,10 @@ public class GenericReadRepository<T> : IGenericReadRepository<T> where T : clas
     }
 
     public AuthDbContext DbContext { get; }
-    protected virtual Expression<Func<T, T>> Entities { get; } = entity => new T();
+
+    protected Expression<Func<T, long?>> OnlyId { get; } = entity => entity.Id;
+
+    protected virtual Expression<Func<T, T>> Entities { get; } = _ => new T();
 
     public async Task<T?> GetAsync(long recId)
     {

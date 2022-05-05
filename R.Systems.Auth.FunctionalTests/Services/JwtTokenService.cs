@@ -1,6 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
 
 namespace R.Systems.Auth.FunctionalTests.Services;
 

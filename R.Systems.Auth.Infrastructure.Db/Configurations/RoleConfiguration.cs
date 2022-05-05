@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using R.Systems.Auth.Core.Models;
+using R.Systems.Auth.Core.Models.Roles;
 
 namespace R.Systems.Auth.Infrastructure.Db.Configurations;
 
-internal class RoleConfiguration : IEntityTypeConfiguration<Role>
+internal class RoleConfiguration : IEntityTypeConfiguration<RoleEntity>
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<RoleEntity> builder)
     {
         builder.ToTable(name: "role", schema: "user");
         builder.HasKey(role => role.Id);
@@ -14,7 +14,7 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
         InitializeData(builder);
     }
 
-    private void ConfigureColumns(EntityTypeBuilder<Role> builder)
+    private void ConfigureColumns(EntityTypeBuilder<RoleEntity> builder)
     {
         builder.Property(role => role.Id)
             .HasColumnName("id")
@@ -36,25 +36,22 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasMaxLength(200);
     }
 
-    private void InitializeData(EntityTypeBuilder<Role> builder)
+    private void InitializeData(EntityTypeBuilder<RoleEntity> builder)
     {
         builder.HasData(
-            new Role[]
+            new RoleEntity()
             {
-                    new Role()
-                    {
-                        Id = 1,
-                        RoleKey = "admin",
-                        Name = "Administrator",
-                        Description = "System administrator."
-                    },
-                    new Role()
-                    {
-                        Id = 2,
-                        RoleKey = "user",
-                        Name = "User",
-                        Description = "Standard user."
-                    }
+                Id = 1,
+                RoleKey = "admin",
+                Name = "Administrator",
+                Description = "System administrator."
+            },
+            new RoleEntity()
+            {
+                Id = 2,
+                RoleKey = "user",
+                Name = "User",
+                Description = "Standard user."
             }
         );
         builder.Property(role => role.Id).HasIdentityOptions(startValue: 3);

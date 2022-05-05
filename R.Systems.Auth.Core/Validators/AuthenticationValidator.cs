@@ -1,7 +1,7 @@
-﻿using R.Systems.Auth.Core.Models;
+﻿using System;
+using R.Systems.Auth.Core.Models.Users;
 using R.Systems.Shared.Core.Interfaces;
 using R.Systems.Shared.Core.Validation;
-using System;
 
 namespace R.Systems.Auth.Core.Validators;
 
@@ -14,7 +14,7 @@ public class AuthenticationValidator : IDependencyInjectionScoped
 
     public ValidationResult ValidationResult { get; }
 
-    public bool IsBlocked(User user, UserSettings userSettings)
+    public bool IsBlocked(UserAuthentication user, UserSettings userSettings)
     {
         if (!ExceedMaxNumOfIncorrectSignIn(user, userSettings) || BlockDurationTimePassed(user, userSettings))
         {
@@ -27,12 +27,12 @@ public class AuthenticationValidator : IDependencyInjectionScoped
         return true;
     }
 
-    private bool ExceedMaxNumOfIncorrectSignIn(User user, UserSettings userSettings)
+    private bool ExceedMaxNumOfIncorrectSignIn(UserAuthentication user, UserSettings userSettings)
     {
         return user.NumOfIncorrectSignIn >= userSettings.MaxNumOfIncorrectLoginsBeforeBlock;
     }
 
-    private bool BlockDurationTimePassed(User user, UserSettings userSettings)
+    private bool BlockDurationTimePassed(UserAuthentication user, UserSettings userSettings)
     {
         if (user.LastIncorrectSignInDateTimeUtc == null)
         {

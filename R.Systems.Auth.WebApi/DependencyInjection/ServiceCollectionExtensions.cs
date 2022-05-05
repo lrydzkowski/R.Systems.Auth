@@ -27,8 +27,8 @@ public static class ServiceCollectionExtensions
         services.Configure<UserSettings>(configuration.GetSection(UserSettings.PropertyName));
         services.AddSingleton<IRsaKeys, RsaKeys>(ctx =>
         {
-            JwtSettings? jwtSettings = ctx.GetRequiredService<IOptions<JwtSettings>>()?.Value;
-            return new RsaKeys(jwtSettings?.PublicKeyPemFilePath, jwtSettings?.PrivateKeyPemFilePath);
+            JwtSettings jwtSettings = ctx.GetRequiredService<IOptions<JwtSettings>>().Value;
+            return new RsaKeys(jwtSettings.PublicKeyPemFilePath, jwtSettings.PrivateKeyPemFilePath);
         });
     }
 }

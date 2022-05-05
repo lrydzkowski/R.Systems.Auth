@@ -1,9 +1,9 @@
-﻿using R.Systems.Auth.Core.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using R.Systems.Auth.Core.Models.Users;
 
 namespace R.Systems.Auth.FunctionalTests.Models;
 
-public class UserInfo : User
+public class UserInfo : UserEntity
 {
     public string Password { get; init; } = "";
 
