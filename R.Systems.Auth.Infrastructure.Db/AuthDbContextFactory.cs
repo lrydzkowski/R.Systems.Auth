@@ -23,11 +23,11 @@ internal class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
     {
         IConfigurationRoot config = new ConfigurationBuilder().AddUserSecrets<AuthDbContext>().Build();
         IConfigurationProvider secretProvider = config.Providers.First();
-        if (!secretProvider.TryGet("ConnectionString", out string connectionString)
+        if (!secretProvider.TryGet("DbConnectionString", out string connectionString)
             || connectionString == null
             || connectionString.Length == 0)
         {
-            throw new Exception("There is no ConnectionString in user secrets.");
+            throw new Exception("There is no DbConnectionString in user secrets.");
         }
         return connectionString;
     }
