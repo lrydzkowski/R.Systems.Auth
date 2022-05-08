@@ -27,13 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.FunctionalTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.Infrastructure.Db", "R.Systems.Auth.Infrastructure.Db\R.Systems.Auth.Infrastructure.Db.csproj", "{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{75EFEA27-613B-4719-A0AC-EEB96616D661}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{A007A62C-CFB0-41EF-B9C2-633B69A787C7}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\main.yml = .github\workflows\main.yml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,8 +58,6 @@ Global
 		{55713BCC-7CAB-4055-AEB7-D1416CAE31D4} = {A703D894-4303-4B38-B7A5-F3B98344F782}
 		{37D548D8-7082-423D-9D03-05121879B0E5} = {3844A3EB-E794-4529-BAF8-D836E0E2B08E}
 		{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1} = {A703D894-4303-4B38-B7A5-F3B98344F782}
-		{75EFEA27-613B-4719-A0AC-EEB96616D661} = {30B13D5D-EC9B-4E1A-8687-516AD577F588}
-		{A007A62C-CFB0-41EF-B9C2-633B69A787C7} = {75EFEA27-613B-4719-A0AC-EEB96616D661}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E73E1DCA-2CB7-4562-B914-2AD56809F4F1}
