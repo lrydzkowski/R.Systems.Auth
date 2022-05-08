@@ -16,13 +16,13 @@ public class AuthenticateRequest
         }
     }
 
-    private readonly string _password = "";
+    private readonly string? _password;
 
     public string Password
     {
         get
         {
-            return _password.Trim();
+            return _password?.Trim() ?? "";
         }
         init
         {
