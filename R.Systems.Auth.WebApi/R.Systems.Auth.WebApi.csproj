@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <UserSecretsId>a041ab0e-3020-4c55-be05-ad5ac98097d8</UserSecretsId>
-    <Version>1.0.0-preview.6</Version>
+    <Version>1.0.0-preview.7</Version>
     <Authors>lrydzkowski</Authors>
   </PropertyGroup>
 
