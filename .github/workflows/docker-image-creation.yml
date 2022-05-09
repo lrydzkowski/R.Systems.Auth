@@ -1,4 +1,4 @@
-name: CI to GitHub Container Registry
+name: Docker image creation
 
 on:
   push:
@@ -19,28 +19,28 @@ jobs:
       packages: write
 
     steps:
-      - name: Get the version
-        id: get_version
+      - name: Getting the version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     
-      - name: Checkout repository
+      - name: Repository checkout
         uses: actions/checkout@v2
         
-      - name: Log in to the Container registry
+      - name: Signing in to the container registry
         uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Extract metadata (tags, labels) for app docker container
+      - name: Extracting metadata (tags, labels) for an application docker image
         id: meta
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.APP_IMAGE_NAME }}
 
-      - name: Build app container and push it
-        id: docker_app_build
+      # Building an application docker image
+
+      - name: Building an application docker image
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -48,23 +48,26 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      # Checking SQL migration files existence
       
-      - name: Check SQL migration up file existence
-        id: check_migration_sql_files
+      - name: Checking SQL migration files existence
+        id: checking_migration_sql_files
         uses: andstor/file-existence-action@v1
         with:
           files: "R.Systems.Auth.Infrastructure.Db/_Assets/SQL/${{ steps.get_version.outputs.VERSION }}_up.sql, R.Systems.Auth.Infrastructure.Db/_Assets/SQL/${{ steps.get_version.outputs.VERSION }}_down.sql"
+
+      # SQL migration up
           
-      - name: Extract metadata (tags, labels) for SQL up migration docker container
-        if: steps.check_migration_sql_files.outputs.files_exists == 'true'
+      - name: Extracting metadata (tags, labels) for SQL migration up docker image
+        if: steps.checking_migration_sql_files.outputs.files_exists == 'true'
         id: meta_sql_up
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.SQL_UP_IMAGE_NAME }}
           
-      - name: Build SQL migration up container and push it
-        if: steps.check_migration_sql_files.outputs.files_exists == 'true'
-        id: docker_sql_up_build
+      - name: Building SQL migration up image
+        if: steps.checking_migration_sql_files.outputs.files_exists == 'true'
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -73,17 +76,18 @@ jobs:
           tags: ${{ steps.meta_sql_up.outputs.tags }}
           labels: ${{ steps.meta_sql_up.outputs.labels }}
           build-args: version=${{ steps.get_version.outputs.VERSION }}
+
+      # SQL migration down
           
-      - name: Extract metadata (tags, labels) for SQL down migration docker container
-        if: steps.check_migration_sql_files.outputs.files_exists == 'true'
+      - name: Extracting metadata (tags, labels) for SQL migration down docker image
+        if: steps.checking_migration_sql_files.outputs.files_exists == 'true'
         id: meta_sql_down
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.SQL_DOWN_IMAGE_NAME }}
           
-      - name: Build SQL migration down container and push it
-        if: steps.check_migration_sql_files.outputs.files_exists == 'true'
-        id: docker_sql_down_build
+      - name: Building SQL migration down image
+        if: steps.checking_migration_sql_files.outputs.files_exists == 'true'
         uses: docker/build-push-action@v2
         with:
           context: .
