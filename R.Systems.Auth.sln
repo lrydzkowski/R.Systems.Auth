@@ -27,6 +27,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.FunctionalTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.Systems.Auth.Infrastructure.Db", "R.Systems.Auth.Infrastructure.Db\R.Systems.Auth.Infrastructure.Db.csproj", "{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{A01F701B-7415-486F-93E8-8714171968BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{6CDD6E0C-ED2E-44ED-B3B8-B07DFD6372F0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\docker-image-creation.yml = .github\workflows\docker-image-creation.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +65,8 @@ Global
 		{55713BCC-7CAB-4055-AEB7-D1416CAE31D4} = {A703D894-4303-4B38-B7A5-F3B98344F782}
 		{37D548D8-7082-423D-9D03-05121879B0E5} = {3844A3EB-E794-4529-BAF8-D836E0E2B08E}
 		{798AB672-5FD0-47E7-A1A3-F4C3C4115BE1} = {A703D894-4303-4B38-B7A5-F3B98344F782}
+		{A01F701B-7415-486F-93E8-8714171968BA} = {30B13D5D-EC9B-4E1A-8687-516AD577F588}
+		{6CDD6E0C-ED2E-44ED-B3B8-B07DFD6372F0} = {A01F701B-7415-486F-93E8-8714171968BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E73E1DCA-2CB7-4562-B914-2AD56809F4F1}
